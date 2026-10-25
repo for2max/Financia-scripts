@@ -5,5 +5,5 @@
 >
 > - 📋 [Documentations](aspiro'bot/doc/documentation.md)
 >
-> -  📋 [Fiche Technique](aspiro'bot/doc/fiche_technique.md)
+> -  📋 [Fiche Technique](aspiro'bot/doc/fichetechnique.md)
 ---------
