@@ -5,5 +5,5 @@
 >
 > - 📋 [Documentations](aspiro'bot/doc/documentation.md)
 >
-> - > - 📋 [Documentations](aspiro'bot/doc/documentation.md)
+> -  📋 [Documentations](aspiro'bot/doc/documentation.md)
 ---------
