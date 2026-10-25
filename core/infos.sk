@@ -1,0 +1,3 @@
+command /voirblock:
+    trigger:
+        send "%block at location of target block of player%"

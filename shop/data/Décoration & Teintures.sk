@@ -1,0 +1,276 @@
+function datashopcat6():
+
+    delete {SHOP_data.cat.6::*}
+
+    set {SHOP_data.cat.name.6} to "Décoration & Teintures"
+    set {SHOP_data.cat.item.6} to yellow concrete
+
+    # Shop – Teintures et Décoration blanche
+
+    # ==== TEINTURES ====
+
+    # White Dye / Teinture blanche (Bone Meal)
+    set {_nom} to "Teinture blanche"
+    set {_item} to white_dye
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Orange Dye / Teinture orange
+    set {_nom} to "Teinture orange"
+    set {_item} to orange_dye
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Magenta Dye / Teinture magenta
+    set {_nom} to "Teinture magenta"
+    set {_item} to magenta_dye
+    set {_prix} to 6
+    set {_variation} to 25
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Light Blue Dye / Teinture bleu clair
+    set {_nom} to "Teinture bleu clair"
+    set {_item} to light_blue_dye
+    set {_prix} to 5
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Yellow Dye / Teinture jaune
+    set {_nom} to "Teinture jaune"
+    set {_item} to yellow_dye
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Lime Dye / Teinture vert clair
+    set {_nom} to "Teinture vert clair"
+    set {_item} to lime_dye
+    set {_prix} to 5
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Pink Dye / Teinture rose
+    set {_nom} to "Teinture rose"
+    set {_item} to pink_dye
+    set {_prix} to 5
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Gray Dye / Teinture grise
+    set {_nom} to "Teinture grise"
+    set {_item} to gray_dye
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Light Gray Dye / Teinture gris clair
+    set {_nom} to "Teinture gris clair"
+    set {_item} to light_gray_dye
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cyan Dye / Teinture cyan
+    set {_nom} to "Teinture cyan"
+    set {_item} to cyan_dye
+    set {_prix} to 6
+    set {_variation} to 25
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Purple Dye / Teinture violette
+    set {_nom} to "Teinture violette"
+    set {_item} to purple_dye
+    set {_prix} to 5
+    set {_variation} to 25
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Blue Dye / Teinture bleue
+    set {_nom} to "Teinture bleue"
+    set {_item} to blue_dye
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Brown Dye / Teinture marron (Cocoa Beans)
+    set {_nom} to "Teinture marron"
+    set {_item} to brown_dye
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Green Dye / Teinture verte (Cactus Green)
+    set {_nom} to "Teinture verte"
+    set {_item} to green_dye
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Red Dye / Teinture rouge (Poppy, Betterave)
+    set {_nom} to "Teinture rouge"
+    set {_item} to red_dye
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Black Dye / Teinture noire (Ink Sac)
+    set {_nom} to "Teinture noire"
+    set {_item} to black_dye
+    set {_prix} to 6
+    set {_variation} to 25
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # ==== DECORATION BLANCHE ====
+
+    # White Wool / Laine blanche
+    set {_nom} to "Laine blanche"
+    set {_item} to white_wool
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # White Concrete Powder / Béton en poudre blanc
+    set {_nom} to "Béton en poudre blanc"
+    set {_item} to white_concrete_powder
+    set {_prix} to 5
+    set {_variation} to 25
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # White Terracotta / Terre cuite blanche
+    set {_nom} to "Terre cuite blanche"
+    set {_item} to white_terracotta
+    set {_prix} to 6
+    set {_variation} to 25
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Glass / Verre
+    set {_nom} to "Verre"
+    set {_item} to glass
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # White Candle / Bougie blanche
+    set {_nom} to "Bougie blanche"
+    set {_item} to white_candle
+    set {_prix} to 8
+    set {_variation} to 30
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # White Banner / Bannière blanche
+    set {_nom} to "Bannière blanche"
+    set {_item} to white_banner
+    set {_prix} to 12
+    set {_variation} to 35
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.6::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}

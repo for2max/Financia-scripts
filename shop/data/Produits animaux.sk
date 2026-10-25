@@ -1,0 +1,272 @@
+function datashopcat3():
+
+    delete {SHOP_data.cat.3::*}
+
+    set {SHOP_data.cat.name.3} to "Produits Animaux"
+    set {SHOP_data.cat.item.3} to beef
+
+    # Shop – Animale
+
+    # Beef / Viande de bœuf
+    set {_nom} to "Viande de bœuf"
+    set {_item} to beef
+    set {_prix} to 5
+    set {_variation} to 25
+    set {_fluctuation} to 0.8
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cooked Beef / Viande de bœuf cuite
+    set {_nom} to "Viande de bœuf cuite"
+    set {_item} to cooked_beef
+    set {_prix} to 7
+    set {_variation} to 20
+    set {_fluctuation} to 1.0
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Leather / Cuir
+    set {_nom} to "Cuir"
+    set {_item} to leather
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Porkchop / Côte de porc
+    set {_nom} to "Côte de porc"
+    set {_item} to porkchop
+    set {_prix} to 4
+    set {_variation} to 25
+    set {_fluctuation} to 0.7
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cooked Porkchop / Côte de porc cuite
+    set {_nom} to "Côte de porc cuite"
+    set {_item} to cooked_porkchop
+    set {_prix} to 6
+    set {_variation} to 20
+    set {_fluctuation} to 0.9
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Chicken / Viande de poulet
+    set {_nom} to "Viande de poulet"
+    set {_item} to chicken
+    set {_prix} to 3
+    set {_variation} to 25
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cooked Chicken / Viande de poulet cuite
+    set {_nom} to "Viande de poulet cuite"
+    set {_item} to cooked_chicken
+    set {_prix} to 5
+    set {_variation} to 20
+    set {_fluctuation} to 0.7
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Egg / Œuf
+    set {_nom} to "Œuf"
+    set {_item} to paper
+    set {_prix} to 1
+    set {_variation} to 15
+    set {_fluctuation} to 0.2
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Feather / Plume
+    set {_nom} to "Plume"
+    set {_item} to feather
+    set {_prix} to 1
+    set {_variation} to 20
+    set {_fluctuation} to 0.2
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Mutton / Viande de mouton
+    set {_nom} to "Viande de mouton"
+    set {_item} to mutton
+    set {_prix} to 4
+    set {_variation} to 25
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cooked Mutton / Viande de mouton cuite
+    set {_nom} to "Viande de mouton cuite"
+    set {_item} to cooked_mutton
+    set {_prix} to 6
+    set {_variation} to 20
+    set {_fluctuation} to 0.8
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Wool / Laine
+    set {_nom} to "Laine"
+    set {_item} to white wool
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Rabbit / Viande de lapin
+    set {_nom} to "Viande de lapin"
+    set {_item} to rabbit
+    set {_prix} to 5
+    set {_variation} to 25
+    set {_fluctuation} to 0.7
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cooked Rabbit / Viande de lapin cuite
+    set {_nom} to "Viande de lapin cuite"
+    set {_item} to cooked_rabbit
+    set {_prix} to 7
+    set {_variation} to 20
+    set {_fluctuation} to 1.0
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Rabbit Hide / Peau de lapin
+    set {_nom} to "Peau de lapin"
+    set {_item} to rabbit_hide
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Rabbit Foot / Patte de lapin
+    set {_nom} to "Patte de lapin"
+    set {_item} to rabbit_foot
+    set {_prix} to 10
+    set {_variation} to 35
+    set {_fluctuation} to 1.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Raw Cod / Morue crue
+    set {_nom} to "Morue crue"
+    set {_item} to cod
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Raw Salmon / Saumon cru
+    set {_nom} to "Saumon cru"
+    set {_item} to salmon
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Tropical Fish / Poisson tropical
+    set {_nom} to "Poisson tropical"
+    set {_item} to tropical_fish
+    set {_prix} to 4
+    set {_variation} to 25
+    set {_fluctuation} to 0.5
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Pufferfish / Poisson-globe
+    set {_nom} to "Poisson-globe"
+    set {_item} to pufferfish
+    set {_prix} to 5
+    set {_variation} to 30
+    set {_fluctuation} to 0.7
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Honey Bottle / Bouteille de miel
+    set {_nom} to "Bouteille de miel"
+    set {_item} to honey_bottle
+    set {_prix} to 6
+    set {_variation} to 20
+    set {_fluctuation} to 0.7
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Honeycomb / Rayon de miel
+    set {_nom} to "Rayon de miel"
+    set {_item} to honeycomb
+    set {_prix} to 5
+    set {_variation} to 20
+    set {_fluctuation} to 0.6
+    add {_item} to {SHOP_data.cat.3::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}

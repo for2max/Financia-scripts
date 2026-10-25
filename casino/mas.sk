@@ -1,0 +1,232 @@
+on load:
+
+    delete {MAS_list::*}
+
+    add nether_star to {MAS_list::*}
+    add enchanted_golden_apple to {MAS_list::*}
+    add dragon_egg to {MAS_list::*}
+    add beacon to {MAS_list::*}
+
+    add totem_of_undying to {MAS_list::*}
+    add heart_of_the_sea to {MAS_list::*}
+    add conduit to {MAS_list::*}
+    add bell to {MAS_list::*}
+
+    add echo_shard to {MAS_list::*}
+    add amethyst_shard to {MAS_list::*}
+    add lodestone to {MAS_list::*}
+    add respawn_anchor to {MAS_list::*}
+
+    add end_crystal to {MAS_list::*}
+    add shulker_shell to {MAS_list::*}
+    add netherite_ingot to {MAS_list::*}
+    add netherite_upgrade_smithing_template to {MAS_list::*}
+
+    set {MAS_value::nether star} to 50
+    set {MAS_value::enchanted golden apple} to 45
+    set {MAS_value::dragon egg} to 60
+    set {MAS_value::beacon} to 40
+    set {MAS_value::totem of undying} to 35
+    set {MAS_value::heart of the sea} to 30
+    set {MAS_value::conduit} to 32
+    set {MAS_value::bell} to 28
+    set {MAS_value::echo shard} to 20
+    set {MAS_value::amethyst shard} to 15
+    set {MAS_value::lodestone} to 26
+    set {MAS_value::respawn anchor} to 24
+    set {MAS_value::end crystal} to 22
+    set {MAS_value::shulker shell} to 18
+    set {MAS_value::netherite ingot} to 35
+    set {MAS_value::smithing template netherite upgrade} to 30
+
+function MAS_setholo(loc: location):
+
+    spawn text display at {_loc}
+    set {_e} to last spawned text display
+    set transformation translation of {_e} to vector from 0, 0.30, -0.10
+    set text of {_e} to "&6Poste disponible" and "&7Mise: &d$%{MAS_%{_loc}%::mise}%"
+    set the scale of {_e} to vector(0.30, 0.30, 0.30)
+    apply drop shadow to {_e}
+    set color of {_e} to cyan
+    set {MAS_E.%{_loc}%::4} to {_e}
+
+    spawn text display at {_loc}
+    set {_e} to last spawned text display
+    set transformation translation of {_e} to vector from 0, -0.35, -0.10
+    set text of {_e} to "&c< en attente >"
+    set the scale of {_e} to vector(0.30, 0.30, 0.30)
+    apply drop shadow to {_e}
+    set color of {_e} to red
+    set {MAS_E.%{_loc}%::5} to {_e}
+
+
+on load:
+    loop {MAS_POSTES::*}:
+        MAS_reset(loop-value)
+
+    
+
+on right click on a lever:
+    if {MAS_Levier.%location of event-block%} is set:
+        set {_loc} to {MAS_Levier.%location of event-block%}
+
+        if {MAS_%{_loc}%::stop} is not set:
+            set {_mise} to {MAS_%{_loc}%::mise}
+            if player's balance < {_mise}:
+                NO(player)
+                send "&7[&eCASINO&7] &cVous n'avez pas assez d'argent."
+                stop
+            else:
+                remove {_mise} from player's balance
+                send "&7[&eCASINO&7] &c$%{_mise}% ont été retiré de votre compte."
+                MAS_tirage({_loc},player,{_mise})
+        else:
+            cancel event
+            NO(player)
+
+
+command /mas <text> <number>:
+    permission: admin
+    permission message: &cVous n'avez pas la permission.
+    trigger:
+        if arg 1 is not set:
+            send "&c/mas add <mise>"
+            stop
+        else:
+            if arg 2 is not set:
+                send "&c/mas add <mise>"
+                stop
+            if arg 2 is not a number:
+                send "&c/mas add <mise>"
+                stop
+            else:
+                add location of target block to {MAS_POSTES::*}
+                set {MAS_%location of target block%::mise} to arg 2
+                stop
+
+
+
+function MAS_setup(loc: location):
+    set {_item} to random element of {MAS_list::*}
+    loop 3 times:
+        set {_a} to 0
+        if loop-number is 1:
+            set {_a} to -0.31
+        if loop-number is 3:
+            set {_a} to 0.31
+        spawn item display at {_loc}
+        set {_e} to last spawned item display
+        set item of last spawned item display to {_item}
+        set the scale of last spawned item display to vector(0.20,0.20,0.20)
+        set transformation translation of last spawned item display to vector from {_a}, 0, -0.23
+        set {MAS_E.%{_loc}%::%loop-number%} to {_e}
+
+function MAS_tirage(loc: location,p: player,mise: number):
+
+    set text of {MAS_E.%{_loc}%::4} to "&6%{_p}%"
+    set text of {MAS_E.%{_loc}%::5} to "&bTIRAGE EN COURS"
+
+    set {MAS_%{_loc}%::stop} to true
+    set {_gain} to 0
+    loop 130 times:
+        if loop-number < 100:
+            set {_a} to random element of {MAS_list::*}
+            set item of {MAS_E.%{_loc}%::1} to {_a}
+            Click({_p})
+        else:
+            if {_aa} is not set:
+                set {_aa} to true
+                play sound "block.note_block.bell" with volume 3 to {_p}
+        if loop-number < 115:
+            set {_b} to random element of {MAS_list::*}
+            set item of {MAS_E.%{_loc}%::2} to {_b}
+            Click({_p})
+        else:
+            if {_bb} is not set:
+                set {_bb} to true
+                play sound "block.note_block.bell" with volume 3 to {_p}
+               
+        if loop-number < 130:
+            set {_c} to random element of {MAS_list::*}
+            set item of {MAS_E.%{_loc}%::3} to {_c}
+            Click({_p})
+        else:
+            if {_cc} is not set:
+                set {_cc} to true
+                play sound "block.note_block.bell" with volume 3 to {_p}
+        if loop-number > 70:
+            wait 3 tick
+        else:
+            wait 1 tick
+
+    if {_a} is {_b}:
+        if {_b} is {_c}:
+            play sound "ui.toast.challenge_complete" with volume 3 to {_p}
+            set {_gain} to 20*{_mise}
+            set {_item} to "%{_a}%"
+            set {_bonus} to {MAS_value::%{_item}%}
+            MAS_result({_gain},{_bonus},{_loc})
+            set glowing of {MAS_E.%{_loc}%::1}, {MAS_E.%{_loc}%::2} and {MAS_E.%{_loc}%::3} to true
+            set glow color override of {MAS_E.%{_loc}%::1}, {MAS_E.%{_loc}%::2} and {MAS_E.%{_loc}%::3} to gold
+        else:
+            set {_gain} to 7*{_mise}
+            set {_item} to "%{_a}%"
+            set {_bonus} to {MAS_value::%{_item}%}
+            MAS_result({_gain},{_bonus},{_loc})
+            set glowing of {MAS_E.%{_loc}%::1} and {MAS_E.%{_loc}%::2} to true
+            set glow color override of {MAS_E.%{_loc}%::1} and {MAS_E.%{_loc}%::2} to yellow
+ 
+    else:
+        if {_b} is {_c}:
+            set {_gain} to 7*{_mise}
+            set {_item} to "%{_c}%"
+            set {_bonus} to {MAS_value::%{_item}%}
+            MAS_result({_gain},{_bonus},{_loc})
+            set glowing of {MAS_E.%{_loc}%::3} and {MAS_E.%{_loc}%::2} to true
+            set glow color override of {MAS_E.%{_loc}%::3} and {MAS_E.%{_loc}%::2} to yellow
+    if {_gain} is 0:
+        set text of {MAS_E.%{_loc}%::5} to "&cPERDU"
+        NO({_p})
+    else:
+        OK({_p})
+        set {_total} to {_gain}+{_bonus}
+        add {_total} to {_p}'s balance
+        send "&7[&eCASINO&7] &aVous avez reçu $%{_total}%." to {_p}
+        wait 5 second
+    wait 2 second
+    MAS_reset({_loc})
+
+function MAS_reset(loc: location):
+    
+    Delete_Entity({_loc}, 2)
+    loop {MAS_E.%{_loc}%::*}:
+        kill loop-value
+    set {_a} to {_loc}
+    add 1 to y-coordinate of {_a}
+    set {MAS_Levier.%{_a}%} to {_loc}
+    MAS_setup({_loc})
+    MAS_setholo({_loc})
+
+    delete {MAS_%{_loc}%::stop}
+    
+
+
+
+
+function MAS_result(a: number,b: number,loc: location):
+    if {_a} is 0:
+        set text of {MAS_E.%{_loc}%::5} to "&c... PERDU ..."
+    else:
+        set text of {MAS_E.%{_loc}%::5} to "&6+$%{_a}% &7BONUS &b$%{_b}%"
+
+command /te:
+    trigger:
+        set {_loc} to first element of {MAS_POSTES::*}
+    
+        spawn item display at {_loc}
+        set {_e} to last spawned item display
+        set item of last spawned item display to paper
+        set the scale of last spawned item display to vector(0.20,0.20,0.20)
+        set transformation translation of last spawned item display to vector from -0.31, 0, -0.23
+        wait 2 seconds
+        kill {_e}

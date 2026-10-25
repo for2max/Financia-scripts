@@ -1,0 +1,97 @@
+
+
+#ENTRER
+function Claim_message_entrer_libre(p: player,c: chunk): #
+    send "&7[&eClaim&7] &7&oVous entrez dans un territoire libre." to {_p}
+
+function Claim_message_entrer_perso(p: player,c: chunk): #
+    send "&7[&eClaim&7] &7&oVous entrez dans un territoire qui vous appartient." to {_p}
+
+function Claim_message_entrer_societe(p: player,c: chunk):
+    send "&7[&eClaim&7] &7&oVous entrez dans un territoire appartenant à votre société." to {_p}
+
+function Claim_message_entrer_privé(p: player,c: chunk):
+    send "&7[&eClaim&7] &7&oVous entrez dans un territoire privé." to {_p}
+
+
+#SORTIE
+
+function Claim_message_sortie_perso(p: player,c: chunk): #
+    send "&7[&eClaim&7] &7&oVous sortez d'un territoire qui vous appartient." to {_p}
+
+function Claim_message_sortie_societe(p: player,c: chunk): #
+    send "&7[&eClaim&7] &7&oVous sortez d'un territoire appartenant à votre société." to {_p}
+
+function Claim_message_sortie_privé(p: player,c: chunk): #
+    send "&7[&eClaim&7] &7&oVous sortez d'un territoire privé." to {_p}
+
+
+on join:
+    delete {Claim_last.%player%}
+on quit:
+    delete {Claim_last.%player%}
+
+function Claim_maj_chunk(p: player,c: chunk,last: chunk):
+
+    #broadcast "enter: %{_c}%"
+    #broadcast "sortie: %{_last}%"
+    
+    set {Claim_last.%{_p}%} to {_c}
+    #broadcast "&4%{_last}%"
+    set {_owner_last} to {Claim_%{_last}%::owner}
+    set {_owner_in} to {Claim_%{_c}%::owner}
+    if "%{_owner_last}%" is not "%{_owner_in}%":
+
+        # SORTIE
+        #broadcast "&e%{_owner_last}% - %{_owner_in}%"
+        if {_owner_last} is set:
+            if {_owner_last} is not {_p}:
+                if {Claim_%{_last}%::societe} is {Societe_%{_p}%}:
+                    Claim_message_sortie_societe({_p},{_last})
+                else:
+                    Claim_message_sortie_privé({_p},{_last})
+            else if {_owner_last} is {_p}:
+                Claim_message_sortie_perso({_p},{_last})
+
+        # ENTRER
+        if {_owner_in} is not set:
+            Claim_message_entrer_libre({_p},{_c})
+        else if {_owner_in} is set:
+            if {_owner_in} is {_p}:
+                Claim_message_entrer_perso({_p},{_c})
+            else:
+                if {Claim_%{_c}%::societe} is {Societe_%{_p}%}:
+                    Claim_message_entrer_societe({_p},{_c})
+                else:
+                    Claim_message_entrer_privé({_p},{_c})
+
+on chunk enter:
+    if world of player is "conquete":
+        if {Claim_message.%player%} is not set:
+            Claim_maj_chunk(player,event-chunk,{Claim_last.%player%})
+
+function Claim_action_bar(p: player):
+
+    set {_chunk} to chunk at {_p}
+    set {_owner} to {Claim_%{_chunk}%::owner}
+    if {_owner} is not set:
+        send action bar "&aCe territoire n'est pas encore occupé." to {_p}
+    else:
+        if {_owner} is {_p}:
+            send action bar "&6Ce territoire vous appartient." to {_p}
+        else:
+            if {Claim_%{_chunk}%::societe} is {Societe_%{_p}%}:
+                send action bar "&9Ce territoire appartient à un membre de votre société." to {_p}
+            else:
+                if {_owner} is "admin":
+                    send action bar "&cCe territoire est protégé par le serveur." to {_p}
+                else:
+                    send action bar "&cCe territoire est privé." to {_p}
+        
+        
+
+every 1 second:
+    loop all players:
+        if world of loop-player is "conquete":
+            if {Claim_bar.%loop-player%} is not set:
+                Claim_action_bar(loop-player)

@@ -1,0 +1,80 @@
+function Claim_config(p: player,chunk: chunk,page: number,provenance: text):
+
+    add 10 to {Claim_ticket.%{_p}%}
+
+    create a new gui with virtual chest inventory named "Configuration du chunk" with 3 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 27 times:
+            make gui slot ((loop-number)-1) with gray stained glass pane
+
+        make gui slot 26 with oak door named "&cRetour":
+            Claim_List({_p},{_page},{_provenance})
+
+        set {_name} to {Claim_%{_chunk}%::name}
+        if {_name} is not set:
+            set {_name} to "&cAucun nom de chunk n'a été défini."
+        else:
+            set {_name} to "&7&oNom du chunk: &9%{_name}%"
+        make gui slot 10 with name tag named "&eNom du chunk" with lore "%{_name}%", "&7&oCliquez ici pour le modifier.":
+            setnamechunk({_p},{_chunk},{_page},{_provenance})
+
+        if {Claim_%{_chunk}%::tp} is not set:
+            make gui slot 12 with ender pearl named "&eSe téléporter" with lore "&cAucun point de téléportation n'a été défini.", "&7&oCliquez ici pour le définir.":
+                Claim_set_tp({_p},{_chunk},{_page},{_provenance})
+        else:
+            make gui slot 12 with ender pearl named "&eSe téléporter" with lore "&7&oCliquez ici pour vous téléporter.", "&7&oCliquez avec la molette pour le modifier.":
+                set {_type} to click type
+                if "%{_type}%" contain "middle":
+                    Claim_set_tp({_p},{_chunk},{_page},{_provenance})
+                else:
+                    teleport {_p} to {Claim_%{_chunk}%::tp}
+                    OK({_p})
+                    send "&7[&eClaim&7] &7&oTéléportation vers votre chunk." to {_p}
+                    close {_p}'s inventory
+
+        if {Claim_%{_chunk}%::close} is not set:
+            set {_item} to glowstone dust
+            set {_name} to "&7Etat: &aOuvert"
+            set {_lore::*} to "&7&oVotre chunk est actuellement ouvert à votre société.", "&7&oLes membres de la société &aont accès&7&o à votre chunk.", "&cCliquez ici pour verrouiller l'accès."
+        else:
+            set {_item} to redstone
+            set {_name} to "&7Etat: &cFermé"
+            set {_lore::*} to "&7&oVotre chunk est actuellement fermé à votre société.", "&7&oLes membres de la société &cn'ont pas accès&7&o à votre chunk.", "&aCliquez ici pour ouvrir l'accès."
+       
+        make gui slot 14 with {_item} named {_name} with lore {_lore::*}:
+            if {Claim_%{_chunk}%::close} is not set:
+                set {Claim_%{_chunk}%::close} to true
+                OK({_p})
+                Claim_config({_p},{_chunk},{_page},{_provenance})
+            else:
+                delete {Claim_%{_chunk}%::close}
+                Claim_config({_p},{_chunk},{_page},{_provenance})
+                OK({_p})
+
+        make gui slot 16 with tnt named "&cSupprimer" with lore "&cSupprimer la protection de ce chunk.":
+            set {_name} to 3
+            loop 3 times:
+                if name of {_p}'s current inventory contains "Configuration du chunk": 
+                    make gui slot 16 with barrier named "&c< %{_name}% seconde(s) >" with lore "&7&oVeuillez patienter avant de confirmer."
+                    Click({_p})
+                    
+                    wait 1 second
+                    remove 1 from {_name}
+                    if {_name} is 0:
+                        make gui slot 16 with emerald named "&aConfirmer" with lore "&7&oConfirmer la suppression de la protection.":
+                            Delete_Claim({_chunk})
+                            close {_p}'s inventory
+                
+
+function Claim_set_tp(p: player,chunk: chunk,page: number,provenance: number):
+    
+    if chunk at {_p} is not {_chunk}:
+        send "&7[&c&nErreur&7] &eVous devez être sur le chunk concerné." to {_p}
+        stop
+    else:
+        set {Claim_%{_chunk}%::tp} to location of {_p}
+        OK({_p})
+        Claim_config({_p},{_chunk},{_page},{_provenance})
+        send "&7[&eClaim&7] &7&oPoint de téléportation modifié." to {_p}

@@ -1,0 +1,295 @@
+function datashopcat1():
+
+    delete {SHOP_data.cat.1::*}
+
+    set {SHOP_data.cat.name.1} to "Ressources Agricoles"
+    set {SHOP_data.cat.item.1} to wheat
+
+    # Shop – Matières agricoles
+    # Wheat / Blé
+    set {_nom} to "Blé"
+    set {_item} to wheat
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.06
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Wheat Seeds / Graines de blé
+    set {_nom} to "Graines de blé"
+    set {_item} to wheat_seeds
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.02
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Carrot / Carotte
+    set {_nom} to "Carotte"
+    set {_item} to carrot
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.15
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Potato / Pomme de terre
+    set {_nom} to "Pomme de terre"
+    set {_item} to potato
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.15
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Poisonous Potato / Pomme de terre empoisonnée
+    set {_nom} to "Pomme de terre empoisonnée"
+    set {_item} to poisonous_potato
+    set {_prix} to 1
+    set {_variation} to 5
+    set {_fluctuation} to 0.01
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Beetroot / Betterave
+    set {_nom} to "Betterave"
+    set {_item} to beetroot
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.15
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Beetroot Seeds / Graines de betterave
+    set {_nom} to "Graines de betterave"
+    set {_item} to beetroot_seeds
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.02
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Pumpkin / Citrouille
+    set {_nom} to "Citrouille"
+    set {_item} to pumpkin
+    set {_prix} to 4
+    set {_variation} to 25
+    set {_fluctuation} to 0.28
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Pumpkin Seeds / Graines de citrouille
+    set {_nom} to "Graines de citrouille"
+    set {_item} to pumpkin_seeds
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.02
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Melon Slice / Tranche de melon
+    set {_nom} to "Tranche de melon"
+    set {_item} to melon_slice
+    set {_prix} to 1
+    set {_variation} to 20
+    set {_fluctuation} to 0.15
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Melon Seeds / Graines de melon
+    set {_nom} to "Graines de melon"
+    set {_item} to melon_seeds
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.02
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Sugar Cane / Canne à sucre
+    set {_nom} to "Canne à sucre"
+    set {_item} to sugar_cane
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.06
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cocoa Beans / Graines de cacao
+    set {_nom} to "Graines de cacao"
+    set {_item} to cocoa_beans
+    set {_prix} to 2
+    set {_variation} to 20
+    set {_fluctuation} to 0.10
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Sweet Berries / Baies sucrées
+    set {_nom} to "Baies sucrées"
+    set {_item} to sweet_berries
+    set {_prix} to 2
+    set {_variation} to 20
+    set {_fluctuation} to 0.10
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cactus
+    set {_nom} to "Cactus"
+    set {_item} to paper
+    set {_prix} to 2
+    set {_variation} to 20
+    set {_fluctuation} to 0.10
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Kelp
+    set {_nom} to "Kelp"
+    set {_item} to kelp
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.06
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Sea Pickle
+    set {_nom} to "Sea Pickle"
+    set {_item} to sea_pickle
+    set {_prix} to 2
+    set {_variation} to 25
+    set {_fluctuation} to 0.21
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Brown Mushroom / Champignon brun
+    set {_nom} to "Champignon brun"
+    set {_item} to brown_mushroom
+    set {_prix} to 3
+    set {_variation} to 25
+    set {_fluctuation} to 0.21
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Red Mushroom / Champignon rouge
+    set {_nom} to "Champignon rouge"
+    set {_item} to red_mushroom
+    set {_prix} to 3
+    set {_variation} to 25
+    set {_fluctuation} to 0.21
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Glow Berries / Baies lumineuses
+    set {_nom} to "Baies lumineuses"
+    set {_item} to glow_berries
+    set {_prix} to 2
+    set {_variation} to 30
+    set {_fluctuation} to 0.40
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Chorus Fruit / Fruit chorus
+    set {_nom} to "Fruit chorus"
+    set {_item} to chorus_fruit
+    set {_prix} to 5
+    set {_variation} to 40
+    set {_fluctuation} to 0.75
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Nether Wart / Ver rongeur du Nether
+    set {_nom} to "Ver rongeur du Nether"
+    set {_item} to nether_wart
+    set {_prix} to 5
+    set {_variation} to 35
+    set {_fluctuation} to 0.60
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Crimson Fungus / Champignon cramoisi
+    set {_nom} to "Champignon cramoisi"
+    set {_item} to crimson_fungus
+    set {_prix} to 4
+    set {_variation} to 30
+    set {_fluctuation} to 0.40
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Warped Fungus / Champignon déformé
+    set {_nom} to "Champignon déformé"
+    set {_item} to warped_fungus
+    set {_prix} to 4
+    set {_variation} to 30
+    set {_fluctuation} to 0.40
+    add {_item} to {SHOP_data.cat.1::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}

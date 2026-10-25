@@ -1,0 +1,42 @@
+on join:
+    if {Grade_%player%} is not set:
+        set {Grade_%player%} to 1
+    if {Claim_ticket.%player%} is not set:
+        set {Claim_ticket.%player%} to 2
+
+on load:
+    # NOMS DES GRADES
+    set {Grade_1} to "Débutant"
+    set {Grade_2} to "Citoyen"
+    set {Grade_3} to "Épargnant"
+    set {Grade_4} to "Investisseur"
+    set {Grade_5} to "Commerçant"
+    set {Grade_6} to "Entrepreneur"
+    set {Grade_7} to "Dirigeant"
+    set {Grade_8} to "Industriel"
+    set {Grade_9} to "Financier"
+    set {Grade_10} to "Courtier"
+    set {Grade_11} to "Banquier"
+    set {Grade_12} to "Magnat"
+    set {Grade_13} to "Notable"
+    set {Grade_14} to "Baron"
+    set {Grade_15} to "CEO"
+    set {Grade_16} to "Elite"
+
+    # PRIX DES GRADES
+    set {Grade_prix.1} to 0
+    set {Grade_prix.2} to 500
+    set {Grade_prix.3} to 2000
+    set {Grade_prix.4} to 7500
+    set {Grade_prix.5} to 20000
+    set {Grade_prix.6} to 50000
+    set {Grade_prix.7} to 125000
+    set {Grade_prix.8} to 300000
+    set {Grade_prix.9} to 700000
+    set {Grade_prix.10} to 1500000
+    set {Grade_prix.11} to 3000000
+    set {Grade_prix.12} to 6000000
+    set {Grade_prix.13} to 12000000
+    set {Grade_prix.14} to 25000000
+    set {Grade_prix.15} to 50000000
+    set {Grade_prix.16} to 100000000

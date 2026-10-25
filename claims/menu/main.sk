@@ -1,0 +1,153 @@
+
+function Claim_Map_Gui(p: player,provenance: text):
+
+    add 10 to {Claim_ticket.%{_p}%}
+
+    create a new gui with virtual chest inventory named "Gestion des Territoires" with 6 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        set {_id} to {Societe_%{_p}%}
+
+        set {_face} to {_p}'s facing
+        if "%{_face}%" is "below" or "above":
+            set pitch of {_p} to 0
+        wait 1 tick
+        set {_face} to {_p}'s facing
+
+        if "%{_face}%" is "north":
+            set {_loc::*} to POS_List_Nord(location of {_p})
+        if "%{_face}%" is "south": 
+            set {_loc::*} to POS_List_Sud(location of {_p})
+        if "%{_face}%" is "east":
+            set {_loc::*} to POS_List_Est(location of {_p})
+        if "%{_face}%" is "west":
+            set {_loc::*} to POS_List_Ouest(location of {_p})
+
+        set {_chunks::*} to Chunk_List({_loc::*})
+
+        set {_s} to 45
+        loop 9 times:
+            make gui slot {_s} with gray stained glass pane
+            add 1 to {_s}
+
+        make gui slot 48 with oak door named "&cRetour":
+            if "%{_provenance}%" is "command":
+                close {_p}'s inventory
+            else if "%{_provenance}%" is "menusociete":
+                #menusociete({_p})
+
+        loop 45 times:
+            
+            set {_chunk} to {_chunks::%loop-number%}
+
+            set {_x} to x-coordinate of {_loc::%loop-number%}
+            set {_z} to z-coordinate of {_loc::%loop-number%}
+
+
+            if {Claim_%{_chunk}%::owner} is "admin":
+                set {_item} to black stained glass pane named "&4Protégé" with lore "&c&oCe territoire est protégé par le serveur."
+            else:
+                if world of {_p} is not "conquete":
+                    set {_item} to yellow stained glass pane named "&cMauvais monde" with lore "&eLes claims ne sont disponibles que dans le monde conquête.", "&eUtilisez la commande &a/mondes&e."
+                else:
+                    if {Claim_%{_chunk}%::owner} is not set:
+                        set {_item} to lime stained glass pane named "&aChunk libre" with lore "&7&oCe territoire n'est pas encore revendiqué.", "&7&oCliquez ici pour le revendiquer.", "" and "&7x: &e%{_x}% &7z: &e%{_z}%"
+                    else:
+                        if {Claim_%{_chunk}%::owner} is {_p}:
+                            set {_item} to light blue stained glass pane named "&6Votre chunk" with lore "&7&oCe territoire vous appartient.", "&7&oCliquez ici pour le configurer.", "" and "&7x: &e%{_x}% &7z: &e%{_z}%"
+                        else:
+                            if {Claim_%{_chunk}%::societe} is {_id}:
+                                set {_item} to purple stained glass pane named "&9Votre société" with lore "&7&oAppartient à un membre de votre société." and "&7x: &e%{_x}% &7z: &e%{_z}%"
+                            else:
+                                set {_item} to red stained glass pane named "&cPrivé" with lore "&7&oCe territoire est privé." and "&7x: &e%{_x}% &7z: &e%{_z}%"
+            if {_chunk} is chunk at {_p}:
+                set {_name} to name of {_item}
+                set {_lore::*} to lore of {_item}
+                set {_item} to {_p}'s skull named "%{_name}% &6Votre position" with lore {_lore::*}
+            
+            set {_s} to ((loop-number)-1)
+            make gui ((loop-number)-1) with {_item}:
+
+                if {_p} has permission "admin":
+                    set {_type} to click type
+                    if "%{_type}%" contain "middle":
+                        if {Claim_%{_chunk}%::owner} is not "admin":
+                            set {Claim_%{_chunk}%::save} to {Claim_%{_chunk}%::owner}
+                            set {Claim_%{_chunk}%::owner} to "admin"
+                            Claim_Map_Gui({_p},{_provenance})
+                            OK({_p})
+                            stop
+                        else if {Claim_%{_chunk}%::owner} is "admin":
+                            set {Claim_%{_chunk}%::owner} to {Claim_%{_chunk}%::save}
+                            Claim_Map_Gui({_p},{_provenance})
+                            NO({_p})
+                            stop
+                        stop
+                if name of {_item} does not contain "Libre":
+                    if name of {_item} contain "Votre chunk":
+                        Claim_config({_p},{_chunk},1,"command")
+                        stop
+                    else:
+                        NO({_p})
+                        stop
+                if {Claim_%{_chunk}%::owner} is not set:
+                    if {Claim_ticket.%{_p}%} <= 0:
+                        NO({_p})
+                        make gui slot {_s} with barrier named "&c&nErreur" with lore "&eVous n'avez pas assez de ticket de claim." and "&eUtilisez &a/grades.":
+                            Claim_Map_Gui({_p},{_provenance})
+                    else:  
+                        set {_test} to "%{_chunks::%{_loopnumber}%}%"
+                        Claim_Create({_p},{_chunk},{_loc::%({_s}+1)%})
+                else if {Claim_%{_chunk}%::owner} is {_p}:
+                    Claim_config({_p},{_chunk},1,{_provenance})
+
+            set {_size} to size of {Claim_list.%{_p}%::*}
+            if {_size} is not set:
+                set {_size} to 0
+
+            make gui slot 46 with book named "&eVos claims" with lore "&7&oAfficher vos &e%{_size}%&7&o claim(s).":
+                Claim_List({_p},1,{_provenance})
+            make gui slot 50 with paper named "&eInformations" with lore "&7&oTicket de claims: &e%{Claim_Ticket.%{_p}%}% ticket(s)" and "&7&oAvoir plus de ticket: &e/grades"
+                
+            make gui slot 52 with soul lantern named "&eConfiguration" with lore "&7&oAfficher le panneau de configuration.":
+                Claim_parametres({_p},{_provenance})
+function Claim_Create(p: player,chunk: chunk,loc: location):
+
+    remove 1 from {Claim_Ticket.%{_p}%}
+
+    Claim_Anim({_loc},{_chunk})
+    set {_id} to {Societe_%{_p}%}
+    set {Claim_%{_chunk}%::owner} to {_p}
+    set {Claim_%{_chunk}%::id} to {_id}
+    set {Claim_%{_chunk}%::close} to true
+    #set {Societe_%{_p}%} to 15
+    set {Claim_%{_chunk}%::societe} to 15
+    set {Claim_%{_chunk}%::loc} to {_loc}
+    add {_chunk} to {Claim_list.%{_p}%::*}
+    add {_chunk} to {Claim_total::*}
+    close {_p}'s inventory
+    OK({_p})
+
+    send "" to {_p}
+    send "&7» &a&oLe chunk vous appartient désormais.." to {_p}
+    send "&7» &6Vous pouvez le configurer dans le menu /claims." to {_p}
+    send "&7» &e%{_chunk}%" to {_p}
+    send "" to {_p}
+
+    wait 1 second
+    
+
+command /map:
+    trigger:
+        Claim_Map_Gui(player,"command")
+
+
+function Delete_Claim(c: chunk):
+    set {_owner} to {Claim_%{_c}%::owner}
+    remove {_c} from {Claim_list.%{_owner}%::*}
+    remove {_c} from {Claim_total::*}
+
+    delete {Claim_%{_c}%::*}
+    OK({_owner})
+    send "&7[&eClaim&7] &7La protection de votre chunk &e%{_c}%&7 a été supprimé." to {_owner}

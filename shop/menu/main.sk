@@ -1,0 +1,74 @@
+
+function Main_Menu_Shop(p: player):
+
+    set {_texture} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY2MmZiNTAwODhiNjVlOThmY2M5MWExODE2MjNlZjlhMGQ4MmM4OGZjMGUwZjdmNTdmZWVkZWEzNDg3MWFiNSJ9fX0="
+    set {_achat} to player head with skull value {_texture}
+
+    set {_texture} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzRjY2I1Mjc1MGU5N2U4MzBhZWJmYThhMjFkNWRhMGQzNjRkMGZkYWQ5ZmIwY2MyMjBmZTJjYTg0MTE4NDJjMyJ9fX0="
+    set {_vente} to player head with skull value {_texture}
+
+    create a new gui with virtual chest inventory named "Boutique du serveur" with 3 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 27 times:
+            make gui slot ((loop-number)-1) with gray stained glass pane
+
+            
+
+        make gui slot 11 with {_vente} named "&eVendre" with lore "&7&oVendre tes stocks pour générer","&7&oréputation et profit.":
+            Main_Menu_Cats(player,"Vendre")
+        make gui slot 15 with {_achat} named "&eAcheter" with lore "&7&oAcheter les ressources nécessaires","&7&oà ton activité.":
+            Main_Menu_Cats(player,"Acheter")
+
+function Main_Menu_Cats(p: player,action: text):
+
+    create a new gui with virtual chest inventory named "%{_action}% dans la boutique." with 4 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 36 times:
+            make gui slot ((loop-number)-1) with gray stained glass pane
+
+        if {_action} is "ACHETER":
+            set {_lore} to "Clique ici pour acheter dans cette catégorie."
+        if {_action} is "VENDRE":
+            set {_lore} to "Clique ici pour vendre dans cette catégorie."
+
+        set {_s} to 11
+        set {_cat} to 0
+        loop 8 times:
+            add 1 to {_cat}
+            set {_name} to {SHOP_data.cat.name.%{_cat}%}
+            set {_item} to {SHOP_data.cat.item.%{_cat}%}
+
+            if {_action} is "Vendre":
+                set {_valeur} to {SHOP_BOURSE_TOTAL.%{_cat}%}
+                if {_valeur} < 0:
+                    set {_valeur} to "&c%{_valeur}%%%"
+                else if {_valeur} >= 0:
+                    set {_valeur} to "&a+%{_valeur}%%%"
+                    set {_item} to {_item} with enchantment glint
+
+            if {_action} is "Acheter":
+                set {_valeur} to {SHOP_BOURSE_TOTAL.%{_cat}%}
+                if {_valeur} < 0:
+                    set {_valeur} to "&a%{_valeur}%%%"
+                    set {_item} to {_item} with enchantment glint
+                else if {_valeur} >= 0:
+                    set {_valeur} to "&c+%{_valeur}%%%"
+                    
+
+
+            make gui slot {_s} with {_item} named "&e%{_name}%" with lore "&7&o%{_lore}%", "", "&7Valeur du marché: %{_valeur}%":
+                Shop_CAT({_p},{_action},{_cat},16)
+            add 1 to {_s}
+            if {_s} = 16:
+                set {_s} to 20
+
+        set {_protect} to ({Grade_%{_p}%}/2)
+        make gui slot 26 with clock named "&eInformations" with lore "&7&oUn marché boursier régule le shop.", "&7&oLa valeur des articles s'actualise.", "", "&7&eProchaine mise à jour boursier :", "&7&o%{SHOP_BOURSE_LAST.DIFF}%", "", "&7&eProtection boursière :", "&a+%{_protect}%%% &7&o(Grade de niveau %{Grade_%{_p}%}%)":
+            Main_Menu_Cats({_p},{_action})
+
+        make gui slot 35 with oak door named "&cRetour":
+            Main_Menu_Shop({_p})

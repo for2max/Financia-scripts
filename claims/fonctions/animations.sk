@@ -1,0 +1,72 @@
+function Claim_Anim(loc: location,chunk: chunk):
+    set {_var} to {_loc}
+    loop 16 times:
+        add 1 to z-coordinate of {_var}
+        set {_chunk2} to chunk at {_var}
+        if {_chunk2} is not {_chunk}:
+            add -1 to z-coordinate of {_var}
+            exit loop
+    loop 16 times:
+        add 1 to x-coordinate of {_var}
+        set {_chunk2} to chunk at {_var}
+        if {_chunk2} is not {_chunk}:
+            add -1 to x-coordinate of {_var}
+            exit loop
+    set {_corner1} to {_var}
+
+    set {_var} to {_loc}
+    loop 16 times:
+        add -1 to z-coordinate of {_var}
+        set {_chunk2} to chunk at {_var}
+        if {_chunk2} is not {_chunk}:
+            add 1 to z-coordinate of {_var}
+            exit loop
+    loop 16 times:
+        add -1 to x-coordinate of {_var}
+        set {_chunk2} to chunk at {_var}
+        if {_chunk2} is not {_chunk}:
+            add 1 to x-coordinate of {_var}
+            exit loop
+    set {_corner2} to {_var}
+
+    set {_var} to {_corner1}
+    loop 15 times:
+        add -1 to x-coordinate of {_var}
+        add {_var} to {_list::*}
+    loop 15 times:
+        add -1 to z-coordinate of {_var}
+        add {_var} to {_list::*}
+    loop 15 times:
+        add 1 to x-coordinate of {_var}
+        add {_var} to {_list::*}
+    loop 15 times:
+        add 1 to z-coordinate of {_var}
+        add {_var} to {_list::*}
+    
+    loop {_list::*}:
+        set {_loc} to loop-value
+        loop 10 times:
+            add -1 to y-coordinate of {_loc}
+            if block at {_loc} is not air:
+                exit loop
+        loop 10 times:
+            if block at {_loc} is air, short grass or tall grass:
+                add {_loc} to {_list2::*}
+                exit loop
+            add 1 to y-coordinate of {_loc}
+
+    set {_time} to 20
+    loop 10 times:
+        loop {_list2::*}:
+            set {_l} to loop-value-2
+            draw 20 happy villager particle at {_l}
+            add 1 to y-coordinate of {_l}
+            draw 20 happy villager particle at {_l}
+        wait 3 seconds
+
+command /debug:
+    trigger:
+        set {_chunk} to chunk at player
+        Claim_Anim(location of player,{_chunk})
+
+

@@ -1,0 +1,27 @@
+
+function Shop_SELECT(p: player,action: text,cat: number,select: number):
+
+    open multi action dialog to {_p}:
+        title: mini message from "Boutique du serveur"
+        body:
+            add plain message body:
+                contents: "&bChoisissez la quantité d’objets à acheter ou à vendre :"
+        actions:
+            add callback action button:
+                label: "&aConfirmer"
+                trigger:
+                    Inter_Dialogue_Shop({_p},{_action},{_cat},event-nbt)
+            add number range input:
+                key: "shop_select"
+                label: "Faites glisser pour choisir."
+                width: 300
+                start: 1
+                end: 64
+                step: 1
+                initial: {_select}
+
+
+function Inter_Dialogue_Shop(p: player,action: text,cat: number,n: nbtcompound):
+    set {_select} to float tag "shop_select" of {_n}
+    broadcast "%{_p}% : %{_action}% : %{_action}% : %{_select}%"
+    Shop_CAT({_p},{_action},{_cat},{_select})

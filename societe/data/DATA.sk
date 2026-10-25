@@ -1,0 +1,48 @@
+on load:
+
+    set {societe_level.1} to "Startup"
+    set {societe_level.2} to "Croissance"
+    set {societe_level.3} to "Micro"
+    set {societe_level.4} to "Standard"
+    set {societe_level.5} to "Agence"
+    set {societe_level.6} to "Société"
+    set {societe_level.7} to "Compagnie"
+    set {societe_level.8} to "Groupe"
+    set {societe_level.9} to "Réseau"
+    set {societe_level.10} to "Corporation"
+    set {societe_level.11} to "Holding"
+    set {societe_level.12} to "Multinationale"
+    set {societe_level.13} to "Capitale"
+    set {societe_level.14} to "Référence"
+    set {societe_level.15} to "Coalition"
+    set {societe_level.16} to "Conglomérat"
+
+    set {Societe_lore.1} to "Toute idée naît dans l’élan."
+    set {Societe_lore.2} to "Grandir, c’est choisir une voie."
+    set {Societe_lore.3} to "Petit, mais ambitieux."
+    set {Societe_lore.4} to "La base d’un futur solide."
+    set {Societe_lore.5} to "L’agilité mène au progrès."
+    set {Societe_lore.6} to "L’union crée la structure."
+    set {Societe_lore.7} to "Organiser pour rayonner."
+    set {Societe_lore.8} to "L’ensemble dépasse la somme."
+    set {Societe_lore.9} to "Tout est lien et échange."
+    set {Societe_lore.10} to "La forme donne la force."
+    set {Societe_lore.11} to "Posséder, c’est orienter."
+    set {Societe_lore.12} to "Le monde devient terrain."
+    set {Societe_lore.13} to "Le centre attire tout."
+    set {Societe_lore.14} to "Être modèle, c’est dominer."
+    set {Societe_lore.15} to "L’union fait la loi."
+    set {Societe_lore.16} to "Tout converge vers toi."
+
+function Create_Societe(p: player,n: text):
+
+    add 1 to {SOCIETE_ID}
+
+    set {Societe_%{_id}%::name} to {_p}
+    set {Societe_%{_id}%::owner} to {_p}
+    set {Societe_%{_id}%::level} to 1
+    set {Societe_%{_id}%::reputation} to 0
+    set {Societe_%{_id}%::CA} to 0
+    
+    createsocietemessage({_p},{_name})
+

@@ -1,0 +1,41 @@
+
+function checknamesociete(p: player,text: text) :: text:
+
+    if {Societe_%{_p}%} is set:
+        return "Action impossible : vous faites déjà partie d'une société."
+    else:
+
+        loop {Societe_list::*}:
+            set {_id} to loop-value
+            if {Societe_%{_id}%::name} is {_text}:
+                return "Ce nom de société est déjà utilisé. Veuillez en choisir un autre."
+    
+        if {_text} contain """", "'", "!", "\", ",", "#", "$", "%%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "\", "^", "_", "`", "|", "~", "€", "£", "¥", "¢", "¤", "±", "÷", "×", "√", "∞", "≈", "≠", "«", "»", "“", "”", "‘", "’", "•", "…", "§", "¶", "©", "®", "™", "°", "µ", "†", "é", "è" or "‡":
+            return "Le nom de votre société ne peut pas contenir de caractères spéciaux."
+        
+        if {_text} contain "0", "1", "2", "3", "4", "5", "6", "7", "8" or "9":
+            return "Le nom de votre société ne peut pas contenir de chiffres."
+
+        set {_size} to length of {_text}
+        if {_size} < 3:
+            return "Le nom de votre société doit contenir au moins 3 caractères."
+
+        if {_size} > 7:
+            return "Le nom de votre société ne peut pas dépasser 7 caractères."
+
+        return "ok"
+
+function createsocietemessage(p: player,name: text):
+
+    broadcast ""
+    broadcast "&a%{_p}% &binaugure sa société sous le nom de &a%{_name}%&b."
+    broadcast ""
+
+    send "&6&lFélicitations !" to {_p}
+    send "&eVous venez de créer votre société nommé &6%{_name}%." to {_p}
+    send "&eGérez votre entreprise via le menu : &6/societe" to {_p}
+    send "" to {_p}
+    send "&aVos activités de production et de vente feront croître sa réputation et ouvriront de nouvelles perspectives d’évolution." to {_p}
+    send "" to {_p}
+
+

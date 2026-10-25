@@ -1,0 +1,84 @@
+on load:
+    Shop_Bourse_MAJ()
+
+options:
+    refresh: 30 minutes
+
+every 1 second:
+
+    if {SHOP_BOURSE_LAST} is not set:
+        set {SHOP_BOURSE_LAST} to now
+
+    set {_diff} to difference between {SHOP_BOURSE_LAST} and now
+    if {_diff} > {@refresh}:
+        Shop_Bourse_MAJ()
+        set {SHOP_BOURSE_LAST} to now
+    else:
+
+
+
+        set {_diff} to difference between {_diff} and {@refresh}
+        set {_diff} to "%{_diff}%"
+        replace all "and" with "et" in {_diff}
+        replace all "seconds" with "secondes" in {_diff}
+        set {SHOP_BOURSE_LAST.DIFF} to {_diff}
+
+function Shop_Bourse_MAJ():
+
+    loop 8 times:
+        set {_cat} to loop-number
+
+
+        loop {SHOP_data.cat.%{_cat}%::*}:
+
+            set {_total} to 0
+
+            set {_item} to loop-value-2
+
+            set {_prix_de_base} to {SHOP_data.prix.%{_item}%}
+            set {_variation_max} to {SHOP_data.variation.%{_item}%}
+            set {_fluctuation} to random number between 0.1 and 2
+
+            if {SHOP_BOURSE.VARIATION.%{_item}%} is not set:
+                set {SHOP_BOURSE.VARIATION.%{_item}%} to 0
+
+            set {_variation_actuelle} to {SHOP_BOURSE.VARIATION.%{_item}%}
+
+            set {_r} to random integer between 0 and 1
+            if {_r} = 0:
+                remove {_fluctuation} from {_variation_actuelle}
+            else if {_r} = 1:
+                add {_fluctuation} to {_variation_actuelle}
+            
+            if {_variation_actuelle} > {_variation_max}:
+                set {_variation_actuelle} to {_variation_max}
+            
+            if {_variation_actuelle} < ({_variation_max}-(({_variation_max}*2))):
+                set {_variation_actuelle} to ({_variation_max}-(({_variation_max}*2)))
+
+
+            add {_variation_actuelle} to {_total}
+            
+            set {SHOP_BOURSE.VARIATION.%{_item}%} to {_variation_actuelle}
+            set {_prix_final} to {_prix_de_base} * (1 + ({_variation_actuelle} / 100))
+
+            set {SHOP_BOURSE.PRIX.%{_item}%} to {_prix_final}
+
+        set {SHOP_BOURSE_TOTAL.%{_cat}%} to {_total}
+        Shop_Bourse_Refresh()
+
+function Shop_Bourse_Refresh():
+
+    loop all players:
+        if name of loop-player's current inventory contains " dans la boutique.": 
+            set {_action} to name of loop-player's current inventory
+            replace all " dans la boutique." with "" in {_action}
+            Main_Menu_Cats(loop-player,{_action})
+            OK(loop-player)
+
+        if name of loop-player's current inventory contains "V:": 
+            Main_Menu_Cats(loop-player,"Vendre")
+            OK(loop-player)
+        if name of loop-player's current inventory contains "A:": 
+            Main_Menu_Cats(loop-player,"Acheter")
+            OK(loop-player)       

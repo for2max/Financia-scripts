@@ -1,0 +1,201 @@
+
+on load:
+    set {eco_listslot::*} to 18,19,20,29,38,39,40,31,22,13,14,15,24,33,34 and 35
+
+command /testson:
+    trigger:
+        play sound "minecraft:ui.toast.challenge_complete" with volume 1 to player
+
+function Avantages(p: player,g: number):
+
+    set {_name} to {Grade_%{_g}%}
+
+    create a new gui with virtual chest inventory named "... Les avantages" with 4 rows:
+        open last created gui to {_p}
+        Menu({_p})
+        set {_s} to 0
+        loop 36 times:
+            make gui slot {_s} with gray stained glass pane
+            add 1 to {_s}
+    
+        set {_prev} to {_g} - 1
+
+        make gui slot 35 with oak door named "&cRetour":
+            play sound "block.chest.locked" with volume 1 to {_p}
+            GUIGRADE({_p},{_g})
+
+        set {_protection} to {_g}*1.05
+        set {_prev_protection} to {_prev}*1.05
+        set {_diff} to difference between {_protection} and {_prev_protection}
+        make gui slot 10 with sunflower named "&eBonus shop" with lore "&7&oRéduit les pertes liées aux variation négatives de la bourse." and "&a+%{_protection}%%% &e(+ %{_diff}%)"
+
+        set {_ticket} to {_g}*2
+
+        make gui slot 11 with map named "&eTickets de claim" with lore "&7&oAjoute deux tickets de claims." and "&7&oTotal de %{_ticket}% tickets. &e( +2 )"
+
+function UPGRADE(p: player,g: number):
+
+    set {_name} to {Grade_%{_g}%}
+    set {_prix} to {Grade_prix.%{_g}%}
+    set {_m} to {_p}'s balance
+
+    remove {_prix} from {_p}'s balance
+    send "&c$%{_prix}% ont été retiré de votre compte." to {_p}
+    set {Grade_%{_p}%} to {_g}
+    broadcast ""
+    broadcast "&6» &BFélicitations !"
+    broadcast "&6» &9%{_p}% a été promu au grade &e%{_name}% !"
+    broadcast ""
+    play sound "minecraft:ui.toast.challenge_complete" with volume 1 to {_p}
+    close {_p}'s inventory
+    launch ball large colored red, purple and white fading to light green and black at {_p}'s location with duration 0
+    send title "&6&lFELICITATIONS" with subtitle "" to {_p} for 5 seconds
+
+function CONFIRMEGRADE(p: player,g: number):
+    set {_name} to {Grade_%{_g}%}
+    set {_prix} to {Grade_prix.%{_g}%}
+
+    create a new gui with virtual chest inventory named "... Confirmer votre achat" with 3 rows:
+        Menu({_p})
+        open last created gui to {_p}
+        set {_s} to 0
+        loop 27 times: 
+            make gui slot {_s} to black stained glass pane
+            add 1 to {_s}
+        set {_s} to 10
+        loop 3 times:
+            make gui slot {_s} to green stained glass pane named "&a&nAcheter" with lore "", "&7» &aJe souhaite acheter le grade :", "&7» &e%{_name}%", "&7» &e$%{_prix}%" and "":
+                set {_m} to {_p}'s balance
+                if {_prix} > {_m}:
+                    set {_s} to 10
+                    loop 3 times:
+                        make gui slot {_s} to barrier named "&c&nErreur" with lore "", "&7» &cVous n'avez pas assez d'argent", ""
+                        play sound "entity.villager.no" with volume 1 to {_p}
+                        wait 2 tick
+                        add 1 to {_s}
+                    stop
+                UPGRADE({_p},{_g})
+            add 1 to {_s}
+        SET {_s} to 14
+        loop 3 times:
+            make gui slot {_s} to red stained glass pane named "&c&nAnnuler" with lore "", "&7» &cJe ne souhaite pas acheter le grade.", "":
+                close {_p}'s inventory
+                play sound "entity.villager.no" with volume 1 to {_p}
+            add 1 to {_s}
+
+function GUIGRADE(p: player,g: number):
+
+    set {_name} to {Grade_%{_g}%}
+    create a new gui with virtual chest inventory named "... Grade %{_name}%" with 3 rows:
+        open last created gui to {_p}
+        Menu({_p})
+        set {_s} to 0
+        loop 27 times:
+            make gui slot {_s} to black stained glass pane
+            add 1 to {_s}
+        
+        make gui slot 10 to paper named "&eLes avantages" with lore "&7» &aAfficher tous les avantages.", "&adu grade &n%{_name}%&a.":
+            Avantages({_p},{_g})
+            
+        set {_l1} to ""
+        set {_l2} to "&7» &aVous conservez vos précédents avantages."
+        set {_l3} to "&7» &aLe grade coûte &e$%{Grade_prix.%{_g}%}%"
+        set {_l4} to ""
+                
+        make gui slot 12 to oak sign named "&eLes informations" with lore "%{_l1}%","%{_l2}%","%{_l3}%" and "%{_l4}%"
+
+        make gui slot 14 to emerald named "&eAcheter" with lore "&7» &aJe souhaite acheter le grade.", "&7» &aCliquez ici.":
+            play sound "entity.experience_orb.pickup" with volume 1 to {_p}
+            CONFIRMEGRADE({_p},{_g})
+
+        make gui slot 16 with oak door named "&cRetour":
+            play sound "block.chest.locked" with volume 1 to {_p}
+            GUIGRADES({_p})
+            
+
+function GUIGRADES(p: player):
+
+    play sound "item.book.page_turn" with volume 1 to {_p}
+
+    create a new gui with virtual chest inventory named "Votre progression ..." with 6 rows:
+
+        open last created gui to {_p}
+        set {_s} to 0
+        loop 54 times:
+            make gui slot {_s} to black stained glass pane
+            add 1 to {_s}
+        
+        set {_size} to size of {eco_listslot::*}
+        set {_lvl} to {Grade_%{_p}%}
+        set {_next} to {_lvl} + 1
+        set {_c} to 0
+        set {_prix} to {Grade_prix.%{_next}%}
+
+        loop {eco_listslot::*}:
+
+            if  name of {_p}'s current inventory is not "Votre progression ...":
+                stop
+
+            add 1 to {_c}
+            set {_name} to {Grade_%loop-index%}
+
+
+            if {_lvl} > {_c}:
+
+                set {_l1} to ""
+                set {_l2} to "&7» &aVous avez déjà validé ce grade."
+                set {_l3} to "&7» &6&l✨ &BFélicitations"
+                set {_l4} to ""
+
+                make gui slot loop-value with enchanted book named "&a&n%{_name}%" with lore "%{_l1}%","%{_l2}%","%{_l3}%" and "%{_l4}%":
+                    play sound "entity.villager.celebrate" with volume 1 to {_p}
+
+            if {_lvl} < {_c}:
+
+                set {_l1} to ""
+                set {_l2} to "&7» &4🔒 &cCe grade est verrouillé."
+                set {_l3} to "&7» &eVous devez obtenir le grade précédent."
+                set {_l4} to ""
+
+                make gui slot loop-value with barrier named "&c&n%{_name}%" with lore "%{_l1}%","%{_l2}%","%{_l3}%" and "%{_l4}%":
+                    play sound "entity.villager.no" with volume 1 to {_p}
+
+
+            if {_lvl} = {_c}:
+
+                set {_l1} to ""
+                set {_l2} to "&7» &6Votre grade actuel. "
+                set {_l3} to "&7» &6🚀 &aContinuez sur cette lancée."
+                set {_l4} to ""
+
+                make gui slot loop-value with writable book named "&6&n%{_name}%" with lore "%{_l1}%","%{_l2}%","%{_l3}%" and "%{_l4}%":
+
+
+            if {_c} = {_next}:
+
+                set {_l1} to ""
+                set {_l2} to "&7» &bVotre prochaine progression."
+                set {_l3} to "&7» &aCliquez ici pour plus d'informations."
+                set {_l4} to "&7» &6💰 &e$%{_prix}%"
+                set {_l5} to ""
+
+                make gui slot loop-value with totem of undying named "&b&n%{_name}%" with lore "%{_l1}%","%{_l2}%","%{_l3}%","%{_l4}%" and {_l5}:
+                    play sound "entity.experience_orb.pickup" with volume 1 to {_p}
+                    GUIGRADE({_p},{_next})
+
+
+
+
+            play sound "ui.button.click" with volume 1 to {_p}
+            wait 1.5 tick
+
+  
+
+
+command /grades:
+    aliases: grade, rank, ranks, rankup, ranksup, upgrade, upgrades
+    trigger:
+        
+        GUIGRADES(player)
+        stop
+

@@ -1,0 +1,6 @@
+
+command /shop:
+    aliases: achat, vente, ventes, shops
+    trigger:
+        Main_Menu_Shop(player)
+        

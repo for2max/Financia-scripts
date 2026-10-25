@@ -1,0 +1,20 @@
+
+
+on load:
+    datashopcat1()
+    datashopcat2()
+    datashopcat3()
+    datashopcat4()
+    datashopcat5()
+    datashopcat6()
+    datashopcat7()
+    datashopcat8()
+
+    set {_cat} to 0
+    loop 8 times:
+        add 1 to {_cat}
+        set {_size} to size of {SHOP_data.cat.%{_cat}%::*}
+        set {_name} to {SHOP_data.cat.name.%{_cat}%}
+        send "&e[SHOP] &6%{_name}% : &9%{_size}% items chargés." to console
+        add {_size} to {_total}
+    send "&e[SHOP] &cTOTAL: &9%{_total}%" to console

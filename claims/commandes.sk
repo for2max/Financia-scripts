@@ -1,0 +1,26 @@
+command /claim:
+    aliases: claims
+    trigger:
+        Claim_Map_Gui(player,"command")
+
+command /adminclaim <text> <text>:
+    permission: admin
+    permission message: &cVous n'avez pas la permission
+    trigger:
+        if arg 1 is "bypass":
+            if {Claim_bypass.%player%} is not set:
+                OK(player)
+                send "&7[&eClaim&7] &aBYPASS Administrateur chunk claim &2actif&a." to player
+                set {Claim_bypass.%player%} to true
+                stop
+            else if {Claim_bypass.%player%} is set:
+                OK(player)
+                send "&7[&eClaim&7] &aBYPASS Administrateur chunk claim désormais &cinactif&a." to player
+                delete {Claim_bypass.%player%}
+                stop
+        if arg 1 is "list":
+            set {_joueur} to arg 2 parsed as offline player
+            set {_size} to size of {Claim_list.%{_joueur}%::*}
+            if {_size} is not set:
+                NO({_p})
+                send "&7[&eClaim&7] &cAucun chunk enregistré au nom de &e%{_joueur}%" to player

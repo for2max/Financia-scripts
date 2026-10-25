@@ -1,0 +1,12 @@
+function NO(p: player):
+    play sound "entity.villager.no" with volume 1 to {_p}
+
+function OK(p: player):
+    play sound "entity.experience_orb.pickup" with volume 1 to {_p}
+
+function Menu(p: player):
+    play sound "item.book.page_turn" with volume 1 to {_p}
+
+function Click(p: player):
+    play sound "minecraft:ui.button.click" with volume 1 to {_p}
+

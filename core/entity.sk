@@ -1,0 +1,7 @@
+function Delete_Entity(loc: location,rayon: number):
+
+    loop all entities in radius {_rayon} of {_loc}:
+        if loop-value is display:
+            kill loop-value
+
+    

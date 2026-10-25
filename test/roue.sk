@@ -1,0 +1,239 @@
+function Casino_A(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from -0.50, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.0, -0, 0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.0, -0, -0.50
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to z-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+
+function Casino_C(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.0, -0, -0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from -0.50, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from -1, -0, -0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -1 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+
+function Casino_F(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from -0.0, -0, -0.50
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to z-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.0, -0, -0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.50, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add 0.50 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 1, -0, -0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add 1 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+
+function Casino_D(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.50, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add 0.50 to x-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0.0, -0, 0.0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+
+function Casino_B(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0, -0, -0.50
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to z-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+
+function Casino_E(loc: location):
+
+    add 0.75 to y-coordinate of {_loc}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to red carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0, -0, -0.50
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add -0.50 to z-coordinate of {_loc2}
+    add {_loc2} to {Casino.2::*}
+
+    spawn item display at {_loc}
+    set item of last spawned item display to black carpet
+    set the scale of last spawned item display to vector(0.50,0.50,0.50)
+    set transformation translation of last spawned item display to vector from 0, -0, 0
+    add last spawned item display to {CASINO::*}
+
+    set {_loc2} to {_loc}
+    add {_loc2} to {Casino.2::*}
+
+
+command /dev:
+    trigger:    
+        set {_loc} to location of target block
+        Casino_A({_loc})
+        loop 4 times:
+            add -1 to z-coordinate of {_loc}
+            Casino_B({_loc})
+        add -1 to z-coordinate of {_loc}
+        Casino_C({_loc})
+        add -2 to x-coordinate of {_loc}
+        Casino_D({_loc})
+        loop 4 times:
+            add 1 to z-coordinate of {_loc}
+            Casino_E({_loc})
+        add 1 to z-coordinate of {_loc}
+        Casino_F({_loc})
+
+
+on load:
+
+    loop {CASINO.2::*}:
+        kill loop-value
+    delete {CASINO::*}
+    loop {CASINO.3::*}:
+        kill loop-value
+    delete {CASINO.3::*}
+    delete {CASINO.2::*}
+
+command /dev25:
+    trigger:
+        broadcast "%{CASINO.2::*}%"
+        loop {CASINO.2::*}:
+            set {_loc} to loop-value
+
+            set pitch of {_loc} to -90
+            set yaw of {_loc} to 270
+
+            set {_number} to loop-index
+
+            set {_tapis} to {CASINO::%loop-index%}
+            set {_item} to item of {_tapis}
+            if "%{_item}%" contain "red":
+                set {_couleur} to "&4"
+            else:
+                set {_couleur} to "&0"
+
+            spawn text display at {_loc}
+            set text of last spawned text display to "&f%loop-index%"
+            set the scale of last spawned text display to vector(0.5, 0.5, 0.5)
+            add last spawned text display to {CASINO.3::*}
+            set transformation translation of last spawned text display to vector from 0, 0, -0.20
+
+            wait 5 tick
+
+command /p:
+    trigger:
+        send "pitch! %pitch of player%"
+        send "yaw! %yaw of player%"

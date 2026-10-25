@@ -1,0 +1,284 @@
+function datashopcat7():
+
+    delete {SHOP_data.cat.7::*}
+    
+    set {SHOP_data.cat.name.7} to "Blocs de Construction"
+    set {SHOP_data.cat.item.7} to stone bricks
+
+    # ==== BLOC DE CONSTRUCTION ====
+
+    # Stone / Pierre
+    set {_nom} to "Pierre"
+    set {_item} to stone
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.2
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cobblestone / Pierre taillée
+    set {_nom} to "Pierre taillée"
+    set {_item} to cobblestone
+    set {_prix} to 1
+    set {_variation} to 10
+    set {_fluctuation} to 0.2
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Stone Bricks / Briques de pierre
+    set {_nom} to "Briques de pierre"
+    set {_item} to stone_bricks
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Mossy Stone Bricks / Briques de pierre moussues
+    set {_nom} to "Briques de pierre moussues"
+    set {_item} to mossy_stone_bricks
+    set {_prix} to 4
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom} 
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cracked Stone Bricks / Briques de pierre fissurées
+    set {_nom} to "Briques de pierre fissurées"
+    set {_item} to cracked_stone_bricks
+    set {_prix} to 3
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Sandstone / Sable
+    set {_nom} to "Sable"
+    set {_item} to sandstone
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Smooth Sandstone / Sable lisse
+    set {_nom} to "Sable lisse"
+    set {_item} to smooth_sandstone
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cut Sandstone / Sable taillé
+    set {_nom} to "Sable taillé"
+    set {_item} to cut_sandstone
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Red Sandstone / Sable rouge
+    set {_nom} to "Sable rouge"
+    set {_item} to red_sandstone
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Smooth Red Sandstone / Sable rouge lisse
+    set {_nom} to "Sable rouge lisse"
+    set {_item} to smooth_red_sandstone
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Cut Red Sandstone / Sable rouge taillé
+    set {_nom} to "Sable rouge taillé"
+    set {_item} to cut_red_sandstone
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Granite / Granite
+    set {_nom} to "Granite"
+    set {_item} to granite
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Polished Granite / Granite poli
+    set {_nom} to "Granite poli"
+    set {_item} to polished_granite
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Diorite / Diorite
+    set {_nom} to "Diorite"
+    set {_item} to diorite
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Polished Diorite / Diorite poli
+    set {_nom} to "Diorite poli"
+    set {_item} to polished_diorite
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Andesite / Andesite
+    set {_nom} to "Andesite"
+    set {_item} to andesite
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Polished Andesite / Andesite poli
+    set {_nom} to "Andesite poli"
+    set {_item} to polished_andesite
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Clay / Argile
+    set {_nom} to "Argile"
+    set {_item} to clay
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Terracotta / Terre cuite
+    set {_nom} to "Terre cuite"
+    set {_item} to terracotta
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Stone Slab / Dalle de pierre
+    set {_nom} to "Dalle de pierre"
+    set {_item} to stone_slab
+    set {_prix} to 2
+    set {_variation} to 15
+    set {_fluctuation} to 0.3
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Stone Brick Slab / Dalle de brique de pierre
+    set {_nom} to "Dalle de brique de pierre"
+    set {_item} to stone_brick_slab
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Sandstone Slab / Dalle de sable
+    set {_nom} to "Dalle de sable"
+    set {_item} to sandstone_slab
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}
+
+    # Red Sandstone Slab / Dalle de sable rouge
+    set {_nom} to "Dalle de sable rouge"
+    set {_item} to red_sandstone_slab
+    set {_prix} to 3
+    set {_variation} to 20
+    set {_fluctuation} to 0.4
+    add {_item} to {SHOP_data.cat.7::*}
+    set {SHOP_data.nom.%{_item}%} to {_nom}
+    set {SHOP_data.prix.%{_item}%} to {_prix}
+    set {SHOP_data.variation.%{_item}%} to {_variation}
+    set {SHOP_data.fluctuation.%{_item}%} to {_fluctuation}

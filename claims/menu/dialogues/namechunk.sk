@@ -1,0 +1,35 @@
+
+function setnamechunk(p: player,chunk: chunk,page: number,provenance: number):
+
+    open multi action dialog to {_p}:
+        title: "&9Modifier le nom du chunk"
+        columns: 1
+        body:
+            add plain message body:
+                contents: "&b&oMerci d'entrer le nom souhaité pour le chunk."
+            add text input:
+                max_length: 7
+                key: "setnamechunk"
+                label: "&9&o&nSaisir le nom ici :"
+        actions:
+            add callback action button:
+                label: mini message from "<green>Confirmer"
+                tooltip: mini message from "<green>Confirmer !"
+                trigger:
+                    
+                    set {_n} to event-nbtcompound
+                    set {_name} to string tag "setnamechunk" of {_n}
+                    if {_name} is "":
+                        NO({_p})
+                        stop
+                    else:
+                        set {Claim_%{_chunk}%::name} to {_name}
+                        OK({_p})
+                    Claim_config({_p},{_chunk},{_page},{_provenance})
+            add callback action button:
+                label: mini message from "<red>Retour"
+                tooltip: mini message from "<red>Retour"
+                trigger:
+                    NO({_p})
+                    Claim_config({_p},{_chunk},{_page},{_provenance})
+

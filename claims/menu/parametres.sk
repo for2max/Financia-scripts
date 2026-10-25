@@ -1,0 +1,41 @@
+function Claim_parametres(p: player,provenance: text):
+
+    create a new gui with virtual chest inventory named "Panneau de configuration" with 3 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 27 times:
+            make gui slot ((loop-number)-1) with gray stained glass pane
+
+        if {Claim_bar.%{_p}%} is not set:
+            set {_item} to soul lantern named "&eStatut Action-bar" with lore "&7&oAffiche le statut du chunk dans votre action-bar." and "&7&oStatut: &aActivé"
+        else:
+            set {_item} to lantern named "&eStatut Action-bar" with lore "&7&oAffiche le statut du chunk votre action-bar." and "&7&oStatut: &cDésactivé"
+
+        make gui slot 10 with {_item}:
+            if {Claim_bar.%{_p}%} is set:
+                delete {Claim_bar.%{_p}%}
+                OK({_p})
+                Claim_parametres({_p},{_provenance})
+            else:
+                set {Claim_bar.%{_p}%} to true
+                OK({_p})
+                Claim_parametres({_p},{_nouveau})
+        
+        if {Claim_message.%{_p}%} is not set:
+            set {_item} to soul lantern named "&eStatut Message" with lore "&7&oAffiche un message dés lors que vous changez de chunk." and "&7Statut: &aActivé"
+        else:
+            set {_item} to lantern named "&eStatut Message" with lore "&7&oAffiche un message dés lors que vous changez de chunk." and "&7Statut: &cDésactivé"
+
+        make gui slot 12 with {_item}:
+            if {Claim_message.%{_p}%} is set:
+                delete {Claim_message.%{_p}%}
+                OK({_p})
+                Claim_parametres({_p},{_provenance})
+            else:
+                set {Claim_message.%{_p}%} to true
+                OK({_p})
+                Claim_parametres({_p},{_nouveau})
+
+        make gui slot 16 with oak door named "&cRetour":
+            Claim_Map_Gui({_p},{_provenance})

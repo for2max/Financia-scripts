@@ -1,0 +1,17 @@
+
+command /societe:
+    aliases: societes, entreprise
+    trigger:
+        if {Societe_%player%} is set:
+            menusociete(player)
+            set {_id} to {Societe_%player%}
+            broadcast "%{Societe_%{_id}%::membres::*}%"
+        else:
+            setnamesociete(player,"")
+
+
+command /deletesociete:
+    permission: admin
+    trigger:
+        clear {Societe_%player%}
+        broadcast "&c%{Societe_%player%}%"

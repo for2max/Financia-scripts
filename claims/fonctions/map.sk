@@ -1,0 +1,83 @@
+function POS_List_Nord(loc: location) :: objects:
+    set {_base} to {_loc}
+    loop 2 times:
+        add -16 to z-coordinate of {_loc}
+    loop 4 times:
+        add -16 to x-coordinate of {_loc}
+    set {_start} to {_loc}
+    add {_loc} to {_var::*}
+    loop 5 times:
+        set {_line.%loop-number%} to {_loc}
+        loop 8 times:
+            add 16 to x-coordinate of {_loc}
+            add {_loc} to {_var::*}
+        if loop-number is 5:
+            exit loop
+        set {_loc} to {_line.%loop-number%}
+        add 16 to z-coordinate of {_loc}
+        add {_loc} to {_var::*}
+    return {_var::*}
+    
+function POS_List_Sud(loc: location) :: objects:
+    set {_base} to {_loc}
+    loop 2 times:
+        add 16 to z-coordinate of {_loc}
+    loop 4 times:
+        add 16 to x-coordinate of {_loc}
+    set {_start} to {_loc}
+    add {_loc} to {_var::*}
+    loop 5 times:
+        set {_line.%loop-number%} to {_loc}
+        loop 8 times:
+            add -16 to x-coordinate of {_loc}
+            add {_loc} to {_var::*}
+        if loop-number is 5:
+            exit loop
+        set {_loc} to {_line.%loop-number%}
+        add -16 to z-coordinate of {_loc}
+        add {_loc} to {_var::*}
+    return {_var::*}
+function POS_List_Ouest(loc: location) :: objects:
+    set {_base} to {_loc}
+    loop 4 times:
+        add 16 to z-coordinate of {_loc}
+    loop 2 times:
+        add -16 to x-coordinate of {_loc}
+
+    set {_start} to {_loc}
+    add {_loc} to {_var::*}
+    loop 5 times:
+        set {_line.%loop-number%} to {_loc}
+        loop 8 times:
+            add -16 to z-coordinate of {_loc}
+            add {_loc} to {_var::*}
+        if loop-number is 5:
+            exit loop
+        set {_loc} to {_line.%loop-number%}
+        add 16 to x-coordinate of {_loc}
+        add {_loc} to {_var::*}
+    return {_var::*}
+function POS_List_Est(loc: location) :: objects:
+
+    set {_base} to {_loc}
+    loop 4 times:
+        add -16 to z-coordinate of {_loc}
+    loop 2 times:
+        add 16 to x-coordinate of {_loc}
+    set {_start} to {_loc}
+    add {_loc} to {_var::*}
+    loop 5 times:
+        set {_line.%loop-number%} to {_loc}
+        loop 8 times:
+            add 16 to z-coordinate of {_loc}
+            add {_loc} to {_var::*}
+        if loop-number is 5:
+            exit loop
+        set {_loc} to {_line.%loop-number%}
+        add -16 to x-coordinate of {_loc}
+        add {_loc} to {_var::*}
+    return {_var::*}
+function Chunk_List(var: objects) :: objects:
+    loop {_var::*}:
+        add chunk at loop-value to {_return::*}
+    return {_return::*}

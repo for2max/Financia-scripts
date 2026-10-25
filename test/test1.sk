@@ -1,0 +1,49 @@
+every 2 minute:
+    execute console command "time set morning"
+command /test:
+    trigger:
+        Test(player)
+
+function Test(p: player):
+    open multi action dialog to {_p}:
+        title: mini message from "<gradient:#0ABAF7:#0AF718>Home Menu"
+        body:
+            add plain message body:
+                contents: "&b&l&nSelect a home to delete:"
+        actions:
+            add callback action button:
+                label: "&c%{_home}%"
+                trigger:
+                    delete {homes::%uuid of {_p}%::%{_home}%}
+                    send "&7[&bHomes&7] &eDeleted home &r'&b%{_home}%&r'" to {_p}
+            add number range input:
+                key: "some_key"
+                label: "Slide for Health"
+                width: 300
+                start: 1
+                end: 64
+                step: 1
+                initial: 1
+
+
+
+command /test2:
+    trigger:
+
+
+        set {_m} to mini message from "<sprite:blocks:block/stone>"
+        send {_m} to player
+
+        # Create a component
+        set {_t} to translate component of player's tool
+        add hover event showing player's tool to {_t}
+        # Use this component in the resolver to replace "<item>" in the mini message
+        set {_r} to resolver("item", {_t})
+        # Setup the mini message with the replacement placeholder
+        set {_m} to mini message from "Press <red><key:key.jump> to jump!" with {_r}
+        send component {_m}
+
+
+
+on join:
+	set component join message to mini message from "<hover:show_entity:player:%uuid of player%><gradient:##FAA401:##5FFA01>%player%<reset><green> joined the game"

@@ -1,0 +1,29 @@
+on player interact:
+    set {_loc} to location of event-block
+    set {_chunk} to chunk at {_loc}
+    set {_return} to Claim_protect(player,{_chunk})
+    if {_return} is false:
+        cancel event
+        send action bar "&cCe territoire est protégé."
+
+on damage:
+    if attacker is a player:
+        if victim is animal:
+            set {_chunk} to chunk at victim
+            set {_return} to Claim_protect(attacker,{_chunk})
+            if {_return} is false:
+                cancel event
+                send action bar "&cCe territoire est protégé." to attacker
+
+function Claim_protect(p: player,chunk: chunk) :: boolean:
+    if {CLAIM_bypass.%{_p}%} is not set:
+        if {Claim_%{_chunk}%::owner} is "admin":
+            return false
+        else:
+            if {Claim_%{_chunk}%::owner} is set:
+                if {Claim_%{_chunk}%::owner} is not {_p}:
+                    if {Claim_%{_chunk}%::societe} is not {Societe_%{_p}%}:
+                        return false
+                    else if {Claim_%{_chunk}%::societe} is {Societe_%{_p}%}:
+                        if {Claim_%{_chunk}%::close} is true:
+                            return false

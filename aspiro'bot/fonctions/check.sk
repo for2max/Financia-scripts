@@ -1,0 +1,40 @@
+function Aspirobot_check_nombre(p: player):: boolean:
+  set {_size} to size of {Aspirobot_%{_p}%::*}
+  set {_max} to {Grade_%{_p}%}*2
+  if {_size} >= {_max}:
+    return false
+  else:
+    return true
+
+function Aspirobot_check_proxy(loc: location):: boolean:
+  loop blocks in radius 10 around {_loc}:
+    if {Aspirobot_%location of loop-block%} is set:
+      return false
+      stop
+  return true
+
+function Aspirobot_espace(id: number):: boolean:
+  set {_location} to {Aspirobot_%{_id}%::location}
+  set {_block} to block at {_location}
+  set {_inv} to inventory of {_block}
+  if {_inv} has enough space for 1 bedrock:
+    return true
+  else:
+    return false
+
+function Aspirobot_energie(id: number) ::boolean:
+  set {_bar} to {Aspirobot_%{_id}%::bar}
+  set {_energie} to {Aspirobot_%{_id}%::energie}
+  set {_lvl} to {Aspirobot_%{_id}%::niveau}
+
+  if {_bar} <= 0:
+    if {_energie} <= 0:
+      return false
+    else:
+      remove 1 from {Aspirobot_%{_id}%::bar}
+      add 7+(3*{_niveau}) to {Aspirobot_%{_id}%::energie}
+      remove 1 from {Aspirobot_%{_id}%::energie}
+      return true
+  else:
+    remove 1 from {Aspirobot_%{_id}%::energie}
+    return true

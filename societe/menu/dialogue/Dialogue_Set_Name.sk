@@ -1,0 +1,31 @@
+
+function setnamesociete(p: player,erreur: text):
+
+    open multi action dialog to {_p}:
+        title: "&9Lancer son Entreprise"
+        columns: 1
+        body:
+            add plain message body:
+                contents: "&b&oMerci de compléter le formulaire pour la création de votre entreprise."
+            add text input:
+                max_length: 7
+                key: "setnamesociete"
+                label: "&9&o&nSaisir le nom de votre société :"
+            if {_erreur} is set:
+                add plain message body:
+                    contents: "&c&o%{_erreur}%"
+        actions:
+            add callback action button:
+                label: mini message from "<green>Confirmer"
+                tooltip: mini message from "<green>Confirmer !"
+                trigger:
+                    set {_n} to event-nbtcompound
+                    set {_name} to string tag "setnamesociete" of {_n}
+                    set {_return} to checknamesociete({_p},{_name})
+                    broadcast "&a%{_name}%"
+                    if {_return} is not "ok":
+                        NO({_p})
+                        setnamesociete({_p},{_return})
+                    else:
+                        OK({_p})
+                        Create_Societe({_p},{_name})
