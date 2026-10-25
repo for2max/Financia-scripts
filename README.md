@@ -1,12 +1,12 @@
 
 
-### 🚀 Programme Fortuna
+### 🚀 ASPIRO'BOT
 
 | Information | Détail |
 |:--|:--|
-| Version | `RC.1.0.0` |
-| Statut | 🟡 Release Candidate |
-| Type | Première version candidate |
+| Version | `v1.0.2-alpha` |
+| Statut | 🟡 ALPHA |
+| Type | TEST EN COURS |
 | Déploiement | 25/10/2026 |
 
 
