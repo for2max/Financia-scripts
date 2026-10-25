@@ -1,11 +1,4 @@
-# Financia-scripts
 
-> Aspiro'Bot
-> > Version: v1.0.0-alpha.2
-> > Date: 25/10/2026
-
-> [!NOTE]
-> Information complémentaire sur le système.
 
 ### 🚀 Programme Fortuna
 
@@ -16,22 +9,4 @@
 | Type | Première version candidate |
 | Déploiement | 25/10/2026 |
 
-**Modifications**
-- Ajout des fonctionnalités principales.
-- Corrections et optimisations.
 
-> ### 🚀 Programme Fortuna
-> **Version :** `RC.1.0.0`
->
-> Première version candidate du programme Fortuna.
->
-> 🟡 **Statut :** Release Candidate
-
-### 🚀 Programme Fortuna
-
-| Propriété | Valeur |
-|---|---|
-| Programme | Fortuna |
-| Version | `RC.1.0.0` |
-| Statut | 🟡 Release Candidate |
-| Type | Première version candidate |
