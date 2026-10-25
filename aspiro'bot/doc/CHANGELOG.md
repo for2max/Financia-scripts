@@ -2,7 +2,7 @@
 
 Les versions sont listées de la plus récente à la plus ancienne. Les changements ci-dessous concernent le module Aspiro'BOT.
 
-## `ALPHA.1.0.3` — 25/10/2026
+## `ALPHA.1.0.2` — 25/10/2026
 
 ### Corrections
 
