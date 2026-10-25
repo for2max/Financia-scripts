@@ -1,0 +1,146 @@
+function Aspirobot_give(p: player, niveau: integer) :: boolean:
+	set {_return} to Aspirobot_check_nombre({_p})
+	if {_return} is false:
+		NO({_p})
+		send "&7[&c&nErreur&7] &eVous avez atteint votre nombre maximal d'Aspiro'BOT. Augmentez cette limite avec &3/grades." to {_p}
+		return false
+	else:
+		if {Aspirobot_last-id} is not set:
+			set {Aspirobot_last-id} to 0
+		add 1 to {Aspirobot_last-id}
+
+		set {_id} to {Aspirobot_last-id}
+		set {_item} to hopper named "&6Aspiro'&9BOT" with lore "&7→ &eAspire les objets autour de lui.", "&7→ &eAméliorez-le avec Maj + clic droit sur la trémie." and "&7→ &9Niveau : &d%{_niveau}%"
+		force {_item} to glint
+		set int tag "niveau" of custom nbt of {_item} to {_niveau}
+		set int tag "id" of custom nbt of {_item} to {_id}
+		give {_item} to {_p}
+		OK({_p})
+		return true
+
+function Aspirobot_place(p: player,loc: location,item: object):
+	set {_niveau} to int tag "niveau" of custom nbt of {_item}
+	set {_id} to int tag "id" of custom nbt of {_item}
+
+	set {Aspirobot_%{_id}%::owner} to {_p}
+	set {Aspirobot_%{_id}%::niveau} to {_niveau}
+	set {Aspirobot_%{_id}%::location} to {_loc}
+	set {Aspirobot_%{_id}%::energie} to 10
+	set {Aspirobot_%{_id}%::bar} to 5
+	set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({_niveau})
+	set {Aspirobot_reverse::%{_loc}%} to {_id}
+
+	add {_id} to {Aspirobot_%{_p}%::*}
+	add {_id} to {Aspirobot_list::*}
+	Aspirobot_display({_id})
+
+	send "&7[&6Aspiro'&9BOT&7] &aVous avez placé votre Aspiro'BOT. Pour l'améliorer, faites Maj + clic droit sur la trémie." to {_p}
+
+function Aspirobot_delete(id: integer) :: boolean:
+	set {_owner} to {Aspirobot_%{_id}%::owner}
+	set {_loc} to {Aspirobot_%{_id}%::location}
+	set {_display} to {Aspirobot_%{_id}%::display}
+	set {_block-removed} to false
+
+	if {_display} is set:
+		kill {_display}
+
+	if {_loc} is set:
+		set {_block} to block at {_loc}
+		if {_block} is hopper:
+			set block at {_loc} to air
+			set {_block-removed} to true
+
+	if {_loc} is set:
+		delete {Aspirobot_reverse::%{_loc}%}
+	remove {_id} from {Aspirobot_%{_owner}%::*}
+	remove {_id} from {Aspirobot_list::*}
+	delete {Aspirobot_%{_id}%::*}
+
+	return {_block-removed}
+
+on place a hopper:
+	if name of tool of player is "&6Aspiro'&9BOT":
+		set {_item} to tool of player
+		set {_id} to int tag "id" of custom nbt of {_item}
+		set {_niveau} to int tag "niveau" of custom nbt of {_item}
+		if {_id} is not set:
+			cancel event
+			send "&7[&c&nErreur&7] &eCet Aspiro'BOT n'a pas d'ID valide." to player
+			stop
+		if {_id} <= 0:
+			cancel event
+			send "&7[&c&nErreur&7] &eCet Aspiro'BOT a un ID invalide." to player
+			stop
+		if {_niveau} is not set:
+			cancel event
+			send "&7[&c&nErreur&7] &eLe niveau de cet Aspiro'BOT est manquant." to player
+			stop
+		if {_niveau} < 1:
+			cancel event
+			send "&7[&c&nErreur&7] &eLe niveau de cet Aspiro'BOT doit être compris entre 1 et 7." to player
+			stop
+		if {_niveau} > 7:
+			cancel event
+			send "&7[&c&nErreur&7] &eLe niveau de cet Aspiro'BOT doit être compris entre 1 et 7." to player
+			stop
+
+		set {_return} to Aspirobot_check_proxy(location of event-block)
+		if {_return} is false:
+			NO(player)
+			send "&7[&c&nErreur&7] &eUn autre Aspiro'BOT se trouve à proximité."
+			cancel event
+			stop
+		else if {_return} is true:
+			set {_return} to Aspirobot_checkID({_id})
+			if {_return} is false:
+				cancel event
+				send "&7[&c&nErreur&7] &eUn Aspiro'BOT avec cet ID existe déjà. Si cela vous semble être une erreur, contactez un administrateur."
+				NO(player)
+				stop
+			else if {_return} is true:
+				OK(player)
+				Aspirobot_place(player,location of event-block,tool of player)
+
+on break of hopper:
+	set {_id} to {Aspirobot_reverse::%location of event-block%}
+	if {_id} is set:
+		cancel event
+		set {_owner} to {Aspirobot_%{_id}%::owner}
+		if {_owner} is not player:
+			send "&7[&c&nErreur&7] &eSeul le propriétaire peut récupérer cet Aspiro'BOT." to player
+			stop
+
+		set {_niveau} to {Aspirobot_%{_id}%::niveau}
+		set {_item} to hopper named "&6Aspiro'&9BOT" with lore "&7→ &eAspire les objets autour de lui.", "&7→ &eAméliorez-le avec Maj + clic droit sur la trémie." and "&7→ &9Niveau : &d%{_niveau}%"
+		force {_item} to glint
+		set int tag "niveau" of custom nbt of {_item} to {_niveau}
+		set int tag "id" of custom nbt of {_item} to {_id}
+
+		set {_drop-location} to location of event-block
+		set event-block to air
+		drop {_item} at {_drop-location}
+		Aspirobot_delete({_id})
+		send "&7[&6Aspiro'&9BOT&7] &aVotre Aspiro'BOT niveau &e%{_niveau}% &aa été récupéré." to player
+
+on right click on hopper:
+	if player is sneaking:
+		set {_id} to {Aspirobot_reverse::%location of event-block%}
+		if {_id} is set:
+			if {Aspirobot_%{_id}%::owner} is player:
+				cancel event
+				if player's tool is redstone:
+					set {_quantite} to amount of player's tool
+					set {_recharge} to Aspirobot_recharge({_id},{_quantite})
+					if {_recharge} > 0:
+						send "&7[&6Aspiro'&9BOT&7] &aVotre robot a absorbé &e%{_recharge}% redstone&a." to player
+						play sound "entity.experience_orb.pickup" with volume 1 to player
+						Aspirobot_display({_id})
+					else:
+						send "&7[&6Aspiro'&9BOT&7] &eLe stock de redstone de cet Aspiro'BOT est déjà plein." to player
+						play sound "entity.villager.no" with volume 1 to player
+				else:
+					Aspirobot_Menu(player,{_id})
+			else if player has permission "admin.aspirobot":
+				cancel event
+				Aspirobot_Menu(player,{_id})

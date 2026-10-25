@@ -1,0 +1,47 @@
+function Aspirobot_display(id: integer):
+	set {_niveau} to {Aspirobot_%{_id}%::niveau}
+	set {_secondes} to {Aspirobot_%{_id}%::secondes}
+	set {_display} to {Aspirobot_%{_id}%::display}
+	set {_redstone} to {Aspirobot_%{_id}%::energie}
+	set {_utilisations-bar} to {Aspirobot_%{_id}%::bar}
+
+	if {_niveau} is not set:
+		stop
+	if {_redstone} is not set:
+		set {_redstone} to 0
+	if {_utilisations-bar} is not set:
+		set {_utilisations-bar} to 0
+	if {_secondes} is not set:
+		set {_secondes} to Aspirobot_delai({_niveau})
+		set {Aspirobot_%{_id}%::secondes} to {_secondes}
+	set {_utilisations-par-redstone} to 7 + (3 * {_niveau})
+	set {_utilisations-restantes} to {_utilisations-bar} + ({_redstone} * {_utilisations-par-redstone})
+	set {_utilisations-max} to 64 * {_niveau} * {_utilisations-par-redstone}
+	if {_utilisations-max} > 0:
+		set {_pourcentage} to floor(({_utilisations-restantes} / {_utilisations-max}) * 100)
+	else:
+		set {_pourcentage} to 0
+	if {_pourcentage} > 100:
+		set {_pourcentage} to 100
+	if {_pourcentage} < 0:
+		set {_pourcentage} to 0
+	if {_display} is not set:
+		set {_location} to {Aspirobot_%{_id}%::location}
+		if {_location} is not set:
+			stop
+		add 1.5 to y-coordinate of {_location}
+		spawn text display at {_location}
+		set {_display} to last spawned text display
+		set billboard of {_display} to center
+		set the scale of {_display} to vector(0.5, 0.5, 0.5)
+		apply drop shadow to {_display}
+		set {Aspirobot_%{_id}%::display} to {_display}
+
+	if {Aspirobot_%{_id}%::erreur-energie} is set:
+		set text of {_display} to "&c&lERREUR" and "&ePlus d'énergie"
+	else if {Aspirobot_%{_id}%::erreur} is set:
+		set text of {_display} to "&c&lERREUR" and "&eL'automate est plein"
+	else if {Aspirobot_%{_id}%::aspiration} is set:
+		set text of {_display} to "&c&lASPIRATION"
+	else:
+		set text of {_display} to "&6Aspiro'BOT" and "&eNiveau %{_niveau}%" and "&b%{_secondes}% seconde(s)" and "&aÉnergie : &e%{_pourcentage}%%%"

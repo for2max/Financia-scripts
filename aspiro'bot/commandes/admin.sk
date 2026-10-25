@@ -1,0 +1,117 @@
+command /adminaspirobot [<text>] [<text>] [<integer>]:
+	permission: admin.aspirobot
+	trigger:
+		if arg 1 is "help":
+			send "&7&m--------------------------------" to player
+			send "&6Aide - /adminaspirobot" to player
+			send "&e/adminaspirobot help &7- Affiche cette aide." to player
+			send "&e/adminaspirobot info [ID] &7- Affiche les informations d'un Aspiro'BOT." to player
+			send "&e/adminaspirobot give <joueur> <niveau> &7- Donne un Aspiro'BOT du niveau choisi." to player
+			send "&e/adminaspirobot supprimer <ID> &7- Supprime les données du bot et sa trémie, si elle est présente." to player
+			send "&e/adminaspirobot supprimer tout &7- Supprime tous les Aspiro'BOT enregistrés et leurs trémies." to player
+			send "&7&m--------------------------------" to player
+			stop
+
+		if arg 1 is "info":
+			if arg 2 is set:
+				set {_id} to arg 2 parsed as integer
+				if {_id} is not set:
+					send "&7[&6Aspiro'&9BOT&7] &cL'ID doit être un nombre entier." to player
+					stop
+			else:
+				set {_loc} to location of target block
+				if {_loc} is not set:
+					send "&7[&6Aspiro'&9BOT&7] &cVous devez viser l'Aspiro'BOT ou préciser son ID." to player
+					stop
+				set {_id} to {Aspirobot_reverse::%{_loc}%}
+
+			if {_id} is not set:
+				send "&7[&6Aspiro'&9BOT&7] &cAucun Aspiro'BOT n'a été trouvé à cet emplacement." to player
+				stop
+			if {Aspirobot_%{_id}%::owner} is not set:
+				send "&7[&6Aspiro'&9BOT&7] &cAucun Aspiro'BOT enregistré avec l'ID &e%{_id}%&c." to player
+				stop
+
+			set {_owner} to {Aspirobot_%{_id}%::owner}
+			send "&7&m--------------------------------" to player
+			send "&6Informations de l'Aspiro'BOT &7(ID: &e%{_id}%&7)" to player
+			send "&7Propriétaire : &f%{_owner}%" to player
+			send "&7Niveau : &f%{Aspirobot_%{_id}%::niveau}%" to player
+			send "&7Emplacement : &f%{Aspirobot_%{_id}%::location}%" to player
+			send "&7Redstone en réserve : &f%{Aspirobot_%{_id}%::energie}%" to player
+			send "&7Utilisations restantes sur la redstone en cours : &f%{Aspirobot_%{_id}%::bar}%" to player
+			send "&7Secondes avant aspiration : &f%{Aspirobot_%{_id}%::secondes}%" to player
+
+			if {Aspirobot_%{_owner}%::*} contains {_id}:
+				send "&7Index du propriétaire : &aOK" to player
+			else:
+				send "&7Index du propriétaire : &cAbsent" to player
+
+			if {Aspirobot_list::*} contains {_id}:
+				send "&7Index global : &aOK" to player
+			else:
+				send "&7Index global : &cAbsent" to player
+			send "&7&m--------------------------------" to player
+			stop
+
+		if arg 1 is "give":
+			if arg 2 or arg 3 is not set:
+				send "&7[&6Aspiro'&9BOT&7] &eUtilisation : /adminaspirobot give <joueur> <niveau>" to player
+				stop
+
+			set {_target} to arg 2 parsed as player
+			if {_target} is not set:
+				send "&7[&6Aspiro'&9BOT&7] &cJoueur introuvable ou non connecté." to player
+				stop
+
+			set {_niveau} to arg 3
+			if {_niveau} < 1:
+				send "&7[&6Aspiro'&9BOT&7] &cLe niveau doit être compris entre 1 et 7." to player
+				stop
+			if {_niveau} > 7:
+				send "&7[&6Aspiro'&9BOT&7] &cLe niveau doit être compris entre 1 et 7." to player
+				stop
+			set {_success} to Aspirobot_give({_target}, {_niveau})
+			if {_success} is true:
+				send "&7[&6Aspiro'&9BOT&7] &aUn Aspiro'BOT de niveau &e%{_niveau}% &aa été donné à &e%{_target}%&a." to player
+			stop
+
+		if arg 1 is "supprimer":
+			if arg 2 is not set:
+				send "&7[&6Aspiro'&9BOT&7] &eUtilisation : /adminaspirobot supprimer <ID|tout>" to player
+				stop
+
+			if arg 2 is "tout":
+				set {_ids::*} to {Aspirobot_list::*}
+				set {_robots-supprimes} to 0
+				set {_tremies-supprimees} to 0
+
+				loop {_ids::*}:
+					set {_id} to loop-value
+					if {Aspirobot_%{_id}%::owner} is set:
+						set {_block-removed} to Aspirobot_delete({_id})
+						if {_block-removed} is true:
+							add 1 to {_tremies-supprimees}
+						add 1 to {_robots-supprimes}
+
+				delete {Aspirobot_reverse::*}
+				delete {Aspirobot_list::*}
+				send "&7[&6Aspiro'&9BOT&7] &a%{_robots-supprimes}% Aspiro'BOT supprimé(s), dont &e%{_tremies-supprimees}% trémie(s)&a. Toutes les données associées ont été effacées." to player
+				stop
+
+			set {_id} to arg 2 parsed as integer
+			if {_id} is not set:
+				send "&7[&6Aspiro'&9BOT&7] &cL'ID doit être un nombre entier." to player
+				stop
+			if {Aspirobot_%{_id}%::owner} is not set:
+				send "&7[&6Aspiro'&9BOT&7] &cAucun Aspiro'BOT enregistré avec l'ID &e%{_id}%&c." to player
+				stop
+
+			set {_block-removed} to Aspirobot_delete({_id})
+			if {_block-removed} is true:
+				send "&7[&6Aspiro'&9BOT&7] &aL'Aspiro'BOT &e%{_id}%&a, ses données et sa trémie ont été supprimés." to player
+			else:
+				send "&7[&6Aspiro'&9BOT&7] &aLes données de l'Aspiro'BOT &e%{_id}%&a ont été supprimées. Aucune trémie n'a été trouvée à son emplacement enregistré." to player
+			stop
+
+		send "&7[&6Aspiro'&9BOT&7] &eUtilisation : /adminaspirobot help" to player

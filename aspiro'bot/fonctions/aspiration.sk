@@ -1,0 +1,77 @@
+function Aspirobot_delai(niveau: integer) :: integer:
+	set {_delai} to 11 - {_niveau}
+	if {_delai} < 1:
+		return 1
+	return {_delai}
+
+function Aspirobot_main(id: number) :: boolean:
+	set {_niveau} to {Aspirobot_%{_id}%::niveau}
+	set {_rayon} to {_niveau}+1
+
+	set {_location} to {Aspirobot_%{_id}%::location}
+	set {_drop} to {_location}
+	add 1 to y-coordinate of {_drop}
+
+	set {_return} to Aspirobot_espace({_id})
+	if {_return} is false:
+		set {Aspirobot_%{_id}%::erreur} to 3
+		return false
+
+	set {_bar} to {Aspirobot_%{_id}%::bar}
+	set {_energie} to {Aspirobot_%{_id}%::energie}
+	if {_bar} is not set:
+		set {_bar} to 0
+	if {_energie} is not set:
+		set {_energie} to 0
+	if {_bar} <= 0:
+		if {_energie} <= 0:
+			set {Aspirobot_%{_id}%::erreur} to 3
+			set {Aspirobot_%{_id}%::erreur-energie} to true
+			return false
+
+	loop dropped items in radius {_rayon} around {_location}:
+		add loop-value to {_items::*}
+
+	if size of {_items::*} <= 0:
+		return false
+
+	set {_return} to Aspirobot_energie({_id})
+	if {_return} is false:
+		set {Aspirobot_%{_id}%::erreur} to 3
+		set {Aspirobot_%{_id}%::erreur-energie} to true
+		return false
+
+	loop {_items::*}:
+		teleport loop-value at {_drop}
+
+	return true
+
+every 1 second:
+	loop {Aspirobot_list::*}:
+		set {_id} to loop-value
+		if {Aspirobot_%{_id}%::erreur} is set:
+			remove 1 from {Aspirobot_%{_id}%::erreur}
+			if {Aspirobot_%{_id}%::erreur} <= 0:
+				delete {Aspirobot_%{_id}%::erreur}
+				delete {Aspirobot_%{_id}%::erreur-energie}
+				set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({Aspirobot_%{_id}%::niveau})
+		else if {Aspirobot_%{_id}%::aspiration} is set:
+			remove 1 from {Aspirobot_%{_id}%::aspiration}
+			if {Aspirobot_%{_id}%::aspiration} <= 0:
+				delete {Aspirobot_%{_id}%::aspiration}
+				set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({Aspirobot_%{_id}%::niveau})
+		else:
+			set {_owner} to {Aspirobot_%{_id}%::owner}
+			if {_owner} is online:
+				if {Aspirobot_%{_id}%::location} is set:
+					if {Aspirobot_%{_id}%::niveau} is set:
+						if {Aspirobot_%{_id}%::secondes} is not set:
+							set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({Aspirobot_%{_id}%::niveau})
+						if {Aspirobot_%{_id}%::secondes} > 0:
+							remove 1 from {Aspirobot_%{_id}%::secondes}
+						if {Aspirobot_%{_id}%::secondes} <= 0:
+							set {_aspiration-reussie} to Aspirobot_main({_id})
+							set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({Aspirobot_%{_id}%::niveau})
+							if {_aspiration-reussie} is true:
+								set {Aspirobot_%{_id}%::aspiration} to 3
+		Aspirobot_display({_id})

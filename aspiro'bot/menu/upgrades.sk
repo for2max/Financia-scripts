@@ -1,0 +1,108 @@
+function Aspirobot_upgrade_price(niveau: integer) :: number:
+	if {_niveau} = 1:
+		return 0
+	else if {_niveau} = 2:
+		return 100
+	else if {_niveau} = 3:
+		return 250
+	else if {_niveau} = 4:
+		return 500
+	else if {_niveau} = 5:
+		return 1000
+	else if {_niveau} = 6:
+		return 2000
+	else if {_niveau} = 7:
+		return 4000
+	return -1
+
+function Aspirobot_upgrade(p: player,id: integer):
+	if {Aspirobot_%{_id}%::owner} is not {_p}:
+		if {_p} does not have permission "admin.aspirobot":
+			send "&7[&c&nErreur&7] &eVous n'avez pas accès à cet Aspiro'BOT." to {_p}
+			stop
+
+	set {_niveau-actuel} to {Aspirobot_%{_id}%::niveau}
+	if {_niveau-actuel} is not set:
+		send "&7[&c&nErreur&7] &eCet Aspiro'BOT n'existe plus." to {_p}
+		stop
+	if {_niveau-actuel} >= 7:
+		send "&7[&6Aspiro'&9BOT&7] &eCet Aspiro'BOT est déjà au niveau maximum." to {_p}
+		stop
+
+	set {_niveau-suivant} to {_niveau-actuel} + 1
+	set {_prix} to Aspirobot_upgrade_price({_niveau-suivant})
+	if {_prix} < 0:
+		send "&7[&c&nErreur&7] &eLe prix de ce niveau n'est pas configuré." to {_p}
+		stop
+
+	if {_p}'s balance < {_prix}:
+		send "&7[&c&nErreur&7] &eIl vous faut &6$%{_prix}%&e pour acheter le niveau %{_niveau-suivant}%." to {_p}
+		play sound "entity.villager.no" with volume 1 to {_p}
+		stop
+
+	remove {_prix} from {_p}'s balance
+	set {Aspirobot_%{_id}%::niveau} to {_niveau-suivant}
+	set {Aspirobot_%{_id}%::secondes} to Aspirobot_delai({_niveau-suivant})
+	Aspirobot_display({_id})
+	send "&7[&6Aspiro'&9BOT&7] &aAmélioration achetée ! Votre robot est maintenant niveau &e%{_niveau-suivant}%&a pour &6$%{_prix}%&a." to {_p}
+	play sound "entity.experience_orb.pickup" with volume 1 to {_p}
+	Aspirobot_Menu({_p},{_id})
+
+function Aspirobot_Menu(p: player,id: integer):
+	set {_niveau-actuel} to {Aspirobot_%{_id}%::niveau}
+	if {_niveau-actuel} is not set:
+		send "&7[&c&nErreur&7] &eCet Aspiro'BOT n'existe plus." to {_p}
+		stop
+
+	create a new gui with virtual chest inventory named "Aspiro'BOT - ID %{_id}%" with 3 rows:
+		open last created gui to {_p}
+		Menu({_p})
+
+		loop 27 times:
+			make gui slot ((loop-number) - 1) with gray stained glass pane
+
+		set {_redstone} to {Aspirobot_%{_id}%::energie}
+		set {_bar} to {Aspirobot_%{_id}%::bar}
+		if {_redstone} is not set:
+			set {_redstone} to 0
+		if {_bar} is not set:
+			set {_bar} to 0
+		set {_redstone-max-actuel} to 64 * {_niveau-actuel}
+		set {_utilisations-par-redstone-actuel} to 7 + (3 * {_niveau-actuel})
+		set {_utilisations-restantes} to {_bar} + ({_redstone} * {_utilisations-par-redstone-actuel})
+		set {_utilisations-max} to {_redstone-max-actuel} * {_utilisations-par-redstone-actuel}
+		if {_utilisations-max} > 0:
+			set {_pourcentage} to floor(({_utilisations-restantes} / {_utilisations-max}) * 100)
+		else:
+			set {_pourcentage} to 0
+		if {_pourcentage} > 100:
+			set {_pourcentage} to 100
+		if {_pourcentage} < 0:
+			set {_pourcentage} to 0
+
+		set {_info-energie} to redstone named "&eÉnergie de l'Aspiro'BOT" with lore "&7Stock de redstone : &c%{_redstone}%&7/&c%{_redstone-max-actuel}%", "&7Utilisations restantes sur la redstone en cours : &a%{_bar}%&7/&a%{_utilisations-par-redstone-actuel}%", "&7Autonomie estimée : &e%{_pourcentage}%%%"
+		make gui slot 4 with {_info-energie}
+
+		set {_info-redstone} to book named "&eFonctionnement" with lore "&7L'Aspiro'BOT fonctionne grâce à la redstone.", "&7Pour le recharger, tenez de la redstone", "&7et faites &eMaj + clic droit &7sur la trémie."
+		make gui slot 22 with {_info-redstone}
+
+		loop 7 times:
+			set {_niveau-selectionne} to loop-number
+			set {_slot} to 9 + loop-number
+			set {_portee} to {_niveau-selectionne} + 1
+			set {_redstone-max} to 64 * {_niveau-selectionne}
+			set {_utilisations-par-redstone} to 7 + (3 * {_niveau-selectionne})
+			set {_delai} to Aspirobot_delai({_niveau-selectionne})
+
+			if {_niveau-selectionne} <= {_niveau-actuel}:
+				set {_item} to hopper named "&aNiveau %{_niveau-selectionne}% &8(Débloqué)" with lore "&7Portée : &b%{_portee}% blocs", "&7Stock maximal : &e%{_redstone-max}% redstone", "&7Utilisations par redstone : &a%{_utilisations-par-redstone}%", "&7Délai d'aspiration : &e%{_delai}% seconde(s)" and "&7Ce niveau est déjà débloqué."
+				force {_item} to glint
+				make gui slot {_slot} with {_item}
+			else if {_niveau-selectionne} = {_niveau-actuel} + 1:
+				set {_prix} to Aspirobot_upgrade_price({_niveau-selectionne})
+				set {_item} to hopper named "&eAméliorer au niveau %{_niveau-selectionne}%" with lore "&7Portée : &b%{_portee}% blocs", "&7Stock maximal : &e%{_redstone-max}% redstone", "&7Utilisations par redstone : &a%{_utilisations-par-redstone}%", "&7Délai d'aspiration : &e%{_delai}% seconde(s)", "&7Prix : &6$%{_prix}%" and "&aCliquez pour acheter cette amélioration."
+				make gui slot {_slot} with {_item}:
+					Aspirobot_upgrade({_p},{_id})
+			else:
+				set {_item} to barrier named "&cNiveau %{_niveau-selectionne}% &8(Verrouillé)" with lore "&7Portée : &b%{_portee}% blocs", "&7Stock maximal : &e%{_redstone-max}% redstone", "&7Utilisations par redstone : &a%{_utilisations-par-redstone}%", "&7Délai d'aspiration : &e%{_delai}% seconde(s)" and "&7Débloquez d'abord le niveau précédent."
+				make gui slot {_slot} with {_item}

@@ -1,0 +1,33 @@
+function Aspirobot_energie(id: number) :: boolean:
+	set {_bar} to {Aspirobot_%{_id}%::bar}
+	set {_energie} to {Aspirobot_%{_id}%::energie}
+	set {_niveau} to {Aspirobot_%{_id}%::niveau}
+
+	if {_bar} <= 0:
+		if {_energie} <= 0:
+			return false
+		remove 1 from {Aspirobot_%{_id}%::energie}
+		set {Aspirobot_%{_id}%::bar} to 7+(3*{_niveau})
+
+	remove 1 from {Aspirobot_%{_id}%::bar}
+	return true
+
+function Aspirobot_recharge(id: number,r: number) :: number:
+	set {_max} to 64*{Aspirobot_%{_id}%::niveau}
+	set {_energie} to {Aspirobot_%{_id}%::energie}
+	if {_energie} is not set:
+		set {_energie} to 0
+	set {_diff} to {_max} - {_energie}
+
+	if {_diff} <= 0:
+		return 0
+	if {_r} <= 0:
+		return 0
+	if {_r} >= {_diff}:
+		set {_final} to {_diff}
+	else:
+		set {_final} to {_r}
+
+	remove {_final} of redstone from {Aspirobot_%{_id}%::owner}'s inventory
+	add {_final} to {Aspirobot_%{_id}%::energie}
+	return {_final}
