@@ -26,3 +26,12 @@
 > Première version candidate du programme Fortuna.
 >
 > 🟡 **Statut :** Release Candidate
+
+### 🚀 Programme Fortuna
+
+| Propriété | Valeur |
+|---|---|
+| Programme | Fortuna |
+| Version | `RC.1.0.0` |
+| Statut | 🟡 Release Candidate |
+| Type | Première version candidate |
