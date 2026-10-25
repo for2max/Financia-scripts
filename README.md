@@ -1,6 +1,6 @@
-> ### 🚀 Programme Fortuna
-> **Version :** `RC.1.0.0`
+> ### 🚀 Programme ASPIRO'BOT
+> **Version :** `ALPHA.1.0.2`
 >
-> Première version candidate du programme Fortuna.
+> Version en test
 >
-> 🟡 **Statut :** Release Candidate
+> 🟡 **Statut :** ALPHA
