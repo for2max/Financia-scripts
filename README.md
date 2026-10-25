@@ -1,7 +1,7 @@
 
-## 🚀 Fortuna `RC.1.0.0`
+## 🚀 ASPIRO'BOT `Alpha.1.0.2`
 
-Première version candidate du programme.
+> test en cours.
 
 ---
 
