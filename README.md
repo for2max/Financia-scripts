@@ -1,7 +1,7 @@
 > ### 🚀 Programme ASPIRO'BOT
-> **Version :** `ALPHA.1.0.2`
+> **Version :** `ALPHA.1.0.3`
 > 
-> **Date :** '25/10/2026*
+> **Date :** '26/10/2026*
 >
 > - 📋 [Documentations](aspiro'bot/doc/documentation.md)
 >
