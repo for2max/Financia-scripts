@@ -14,3 +14,11 @@
 > **Situation :** `DÉVELOPPEMENT EN COURS`
 > 
 ---------
+---------
+> ### 🚀 Programme SHOP
+> **Version :** `ALPHA-1.0.0`
+> 
+> **Date :** `26/10/2026`
+> 
+> **Situation :** `PATCH EN ATTENTE`
+> 
