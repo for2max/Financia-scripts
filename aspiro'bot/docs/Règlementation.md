@@ -1,7 +1,7 @@
 # Règlement de l'Aspiro'BOT
 
-Ce règlement complète les règles générales du serveur. En utilisant un Aspiro'BOT, chaque joueur s'engage à respecter les points suivants.
-Le non-respect du présent règlement peut entraîner une sanction et/ou une obligation de réparation du préjudice subi. Conformément au règlement général du serveur, la nature et la sévérité de la sanction relèvent de l’appréciation de l’équipe de gestion.
+- Ce règlement complète les règles générales du serveur. En utilisant un Aspiro'BOT, chaque joueur s'engage à respecter les points suivants.
+- Le non-respect du présent règlement peut entraîner une sanction et/ou une obligation de réparation du préjudice subi. Conformément au règlement général du serveur, la nature et la sévérité de la sanction relèvent de l’appréciation de l’équipe de gestion.
 
 ## Utilisation autorisée
 
