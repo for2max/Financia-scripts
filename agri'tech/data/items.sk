@@ -1,0 +1,45 @@
+on load:
+    # Ages de maturation (age maximum du bloc) :
+    set {agritech_data-age::*} to wheat, carrots, potatoes, beetroots, nether wart, cocoa, torchflower crop, sweet berry bush and pitcher crop
+
+    # Fruits reperes en comparant le type de bloc.
+    set {agritech_data-type::*} to pumpkin and melon
+
+    # Plantes recoltees selon leur hauteur/leurs segments.
+    set {agritech_data-hauteur::*} to sugar cane, cactus, bamboo and kelp
+
+    # Noms affiches en francais.
+    set {agritech_data-name-wheat} to "Blé"
+    set {agritech_data-name-carrots} to "Carottes"
+    set {agritech_data-name-potatoes} to "Pommes de terre"
+    set {agritech_data-name-beetroots} to "Betteraves"
+    set {agritech_data-name-nether-wart} to "Verrues du Nether"
+    set {agritech_data-name-cocoa} to "Cacao"
+    set {agritech_data-name-torchflower-crop} to "Fleur-torche"
+    set {agritech_data-name-sweet-berry-bush} to "Buisson de baies sucrées"
+    set {agritech_data-name-pitcher-crop} to "Plante-pichet"
+
+    set {agritech_data-name-pumpkin} to "Citrouille"
+    set {agritech_data-name-melon} to "Melon"
+
+    set {agritech_data-name-sugar-cane} to "Canne à sucre"
+    set {agritech_data-name-cactus} to "Cactus"
+    set {agritech_data-name-bamboo} to "Bambou"
+    set {agritech_data-name-kelp} to "Varech"
+
+    # Nombre fixe par recolte : minimum garanti en Java, sans Fortune ni bonus aleatoires.
+    set {agritech_data-nb-wheat} to 1
+    set {agritech_data-nb-carrots} to 2
+    set {agritech_data-nb-potatoes} to 2
+    set {agritech_data-nb-beetroots} to 1
+    set {agritech_data-nb-nether wart} to 2
+    set {agritech_data-nb-cocoa} to 3
+    set {agritech_data-nb-sweet berry bush} to 2
+    set {agritech_data-nb-torchflower crop} to 1
+    set {agritech_data-nb-pitcher crop} to 1
+    set {agritech_data-nb-pumpkin} to 1
+    set {agritech_data-nb-melon} to 3
+    set {agritech_data-nb-sugar-cane} to 1
+    set {agritech_data-nb-cactus} to 1
+    set {agritech_data-nb-bamboo} to 1
+    set {agritech_data-nb-kelp} to 1

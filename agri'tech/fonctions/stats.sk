@@ -1,0 +1,7 @@
+
+function agritech_set_stat(id: number,item: object):
+    
+    set {_text} to "%{_item}%"
+    set {_nb} to {agritech_data-nb-%{_text}%}
+
+    add {_nb} to {agritech_%{_id}%-stats::%{_item}%}

@@ -1,0 +1,41 @@
+function agritech_set_zone(id: number,dev: location):
+
+    set {agritech_%{_id}%::location} to {_dev}
+    set {agritech_%{_id}%::niveau} to 1
+    set {_niveau} to {agritech_%{_id}%::niveau}
+    set {_loop} to {_niveau}+1
+    set {_loc} to {agritech_%{_id}%::location}
+
+    #COIN GAUCHE
+    loop {_loop} times:
+        add 1 to z-coordinate of {_loc}
+        add 1 to x-coordinate of {_loc}
+    set {_GAUCHE} to {_loc}
+
+    set {_loc} to {agritech_%{_id}%::location}
+
+    #COIN DROITE
+    loop {_loop} times:
+        add -1 to z-coordinate of {_loc}
+        add -1 to x-coordinate of {_loc}
+    set {_DROITE} to {_loc}
+
+    set {agritech_%{_id}%::coin-1} to {_GAUCHE}
+    set {agritech_%{_id}%::coin-2} to {_DROITE}
+
+    set {agritech_%{_id}%::couverture} to agritech_calculer_couverture({_id})
+
+
+function agritech_calculer_couverture(id: number):: number:
+
+    loop all blocks within {agritech_%{_id}%::coin-1} and {agritech_%{_id}%::coin-2}:
+        add 1 to {_number}
+    return {_number}-1
+
+command /dev2:
+    trigger:
+        set {_loc} to location of target block
+        set {_id} to 1
+        agritech_set_zone({_id},{_loc})
+
+

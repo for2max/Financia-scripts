@@ -1,0 +1,44 @@
+
+function agritech_verif_energie(id: number,use: boolean) ::boolean:
+
+    if {agritech_%{_id}%::redstone} <= 0:
+        if {agritech_%{_id}%::utilisation} <= 0:
+            return false
+        else:
+            if {_use} is true:
+                remove 1 from {agritech_%{_id}%::utilisation}
+            return true
+    else:
+        if {agritech_%{_id}%::utilisation} <= 0:
+            if {_use} is true:
+                remove 1 from {agritech_%{_id}%::redstone}
+                set {agritech_%{_id}%::utilisation} to 7+{agritech_%{_id}%::niveau}
+                remove 1 from {agritech_%{_id}%::utilisation}
+            return true
+        else:
+            if {_use} is true:
+                remove 1 from {agritech_%{_id}%::utilisation}
+            return true
+
+
+function agritech_recharge_energie(id: number,envoi: number):
+
+    if {_envoi} > 0:
+        set {_max-redstone} to 64*{agritech_%{_id}%::niveau}
+
+        if {agritech_%{_id}%::redstone} > {_max-redstone}:
+            set {agritech_%{_id}%::redstone} to {_max-redstone}
+
+        set {_redstone} to {agritech_%{_id}%::redstone}
+
+        if difference between {_max-redstone} and {_redstone} >= {_envoi}:
+            set {_final} to {_envoi}
+        else if difference between {_max-redstone} and {_redstone} < {_envoi}:
+            set {_final} to difference between {_max-redstone} and {_redstone}
+
+        add {_final} to {agritech_%{_id}%::redstone}
+        
+        remove {_final} of redstone from {agritech_%{_id}%::owner}'s inventory
+        send "# METTRE MESSAGE ICI" to {agritech_%{_id}%::owner}
+        OK({_p})
+

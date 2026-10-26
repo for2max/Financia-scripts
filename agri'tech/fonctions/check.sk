@@ -1,0 +1,13 @@
+
+function agritech_verif_nombre(p: player) ::boolean:
+    set {_max} to {Grade_%{_p}%}*2
+    if size of {agritech_list-%{_p}%::*} >= {_max}:
+        return false
+    else:
+        return true
+
+function agritech_verif_proxy(loc: location) ::boolean:
+	loop blocks in radius 8 around {_loc}:
+		if {agritech_reverse::%location of loop-block%} is set:
+			return false
+	return true
