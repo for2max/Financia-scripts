@@ -7,13 +7,17 @@ function agritech_prod_age(id: number,loc: location):
         set {_return} to agritech_verif_energie({_id},false)
         if {_return} is true:
 
-            if age of {_plante} is maximum age of {_plante}:
-                agritech_verif_energie({_id},true)
-                if {_plante} is sweet berry bush:
-                    set age of {_plante} to 1
-                else:
-                    set age of {_plante} to 0
-                agritech_set_stat({_id},{_plante})
+            set {_text} to "%{_plante}%"
+            set {_return} to agritech_verif_stockage({_id},{agritech_data-nb-%{_text}%})
+            if {_return} is true:
+
+                if age of {_plante} is maximum age of {_plante}:
+                    agritech_verif_energie({_id},true)
+                    if {_plante} is sweet berry bush:
+                        set age of {_plante} to 1
+                    else:
+                        set age of {_plante} to 0
+                    agritech_set_stat({_id},{_plante})
 
 function agritech_prod_type(id: number,loc: location):
 
@@ -23,14 +27,19 @@ function agritech_prod_type(id: number,loc: location):
         set {_return} to agritech_verif_energie({_id},false)
         if {_return} is true:
 
-            agritech_verif_energie({_id},true)
-            set block at {_loc} to air
-            agritech_set_stat({_id},{_plante})
+            set {_text} to "%{_plante}%"
+            set {_return} to agritech_verif_stockage({_id},{agritech_data-nb-%{_text}%})
+            if {_return} is true:
+
+                agritech_verif_energie({_id},true)
+                set block at {_loc} to air
+                agritech_set_stat({_id},{_plante})
 
 
 function agritech_prod_hauteur(id: number,loc: location):
     
     set {_plante} to block at {_loc}
+    set {_text} to "%{_plante}%"
     if {agritech_data-hauteur::*} contain {_plante}:
 
         set {_return} to agritech_verif_energie({_id},false)
@@ -52,10 +61,16 @@ function agritech_prod_hauteur(id: number,loc: location):
                     if {_var} is not {_loc}:
                         set {_return} to agritech_verif_energie({_id},false)
                         if {_return} is true:
-                            set block at {_var} to air
-                            agritech_verif_energie({_id},true)
-                            agritech_set_stat({_id},{_plante})
-                            remove 1 from y-coordinate of {_var}
+
+                                    
+                            set {_return} to agritech_verif_stockage({_id},{agritech_data-nb-%{_text}%})
+                            if {_return} is true:
+                                set block at {_var} to air
+                                agritech_verif_energie({_id},true)
+                                agritech_set_stat({_id},{_plante})
+                                remove 1 from y-coordinate of {_var}
+                            else:
+                                exit loop
                         else:   
                             exit loop
                     else:

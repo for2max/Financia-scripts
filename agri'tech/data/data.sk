@@ -1,0 +1,146 @@
+function agritech_place(p: player,loc: location,id: number,niveau: number):
+
+    set {agritech_%{_id}%::owner} to {_p}
+    set {agritech_%{_id}%::location} to {_loc}
+    set {agritech_%{_id}%::niveau} to {_niveau}
+
+    set {agritech_%{_id}%::redstone} to 10
+    set {agritech_%{_id}%::utilisation} to 5
+
+    set {agritech_reverse::%{_loc}%} to {_id}
+    add {_id} to {agritech_list-%{_p}%::*}
+    add {_id} to {agritech_total::*}
+
+    agritech_set_zone({_id}, {_loc})
+    send "&7[&6Agri'&9Tech&7] &aAutomate agricole placé avec succès." to {_p}
+    send "&7[&6Agri'&9Tech&7] &eMaj + clic droit sur l'automate pour le configurer." to {_p}
+    OK({_p})
+
+
+function agritech_delete(id: number):
+
+    set {_display} to agritech_take_display({_id})
+    if {_display} is set:
+        kill {_display}
+
+    set {_owner} to {agritech_%{_id}%::owner}
+    set {_loc} to {agritech_%{_id}%::location}
+
+    remove {_id} from {agritech_list-%{_owner}%::*} and {agritech_total::*}
+    if {_loc} is set:
+        if block at {_loc} is beacon:
+            set block at {_loc} to air
+        delete {agritech_reverse::%{_loc}%}
+
+    delete {agritech_%{_id}%::*}
+
+function agritech_give(p: player,niveau: number):
+
+    set {_return} to agritech_verif_nombre({_p})
+    if {_return} is false:
+        # MESSAGE A FAIRE MAX ATTEINT CHANGER GRADE /GRADES
+        NO({_p})
+        stop
+    else if  {_return} is true:
+        add 1 to {agritech_last-id}
+        set {_id} to {agritech_last-id}
+
+        set {_item} to beacon named "&6Agri'&9Tech" with lore "&7Niveau : &d%{_niveau}%" #RAJOUTER DESCRIPTION LORE
+        force {_item} to glint
+        set int tag "niveau" of custom nbt of {_item} to {_niveau}
+        set int tag "id" of custom nbt of {_item} to {_id}
+        give {_item} to {_p}
+        OK({_p})
+
+        # MESSAGE RECU AGRITECH
+        # RETIRER ARGENT PRIX A DEFINIR ET PRIX A DEFINIR
+
+
+on place a beacon:
+    if name of tool of player is "&6Agri'&9Tech":
+        set {_item} to tool of player
+        set {_id} to int tag "id" of custom nbt of {_item}
+        set {_niveau} to int tag "niveau" of custom nbt of {_item}
+        if world of player is not "conquete":
+            NO(player)
+            send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête."
+            cancel event
+            stop
+        if {_id} is not set:
+            cancel event
+            send "&7[&c&nErreur&7] &eCet automate agricole n'a pas d'ID valide." to player
+            stop
+        if {_id} <= 0:
+            cancel event
+            send "&7[&c&nErreur&7] &eCet automate agricole a un ID invalide." to player
+            stop
+        if {_niveau} is not set:
+            cancel event
+            send "&7[&c&nErreur&7] &eLe niveau de cet automate agricole est manquant." to player
+            stop
+        if {_niveau} < 1:
+            cancel event
+            send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to player
+            stop
+        if {_niveau} > 7:
+            cancel event
+            send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to player
+            stop
+
+        set {_loc} to location of event-block
+        set {_return} to agritech_verif_proxy({_loc})
+        if {_return} is false:
+            cancel event
+            NO(player)
+            send "&7[&c&nErreur&7] &eUn autre automate agricole se trouve à proximité." to player
+            stop
+
+        if {agritech_%{_id}%::owner} is set:
+            cancel event
+            NO(player)
+            send "&7[&c&nErreur&7] &eUn automate agricole avec cet ID existe déjà." to player
+            stop
+
+        agritech_place(player, {_loc}, {_id}, {_niveau})
+
+on break of beacon:
+    set {_id} to {agritech_reverse::%location of event-block%}
+    if {_id} is set:
+        cancel event
+        if {agritech_%{_id}%::owner} is not player:
+            NO(player)
+            send "&7[&c&nErreur&7] &eSeul le propriétaire peut récupérer cet automate agricole." to player
+            stop
+
+        set {_niveau} to {agritech_%{_id}%::niveau}
+        set {_item} to beacon named "&6Agri'&9Tech" with lore "&7Niveau : &d%{_niveau}%" #A ACCORDER LE LORE PAS ENCORE DEFINIS AVEC LE GIVE
+        force {_item} to glint
+        set int tag "niveau" of custom nbt of {_item} to {_niveau}
+        set int tag "id" of custom nbt of {_item} to {_id}
+
+        set event-block to air
+        drop {_item} at location of event-block
+        agritech_delete({_id})
+        send "&7[&6Agri'&9Tech&7] &aVotre automate agricole niveau &e%{_niveau}% &aa été récupéré." to player
+
+on right click on beacon:
+    if player is sneaking:
+        set {_id} to {agritech_reverse::%location of event-block%}
+        if {_id} is set:
+            cancel event
+            if {agritech_%{_id}%::owner} is not player:
+                NO(player)
+                send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder à cet automate agricole." to player
+                stop
+
+            if player's tool is redstone:
+                set {_quantite} to amount of player's tool
+                set {_recharge} to agritech_recharge_energie({_id}, {_quantite})
+                if {_recharge} > 0:
+                    send "&7[&6Agri'&9Tech&7] &aVotre automate a absorbé &e%{_recharge}% redstone&a." to player
+                    play sound "entity.experience_orb.pickup" with volume 1 to player
+                else:
+                    send "&7[&6Agri'&9Tech&7] &eLe stock de redstone de cet automate est déjà plein." to player
+                    play sound "entity.villager.no" with volume 1 to player
+            else:
+                # TODO: appeler ici le menu Agri'Tech quand sa fonction sera créée.

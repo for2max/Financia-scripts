@@ -1,0 +1,2 @@
+function agritech_add_stockage(id: number,item: object,nb: number):
+    add {_nb} to {agritech_%{_id}%::stockage::%{_item}%}

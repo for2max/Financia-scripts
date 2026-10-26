@@ -5,3 +5,5 @@ function agritech_set_stat(id: number,item: object):
     set {_nb} to {agritech_data-nb-%{_text}%}
 
     add {_nb} to {agritech_%{_id}%-stats::%{_item}%}
+
+    agritech_add_stockage({_id},{_item},{_nb})

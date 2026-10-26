@@ -1,0 +1,7 @@
+function agritech_take_display(id: number) :: entity:
+	set {_loc} to {agritech_%{_id}%::location}
+	loop all entities in radius 4 around {_loc}:
+		if "%loop-value%" is "display":
+			set {_uuid} to uuid of loop-value
+			if {_uuid} is {agritech_%{_id}%::display}:
+				return loop-entities

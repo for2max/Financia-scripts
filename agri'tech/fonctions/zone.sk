@@ -1,7 +1,6 @@
 function agritech_set_zone(id: number,dev: location):
 
     set {agritech_%{_id}%::location} to {_dev}
-    set {agritech_%{_id}%::niveau} to 1
     set {_niveau} to {agritech_%{_id}%::niveau}
     set {_loop} to {_niveau}+1
     set {_loc} to {agritech_%{_id}%::location}
@@ -37,5 +36,4 @@ command /dev2:
         set {_loc} to location of target block
         set {_id} to 1
         agritech_set_zone({_id},{_loc})
-
 

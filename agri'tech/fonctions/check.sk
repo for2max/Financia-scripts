@@ -11,3 +11,34 @@ function agritech_verif_proxy(loc: location) ::boolean:
 		if {agritech_reverse::%location of loop-block%} is set:
 			return false
 	return true
+
+function agritech_verif_stockage(id: number,nb: number) ::boolean:
+
+    set {_stock} to 0
+    loop {agritech_%{_id}%::stockage::*}:
+        add loop-value to {_stock}
+
+    set {_max} to 256*{agritech_%{_id}%::niveau}
+
+    if ({_max}-{_stock}) >= {_nb}:
+        return true
+    else:
+        return false
+
+function agritech_pourcentage_stockage_restant(id: number) ::number:
+
+    set {_stock} to 0
+    loop {agritech_%{_id}%::stockage::*}:
+        add loop-value to {_stock}
+
+    set {_max} to 256*{agritech_%{_id}%::niveau}
+    if {_max} <= 0:
+        return 0
+
+    set {_restant} to {_max} - {_stock}
+    if {_restant} < 0:
+        set {_restant} to 0
+    if {_restant} > {_max}:
+        set {_restant} to {_max}
+
+    return ({_restant} / {_max}) * 100
