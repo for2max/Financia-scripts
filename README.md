@@ -3,7 +3,9 @@
 > 
 > **Date :** '26/10/2026*
 >
-> - 📋 [Documentations](aspiro'bot/doc/documentation.md)
->
-> -  📋 [Fiche Technique](aspiro'bot/doc/FicheTechnique.md)
+---------
+> ### 🚀 Programme AGRI'TECH
+> **Version :** `PRE-ALPHA-0.1.0`
+> 
+> **Date :** '26/10/2026*
 ---------
