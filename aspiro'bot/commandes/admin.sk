@@ -73,6 +73,7 @@ command /adminaspirobot [<text>] [<text>] [<integer>]:
 				stop
 			set {_success} to Aspirobot_give({_target}, {_niveau})
 			if {_success} is true:
+				Aspirobot_log("COMMANDE ADMIN GIVE | admin=%name of player% | joueur=%name of {_target}% | niveau=%{_niveau}%")
 				send "&7[&6Aspiro'&9BOT&7] &aUn Aspiro'BOT de niveau &e%{_niveau}% &aa été donné à &e%{_target}%&a." to player
 			stop
 
@@ -89,13 +90,16 @@ command /adminaspirobot [<text>] [<text>] [<integer>]:
 				loop {_ids::*}:
 					set {_id} to loop-value
 					if {Aspirobot_%{_id}%::owner} is set:
+						set {_owner} to {Aspirobot_%{_id}%::owner}
 						set {_block-removed} to Aspirobot_delete({_id})
 						if {_block-removed} is true:
 							add 1 to {_tremies-supprimees}
+						Aspirobot_log("COMMANDE ADMIN SUPPRESSION TOTALE | admin=%name of player% | id=%{_id}% | proprietaire=%{_owner}%")
 						add 1 to {_robots-supprimes}
 
 				delete {Aspirobot_reverse::*}
 				delete {Aspirobot_list::*}
+				Aspirobot_log("COMMANDE ADMIN SUPPRESSION TOTALE TERMINEE | admin=%name of player% | robots=%{_robots-supprimes}% | tremies=%{_tremies-supprimees}%")
 				send "&7[&6Aspiro'&9BOT&7] &a%{_robots-supprimes}% Aspiro'BOT supprimé(s), dont &e%{_tremies-supprimees}% trémie(s)&a. Toutes les données associées ont été effacées." to player
 				stop
 
@@ -107,7 +111,9 @@ command /adminaspirobot [<text>] [<text>] [<integer>]:
 				send "&7[&6Aspiro'&9BOT&7] &cAucun Aspiro'BOT enregistré avec l'ID &e%{_id}%&c." to player
 				stop
 
+			set {_owner} to {Aspirobot_%{_id}%::owner}
 			set {_block-removed} to Aspirobot_delete({_id})
+			Aspirobot_log("COMMANDE ADMIN SUPPRESSION | admin=%name of player% | id=%{_id}% | proprietaire=%{_owner}% | tremie_supprimee=%{_block-removed}%")
 			if {_block-removed} is true:
 				send "&7[&6Aspiro'&9BOT&7] &aL'Aspiro'BOT &e%{_id}%&a, ses données et sa trémie ont été supprimés." to player
 			else:

@@ -1,6 +1,7 @@
 function Aspirobot_check_nombre(p: player):: boolean:
 	set {_size} to size of {Aspirobot_%{_p}%::*}
 	set {_max} to {Grade_%{_p}%}*2
+	set {_max} to 10000
 	if {_size} >= {_max}:
 		return false
 	return true

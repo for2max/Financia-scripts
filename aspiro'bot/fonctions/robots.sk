@@ -1,3 +1,7 @@
+function Aspirobot_log(action: text):
+	set {_date} to now formatted as "yyyy-MM-dd HH:mm:ss"
+	log "[%{_date}%] %{_action}%" to "../scripts/aspiro'bot/LOG.log"
+
 function Aspirobot_give(p: player, niveau: integer) :: boolean:
 	set {_return} to Aspirobot_check_nombre({_p})
 	if {_return} is false:
@@ -33,6 +37,7 @@ function Aspirobot_place(p: player,loc: location,item: object):
 	add {_id} to {Aspirobot_%{_p}%::*}
 	add {_id} to {Aspirobot_list::*}
 	Aspirobot_display({_id})
+	Aspirobot_log("POSE | joueur=%name of {_p}% | id=%{_id}% | niveau=%{_niveau}% | emplacement=%{_loc}%")
 
 	send "&7[&6Aspiro'&9BOT&7] &aVous avez placé votre Aspiro'BOT. Pour l'améliorer, faites Maj + clic droit sur la trémie." to {_p}
 
@@ -43,7 +48,10 @@ function Aspirobot_delete(id: integer) :: boolean:
 	set {_block-removed} to false
 
 	if {_display} is set:
+		
+		set {_display} to Aspirobot_takedisplay({_id})
 		kill {_display}
+		
 
 	if {_loc} is set:
 		set {_block} to block at {_loc}
@@ -61,6 +69,11 @@ function Aspirobot_delete(id: integer) :: boolean:
 
 on place a hopper:
 	if name of tool of player is "&6Aspiro'&9BOT":
+		if world of player is not "conquete":
+			NO(player)
+			send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête."
+			cancel event
+			stop
 		set {_item} to tool of player
 		set {_id} to int tag "id" of custom nbt of {_item}
 		set {_niveau} to int tag "niveau" of custom nbt of {_item}
@@ -121,6 +134,7 @@ on break of hopper:
 		set event-block to air
 		drop {_item} at {_drop-location}
 		Aspirobot_delete({_id})
+		Aspirobot_log("RETRAIT | joueur=%name of player% | id=%{_id}% | niveau=%{_niveau}% | emplacement=%{_drop-location}%")
 		send "&7[&6Aspiro'&9BOT&7] &aVotre Aspiro'BOT niveau &e%{_niveau}% &aa été récupéré." to player
 
 on right click on hopper:
@@ -144,3 +158,8 @@ on right click on hopper:
 			else if player has permission "admin.aspirobot":
 				cancel event
 				Aspirobot_Menu(player,{_id})
+			else:
+				cancel event
+				NO(player)
+				send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder au module." to player
+				stop

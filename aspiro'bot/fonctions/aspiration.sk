@@ -42,6 +42,7 @@ function Aspirobot_main(id: number) :: boolean:
 		return false
 
 	loop {_items::*}:
+		draw 10 happy villager particle at location of loop-value
 		teleport loop-value at {_drop}
 
 	return true

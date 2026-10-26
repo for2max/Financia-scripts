@@ -29,13 +29,18 @@ function Aspirobot_display(id: integer):
 		set {_location} to {Aspirobot_%{_id}%::location}
 		if {_location} is not set:
 			stop
-		add 1.5 to y-coordinate of {_location}
+		add 0.8 to y-coordinate of {_location}
 		spawn text display at {_location}
 		set {_display} to last spawned text display
 		set billboard of {_display} to center
 		set the scale of {_display} to vector(0.5, 0.5, 0.5)
 		apply drop shadow to {_display}
-		set {Aspirobot_%{_id}%::display} to {_display}
+		#PATCH set {Aspirobot_%{_id}%::display} to {_display}
+		set {_uuid} to uuid of {_display}
+		set {Aspirobot_%{_id}%::display} to {_uuid}
+	
+
+	set {_display} to Aspirobot_takedisplay({_id})
 
 	if {Aspirobot_%{_id}%::erreur-energie} is set:
 		set text of {_display} to "&c&lERREUR" and "&ePlus d'énergie"
@@ -45,3 +50,12 @@ function Aspirobot_display(id: integer):
 		set text of {_display} to "&c&lASPIRATION"
 	else:
 		set text of {_display} to "&6Aspiro'BOT" and "&eNiveau %{_niveau}%" and "&b%{_secondes}% seconde(s)" and "&aÉnergie : &e%{_pourcentage}%%%"
+
+
+function Aspirobot_takedisplay(id: number) :: entity:
+	set {_loc} to {aspirobot_%{_id}%::location}
+	loop all entities in radius 4 around {_loc}:
+		if "%loop-value%" is "display":
+			set {_uuid} to uuid of loop-value
+			if {_uuid} is {Aspirobot_%{_id}%::display}:
+				return loop-entities

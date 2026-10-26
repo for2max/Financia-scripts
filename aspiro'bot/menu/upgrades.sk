@@ -80,10 +80,12 @@ function Aspirobot_Menu(p: player,id: integer):
 		if {_pourcentage} < 0:
 			set {_pourcentage} to 0
 
-		set {_info-energie} to redstone named "&eÉnergie de l'Aspiro'BOT" with lore "&7Stock de redstone : &c%{_redstone}%&7/&c%{_redstone-max-actuel}%", "&7Utilisations restantes sur la redstone en cours : &a%{_bar}%&7/&a%{_utilisations-par-redstone-actuel}%", "&7Autonomie estimée : &e%{_pourcentage}%%%"
+		set {_utilisation-totale} to ({_redstone}*{_utilisations-par-redstone-actuel})+{_bar}
+
+		set {_info-energie} to redstone named "&eÉnergie de l'Aspiro'BOT" with lore "&7Stock de redstone : &c%{_redstone}%&7/&c%{_redstone-max-actuel}%", "&7Utilisation redstone en cours : &a%{_bar}%&7/&a%{_utilisations-par-redstone-actuel}%", "&7Aspirations restantes : &e%{_utilisation-totale}%"
 		make gui slot 4 with {_info-energie}
 
-		set {_info-redstone} to book named "&eFonctionnement" with lore "&7L'Aspiro'BOT fonctionne grâce à la redstone.", "&7Pour le recharger, tenez de la redstone", "&7et faites &eMaj + clic droit &7sur la trémie."
+		set {_info-redstone} to book named "&eFonctionnement" with lore "&7L'Aspiro'BOT fonctionne grâce à la redstone.", "&7Pour le recharger, tenez de la redstone", "&7et faites &eMaj + clic droit &7sur le module."
 		make gui slot 22 with {_info-redstone}
 
 		loop 7 times:

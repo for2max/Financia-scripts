@@ -1,0 +1,35 @@
+[26/10/2026 16:32] [2026-10-26 16:32:31] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:32] [2026-10-26 16:32:32] POSE | joueur=for2max | id=29 | niveau=2 | emplacement=x: -98.5, y: 102.5, z: -57.5, yaw: -90, pitch: 90 in 'world'
+[26/10/2026 16:32] [2026-10-26 16:32:47] RETRAIT | joueur=for2max | id=29 | niveau=2 | emplacement=x: -98.5, y: 102.5, z: -57.5, yaw: -90, pitch: 90 in 'world'
+[26/10/2026 16:36] [2026-10-26 16:36:35] POSE | joueur=for2max | id=29 | niveau=2 | emplacement=x: -17.5, y: -59.5, z: -35.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:38] [2026-10-26 16:38:15] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=1
+[26/10/2026 16:38] [2026-10-26 16:38:20] POSE | joueur=for2max | id=30 | niveau=1 | emplacement=x: -17.5, y: -59.5, z: -44.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:40] [2026-10-26 16:40:16] RETRAIT | joueur=for2max | id=29 | niveau=2 | emplacement=x: -17.5, y: -59.5, z: -35.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:40] [2026-10-26 16:40:18] RETRAIT | joueur=for2max | id=30 | niveau=1 | emplacement=x: -17.5, y: -59.5, z: -44.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:45] [2026-10-26 16:45:14] POSE | joueur=for2max | id=30 | niveau=1 | emplacement=x: -10.5, y: -59.5, z: -38.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:46] [2026-10-26 16:46:45] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=1
+[26/10/2026 16:46] [2026-10-26 16:46:46] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=1
+[26/10/2026 16:46] [2026-10-26 16:46:46] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=1
+[26/10/2026 16:46] [2026-10-26 16:46:48] POSE | joueur=for2max | id=31 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -9.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:46] [2026-10-26 16:46:51] POSE | joueur=for2max | id=32 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -18.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:46] [2026-10-26 16:46:54] POSE | joueur=for2max | id=33 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -27.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:48] [2026-10-26 16:48:42] RETRAIT | joueur=for2max | id=31 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -9.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:49] [2026-10-26 16:49:48] RETRAIT | joueur=for2max | id=32 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -18.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:49] [2026-10-26 16:49:50] RETRAIT | joueur=for2max | id=33 | niveau=1 | emplacement=x: -53.5, y: -59.5, z: -27.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:49] [2026-10-26 16:49:51] POSE | joueur=for2max | id=33 | niveau=1 | emplacement=x: -52.5, y: -59.5, z: -29.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:52] [2026-10-26 16:52:39] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=1
+[26/10/2026 16:53] [2026-10-26 16:53:50] POSE | joueur=for2max | id=34 | niveau=1 | emplacement=x: 50.5, y: -59.5, z: -30.5, yaw: -90, pitch: 90 in 'dev'
+[26/10/2026 16:56] [2026-10-26 16:56:55] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:56] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:56] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:56] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:57] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:57] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:57] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:56] [2026-10-26 16:56:58] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:57] [2026-10-26 16:57:00] COMMANDE ADMIN GIVE | admin=for2max | joueur=for2max | niveau=2
+[26/10/2026 16:57] [2026-10-26 16:57:03] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 16:57] [2026-10-26 16:57:23] RETRAIT | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 16:57] [2026-10-26 16:57:23] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 16:57] [2026-10-26 16:57:30] RETRAIT | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 16:57] [2026-10-26 16:57:30] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
