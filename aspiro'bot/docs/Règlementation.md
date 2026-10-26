@@ -9,6 +9,7 @@
 - Respectez la limite liée à votre grade et l'espacement minimal entre les robots.
 - Installez vos robots de façon à ne pas gêner l'accès aux constructions, aux passages ou aux machines des autres joueurs.
 - Utilisez le filtre premium uniquement pour sélectionner les objets que vous souhaitez aspirer. Le filtre accepte deux types d'objets au maximum.
+- La téléportation au clic depuis `/mesaspirobots` (ou `/aspirobots`) est réservée aux joueurs disposant de `premium.aspirobot` ou de `admin.aspirobot` ; elle ne peut servir qu'à rejoindre ses propres robots.
 - Vérifiez régulièrement l'inventaire de votre hopper et récupérez vos objets.
 
 ## Comportements interdits

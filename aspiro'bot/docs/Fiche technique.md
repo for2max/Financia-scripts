@@ -11,7 +11,7 @@ L'Aspiro'BOT est un hopper spécial qui attire les objets tombés à proximité 
 | Permission | Accès |
 |---|---|
 | `admin.aspirobot` | Commandes d'administration et accès au menu des Aspiro'BOT appartenant à un autre joueur |
-| `premium.aspirobot` | Configuration du filtre d'aspiration sur ses Aspiro'BOT |
+| `premium.aspirobot` | Configuration du filtre d'aspiration et téléportation vers ses Aspiro'BOT depuis `/mesaspirobots` |
 
 Le propriétaire peut ouvrir le menu de son robot et le recharger sans permission administrative.
 
@@ -35,6 +35,14 @@ Toutes les commandes nécessitent `admin.aspirobot`.
 La commande `supprimer tout` est irréversible et ne demande pas de confirmation. Les inventaires des hoppers supprimés ne sont pas conservés. Vérifiez les conséquences avec le joueur et sauvegardez le serveur avant une suppression de masse.
 
 Lorsqu'un hopper n'est plus présent à l'emplacement enregistré, la suppression retire tout de même les données du robot et indique qu'aucun hopper n'a été trouvé.
+
+## Commande joueur
+
+| Commande | Fonction |
+|---|---|
+| `/mesaspirobots` (alias `/aspirobots`) | Ouvre un menu paginé listant les robots du joueur : ID, coordonnées, niveau, batterie restante en pourcentage, redstone stockée et utilisations déjà chargées. |
+
+Avec `premium.aspirobot` (ou `admin.aspirobot`), cliquer sur l'entrée d'un de ses robots téléporte le joueur au-dessus du hopper. La fonction revérifie la permission, l'appartenance du robot et son emplacement au clic. Le menu affiche 36 robots par page.
 
 ## Journal des actions
 
@@ -74,7 +82,7 @@ Le menu s'ouvre avec **Maj + clic droit** sans redstone en main. Il présente le
 
 ## Filtre premium
 
-Le propriétaire ayant la permission `premium.aspirobot` peut ajouter ou retirer jusqu'à deux types d'objet du filtre en les tenant et en faisant **Maj + clic gauche** sur son robot. L'objet tenu n'est pas consommé. Quand la liste contient au moins un type, seuls ces objets sont aspirés ; une liste vide désactive le filtre et restaure l'aspiration normale. Le bouton « Filtre d'aspiration » du menu permet de vider la liste. Les administrateurs ayant `admin.aspirobot` peuvent également régler le filtre.
+Le propriétaire ayant la permission `premium.aspirobot` peut ajouter ou retirer jusqu'à deux types d'objet du filtre en les tenant et en faisant **Maj + clic gauche** sur son robot. L'objet tenu n'est pas consommé. Si deux types sont déjà configurés, il faut en retirer un avant de pouvoir en ajouter un autre. Quand la liste contient au moins un type, seuls ces objets sont aspirés ; une liste vide désactive le filtre et restaure l'aspiration normale. Le bouton « Filtre d'aspiration » du menu permet de vider la liste. Les administrateurs ayant `admin.aspirobot` peuvent également régler le filtre.
 
 ## Améliorations
 

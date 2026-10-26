@@ -8,9 +8,13 @@ L'Aspiro'BOT est un hopper spécial qui aspire automatiquement les objets tombé
 
 Lorsque vous recevez un Aspiro'BOT, placez-le comme un hopper normal. Deux robots doivent être espacés d'au moins 8 blocs.
 
+Utilisez `/mesaspirobots` (ou son alias `/aspirobots`) pour afficher la liste de vos Aspiro'BOT posés. Chaque entrée indique l'ID, les coordonnées, le niveau, la batterie restante en pourcentage, la redstone en réserve et les utilisations déjà chargées. Le menu est paginé au-delà de 36 robots.
+
+Avec la permission `premium.aspirobot`, cliquez sur l'entrée d'un de vos robots pour vous téléporter au-dessus de son hopper. Les administrateurs disposant de `admin.aspirobot` peuvent aussi utiliser cette fonction sur leurs propres robots.
+
 ## Filtre premium
 
-Le filtre est disponible au propriétaire ayant la permission `premium.aspirobot` (et aux administrateurs). Il permet de choisir jusqu'à **deux types d'objets** qu'un Aspiro'BOT peut aspirer. Tenez l'objet souhaité et faites **Maj + clic gauche** sur le hopper pour l'ajouter au filtre. Refaites la même action pour le retirer. L'objet tenu n'est pas consommé.
+Le filtre est disponible au propriétaire ayant la permission `premium.aspirobot` (et aux administrateurs). Il permet de choisir jusqu'à **deux types d'objets** qu'un Aspiro'BOT peut aspirer. Tenez l'objet souhaité et faites **Maj + clic gauche** sur le hopper pour l'ajouter au filtre. Refaites la même action pour le retirer. L'objet tenu n'est pas consommé. Si les deux emplacements sont utilisés, retirez un type avant d'en ajouter un autre.
 
 Quand le filtre contient des objets, seuls ceux-ci sont aspirés. Quand la liste est vide, le robot aspire tous les objets comme d'habitude. Dans le menu du robot, cliquez sur **Filtre d'aspiration** pour vider la liste.
 

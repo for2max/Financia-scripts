@@ -1,3 +1,116 @@
+function Aspirobot_teleport(p: player,id: integer):
+	set {_can-teleport} to false
+	if {_p} has permission "premium.aspirobot":
+		set {_can-teleport} to true
+	if {_p} has permission "admin.aspirobot":
+		set {_can-teleport} to true
+	if {_can-teleport} is false:
+		send "&7[&6Aspiro'&9BOT&7] &cLa téléportation vers vos robots est réservée au grade premium." to {_p}
+		stop
+
+	if {Aspirobot_%{_id}%::owner} is not {_p}:
+		send "&7[&6Aspiro'&9BOT&7] &cCet Aspiro'BOT ne vous appartient pas." to {_p}
+		stop
+
+	set {_destination} to {Aspirobot_%{_id}%::location}
+	if {_destination} is not set:
+		send "&7[&6Aspiro'&9BOT&7] &cL'emplacement de cet Aspiro'BOT est introuvable." to {_p}
+		stop
+
+	add 0.5 to x-coordinate of {_destination}
+	add 1 to y-coordinate of {_destination}
+	add 0.5 to z-coordinate of {_destination}
+	teleport {_p} to {_destination}
+	send "&7[&6Aspiro'&9BOT&7] &aVous avez été téléporté à votre Aspiro'BOT &e%{_id}%&a." to {_p}
+
+function Aspirobot_liste(p: player,page: integer):
+	set {_robots::*} to {Aspirobot_%{_p}%::*}
+	set {_size} to size of {_robots::*}
+	if {_size} <= 0:
+		send "&7[&6Aspiro'&9BOT&7] &eVous n'avez aucun Aspiro'BOT posé." to {_p}
+		stop
+
+	set {_nbpage} to floor(({_size} - 1) / 36) + 1
+	create a new gui with virtual chest inventory named "Vos Aspiro'BOT - %{_page}%/%{_nbpage}%" with 6 rows:
+		open last created gui to {_p}
+		Menu({_p})
+
+		loop 9 times:
+			make gui slot ((loop-number) - 1) with gray stained glass pane
+		loop 36 times:
+			make gui slot ((loop-number) + 8) with light blue stained glass pane
+		loop 9 times:
+			make gui slot ((loop-number) + 44) with gray stained glass pane
+
+		set {_start} to (({_page} - 1) * 36) + 1
+		set {_end} to {_start} + 35
+		set {_index} to 0
+		set {_slot} to 9
+		loop {_robots::*}:
+			set {_id} to loop-value
+			if {Aspirobot_%{_id}%::owner} is {_p}:
+				add 1 to {_index}
+				if {_index} >= {_start}:
+					if {_index} <= {_end}:
+						set {_niveau} to {Aspirobot_%{_id}%::niveau}
+						if {_niveau} is not set:
+							set {_niveau} to 0
+						set {_redstone} to {Aspirobot_%{_id}%::energie}
+						if {_redstone} is not set:
+							set {_redstone} to 0
+						set {_bar} to {Aspirobot_%{_id}%::bar}
+						if {_bar} is not set:
+							set {_bar} to 0
+						set {_utilisations-par-redstone} to 7 + (3 * {_niveau})
+						set {_utilisations-restantes} to ({_redstone} * {_utilisations-par-redstone}) + {_bar}
+						set {_utilisations-max} to 64 * {_niveau} * {_utilisations-par-redstone}
+						if {_utilisations-max} > 0:
+							set {_batterie} to floor(({_utilisations-restantes} / {_utilisations-max}) * 100)
+						else:
+							set {_batterie} to 0
+						if {_batterie} > 100:
+							set {_batterie} to 100
+						if {_batterie} < 0:
+							set {_batterie} to 0
+						set {_location} to {Aspirobot_%{_id}%::location}
+						if {_location} is set:
+							set {_x} to x-coordinate of {_location}
+							set {_y} to y-coordinate of {_location}
+							set {_z} to z-coordinate of {_location}
+							set {_location-text} to "x: %{_x}%, y: %{_y}%, z: %{_z}%"
+						else:
+							set {_location-text} to "Inconnue"
+						set {_item-lore::*} to "&7Emplacement : &f%{_location-text}%", "&7Niveau : &e%{_niveau}%", "&7Batterie restante : &a%{_batterie}%%%", "&7Énergie : &f%{_redstone}% redstone &7| &f%{_bar}% utilisations chargées"
+						set {_can-teleport} to false
+						if {_p} has permission "premium.aspirobot":
+							set {_can-teleport} to true
+						if {_p} has permission "admin.aspirobot":
+							set {_can-teleport} to true
+						if {_can-teleport} is true:
+							add "&aCliquez pour vous téléporter au hopper." to {_item-lore::*}
+						else:
+							add "&cTéléportation réservée au grade premium." to {_item-lore::*}
+						set {_item} to hopper named "&6Aspiro'&9BOT &7(ID: &e%{_id}%&7)" with lore {_item-lore::*}
+						make gui slot {_slot} with {_item}:
+							Aspirobot_teleport({_p},{_id})
+						add 1 to {_slot}
+
+		set {_info} to book named "&eVos Aspiro'BOT" with lore "&7Robots enregistrés : &f%{_index}%" and "&7Page &e%{_page}%&7/&e%{_nbpage}%"
+		make gui slot 49 with {_info}
+		make gui slot 48 with arrow named "&ePage précédente":
+			if {_page} > 1:
+				set {_previous-page} to {_page} - 1
+				Aspirobot_liste({_p},{_previous-page})
+		make gui slot 50 with arrow named "&ePage suivante":
+			if {_page} < {_nbpage}:
+				set {_next-page} to {_page} + 1
+				Aspirobot_liste({_p},{_next-page})
+
+command /mesaspirobots:
+	aliases: aspirobots
+	trigger:
+		Aspirobot_liste(player,1)
+
 command /adminaspirobot [<text>] [<text>] [<integer>]:
 	permission: admin.aspirobot
 	trigger:
