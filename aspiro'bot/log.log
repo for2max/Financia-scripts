@@ -33,3 +33,8 @@
 [26/10/2026 16:57] [2026-10-26 16:57:23] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
 [26/10/2026 16:57] [2026-10-26 16:57:30] RETRAIT | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
 [26/10/2026 16:57] [2026-10-26 16:57:30] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 17:37] [2026-10-26 17:37:49] RETRAIT | joueur=for2max | id=43 | niveau=7 | emplacement=x: -11.5, y: 78.5, z: -41.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 17:37] [2026-10-26 17:37:56] POSE | joueur=for2max | id=43 | niveau=2 | emplacement=x: -13.5, y: 78.5, z: -47.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 17:38] [2026-10-26 17:38:08] RETRAIT | joueur=for2max | id=43 | niveau=2 | emplacement=x: -13.5, y: 78.5, z: -47.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 17:38] [2026-10-26 17:38:28] POSE | joueur=for2max | id=43 | niveau=7 | emplacement=x: -29.5, y: 79.5, z: -49.5, yaw: -90, pitch: 90 in 'conquete'
+[26/10/2026 17:38] [2026-10-26 17:38:32] RETRAIT | joueur=for2max | id=43 | niveau=7 | emplacement=x: -29.5, y: 79.5, z: -49.5, yaw: -90, pitch: 90 in 'conquete'

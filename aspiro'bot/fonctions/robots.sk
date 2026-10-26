@@ -2,6 +2,21 @@ function Aspirobot_log(action: text):
 	set {_date} to now formatted as "yyyy-MM-dd HH:mm:ss"
 	log "[%{_date}%] %{_action}%" to "../scripts/aspiro'bot/LOG.log"
 
+function Aspirobot_filtre_toggle(p: player, id: integer, filter: object):
+	if {Aspirobot_%{_id}%::filtre::*} contains {_filter}:
+		remove {_filter} from {Aspirobot_%{_id}%::filtre::*}
+		if {Aspirobot_%{_id}%::filtre::*} is not set:
+			send "&7[&6Aspiro'&9BOT&7] &eLe filtre est vide : votre robot aspire de nouveau tous les objets." to {_p}
+		else:
+			send "&7[&6Aspiro'&9BOT&7] &e%{_filter}% a été retiré du filtre." to {_p}
+	else:
+		set {_filter-size} to size of {Aspirobot_%{_id}%::filtre::*}
+		if {_filter-size} >= 2:
+			send "&7[&6Aspiro'&9BOT&7] &cLe filtre est limité à deux types d'objets. Retirez-en un avant d'en ajouter un autre." to {_p}
+		else:
+			add {_filter} to {Aspirobot_%{_id}%::filtre::*}
+			send "&7[&6Aspiro'&9BOT&7] &a%{_filter}% a été ajouté au filtre." to {_p}
+
 function Aspirobot_give(p: player, niveau: integer) :: boolean:
 	set {_return} to Aspirobot_check_nombre({_p})
 	if {_return} is false:
@@ -136,6 +151,32 @@ on break of hopper:
 		Aspirobot_delete({_id})
 		Aspirobot_log("RETRAIT | joueur=%name of player% | id=%{_id}% | niveau=%{_niveau}% | emplacement=%{_drop-location}%")
 		send "&7[&6Aspiro'&9BOT&7] &aVotre Aspiro'BOT niveau &e%{_niveau}% &aa été récupéré." to player
+
+on left click on hopper:
+	if player is sneaking:
+		set {_id} to {Aspirobot_reverse::%location of event-block%}
+		if {_id} is set:
+			cancel event
+			if {Aspirobot_%{_id}%::owner} is player:
+				if player has permission "premium.aspirobot":
+					if player's tool is air:
+						send "&7[&6Aspiro'&9BOT&7] &eTenez un objet pour l'ajouter ou le retirer du filtre." to player
+					else:
+						set {_type} to type of player's tool
+						Aspirobot_filtre_toggle(player,{_id},{_type})
+				else:
+					NO(player)
+					send "&7[&c&nErreur&7] &eCette fonctionnalité est réservée au grade premium." to player
+			else if player has permission "admin.aspirobot":
+				if player's tool is air:
+					send "&7[&6Aspiro'&9BOT&7] &eTenez un objet pour l'ajouter ou le retirer du filtre." to player
+				else:
+					set {_type} to type of player's tool
+					Aspirobot_filtre_toggle(player,{_id},{_type})
+			else:
+				NO(player)
+				send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder au module." to player
+				stop
 
 on right click on hopper:
 	if player is sneaking:

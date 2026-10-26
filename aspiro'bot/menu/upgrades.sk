@@ -86,7 +86,37 @@ function Aspirobot_Menu(p: player,id: integer):
 		make gui slot 4 with {_info-energie}
 
 		set {_info-redstone} to book named "&eFonctionnement" with lore "&7L'Aspiro'BOT fonctionne grâce à la redstone.", "&7Pour le recharger, tenez de la redstone", "&7et faites &eMaj + clic droit &7sur le module."
-		make gui slot 22 with {_info-redstone}
+		make gui slot 23 with {_info-redstone}
+
+		set {_filtre-lore::*} to "&7Le filtre laisse passer uniquement les objets listés.", "&7Tenez un objet et faites &eMaj + clic gauche", "&7sur le robot pour l'ajouter ou le retirer.", ""
+		if {Aspirobot_%{_id}%::filtre::*} is set:
+			loop {Aspirobot_%{_id}%::filtre::*}:
+				add "&7- %loop-value%" to {_filtre-lore::*}
+			add "" to {_filtre-lore::*}
+		else:
+			add "&eAucun filtre actif : tous les objets sont aspirés." to {_filtre-lore::*}
+		set {_can-filter} to false
+		if {_p} has permission "premium.aspirobot":
+			set {_can-filter} to true
+		if {_p} has permission "admin.aspirobot":
+			set {_can-filter} to true
+		if {_can-filter} is true:
+			add "&cCliquez ici pour vider le filtre." to {_filtre-lore::*}
+			make gui slot 21 with hopper named "&eFiltre d'aspiration" with lore {_filtre-lore::*}:
+				set {_can-filter-click} to false
+				if {_p} has permission "premium.aspirobot":
+					set {_can-filter-click} to true
+				if {_p} has permission "admin.aspirobot":
+					set {_can-filter-click} to true
+				if {_can-filter-click} is true:
+					delete {Aspirobot_%{_id}%::filtre::*}
+					send "&7[&6Aspiro'&9BOT&7] &aLe filtre a été vidé : tous les objets seront aspirés." to {_p}
+					Aspirobot_Menu({_p},{_id})
+				else:
+					send "&7[&c&nErreur&7] &eCette fonctionnalité est réservée au grade premium." to {_p}
+		else:
+			add "&cFonctionnalité réservée au grade premium." to {_filtre-lore::*}
+			make gui slot 21 with hopper named "&eFiltre d'aspiration" with lore {_filtre-lore::*}
 
 		loop 7 times:
 			set {_niveau-selectionne} to loop-number

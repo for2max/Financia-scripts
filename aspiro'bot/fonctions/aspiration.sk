@@ -12,11 +12,6 @@ function Aspirobot_main(id: number) :: boolean:
 	set {_drop} to {_location}
 	add 1 to y-coordinate of {_drop}
 
-	set {_return} to Aspirobot_espace({_id})
-	if {_return} is false:
-		set {Aspirobot_%{_id}%::erreur} to 3
-		return false
-
 	set {_bar} to {Aspirobot_%{_id}%::bar}
 	set {_energie} to {Aspirobot_%{_id}%::energie}
 	if {_bar} is not set:
@@ -30,9 +25,19 @@ function Aspirobot_main(id: number) :: boolean:
 			return false
 
 	loop dropped items in radius {_rayon} around {_location}:
-		add loop-value to {_items::*}
+		if {Aspirobot_%{_id}%::filtre::*} is not set:
+			add loop-value to {_items::*}
+		else:
+			set {_type} to type of item of loop-value
+			if {Aspirobot_%{_id}%::filtre::*} contains {_type}:
+				add loop-value to {_items::*}
 
 	if size of {_items::*} <= 0:
+		return false
+
+	set {_return} to Aspirobot_espace({_id})
+	if {_return} is false:
+		set {Aspirobot_%{_id}%::erreur} to 3
 		return false
 
 	set {_return} to Aspirobot_energie({_id})
