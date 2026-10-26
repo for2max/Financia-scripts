@@ -1,5 +1,5 @@
 > ### 🚀 Programme ASPIRO'BOT
-> **Version :** `ALPHA.1.0.3`
+> **Version :** `ALPHA.1.0.4`
 > 
 > **Date :** '26/10/2026*
 >
