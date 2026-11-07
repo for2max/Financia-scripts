@@ -6,9 +6,9 @@
 
 ---------
 > ### 🚀 Programme AGRI'TECH
-> **Version :** `PRE-ALPHA-0.1.1`
+> **Version :** `ALPHA-1.0.1`
 > 
-> **Date :** `26/10/2026`
+> **Date :** `07/11/2026`
 > 
 
 ---------
