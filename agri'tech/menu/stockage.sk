@@ -1,0 +1,39 @@
+function Agritech_Stockage(p: player,id: integer):
+    set {_niveau-actuel} to {agritech_%{_id}%::niveau}
+    if {_niveau-actuel} is not set:
+        send "&8[&cAgri'Tech&8] &cCet automate est introuvable ou n'est plus actif." to {_p}
+        stop
+
+    set {_stock} to 0
+    loop {agritech_%{_id}%::stockage::*}:
+        add loop-value to {_stock}
+
+    set {_max6} to 256*{agritech_%{_id}%::niveau}
+
+
+    create a new gui with virtual chest inventory named "Agri'TECH - ID %{_id}%" with 4 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 36 times:
+            make gui slot ((loop-number) - 1) with gray stained glass pane
+
+        
+        set {_s} to 9
+        loop {agritech_%{_id}%::stockage::*}:
+            set {_text} to loop-index
+            set {_nb} to loop-value
+            set {_item} to {agritech_data-item-%{_text}%}
+            set {_name} to {_text}
+            set {_name} to {agritech_data-name-%{_name}%}
+            
+            make gui slot {_s} with {_item} named "&e%{_name}%" with lore "&7Quantité : &a%{_nb}%" and "&9Clique ici pour récuperer.":
+                OK({_p})
+                delete {agritech_%{_id}%::stockage::%{_text}%}
+                give {_nb} of {_item} to {_p}
+                Agritech_Stockage({_p},{_id})
+
+            add 1 to {_s}
+        
+        make gui slot 35 with oak door named "&cRetour":
+            Agritech_Menu({_p},{_id})

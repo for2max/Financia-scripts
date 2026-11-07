@@ -1,7 +1,50 @@
 
+every 1 second:
+
+    loop {agritech_total::*}:
+        set {_id} to loop-value
+        agritech_main_prod({_id})
+        agritech_display({_id})
+
+
+
+    loop all players:
+        loop {agritech_list-%loop-player%::*}:
+            agritech_main_prod(loop-value-2)
+
+
+function agritech_main_prod(id: number):
+
+    set {_return} to agritech_verif_energie({_id},false)
+    #broadcast "%{_return}%"
+    if {_return} is true :
+        #set block at {agritech_%{_id}%::coin-1} to redstone block
+        #set block at {agritech_%{_id}%::coin-2} to emerald block
+
+        set {_return} to agritech_check_time({_id})
+        if {_return} is false:
+
+            if {agritech_%{_id}%::owner} is online:
+
+                loop all blocks within {agritech_%{_id}%::coin-1} and {agritech_%{_id}%::coin-2}:
+                    set {agritech_%{_id}%::last} to now
+                    set {_type} to type of loop-block
+                    #broadcast "%{_type}%"
+                    if {agritech_data-age::*} contain {_type}:
+                        #broadcast "&aoui"
+                        agritech_prod_age({_id},location of loop-value)
+                        
+                    else if {agritech_data-type::*} contain {_type}:
+                        agritech_prod_type({_id},location of loop-value)
+                    else if {agritech_data-hauteur::*} contain {_type}:
+                        agritech_prod_hauteur({_id},location of loop-value)
+
+
+
 function agritech_prod_age(id: number,loc: location):
 
-    set {_plante} to block at {_loc}
+    set {_plante} to type of block at {_loc}
+
     if {agritech_data-age::*} contain {_plante}:
 
         set {_return} to agritech_verif_energie({_id},false)
@@ -9,19 +52,21 @@ function agritech_prod_age(id: number,loc: location):
 
             set {_text} to "%{_plante}%"
             set {_return} to agritech_verif_stockage({_id},{agritech_data-nb-%{_text}%})
+            #broadcast "%{_return}%"
             if {_return} is true:
 
-                if age of {_plante} is maximum age of {_plante}:
+                if age of block at {_loc} is maximum age of block at {_loc}:
                     agritech_verif_energie({_id},true)
                     if {_plante} is sweet berry bush:
-                        set age of {_plante} to 1
+                        set age of block at {_loc} to 1
                     else:
-                        set age of {_plante} to 0
-                    agritech_set_stat({_id},{_plante})
+                        set age of block at {_loc} to 0
+                    set {_t} to "%{_plante}%"
+                    agritech_set_stat({_id},{_t})
 
 function agritech_prod_type(id: number,loc: location):
 
-    set {_plante} to block at {_loc}
+    set {_plante} to type of block at {_loc}
     if {agritech_data-type::*} contain {_plante}:
 
         set {_return} to agritech_verif_energie({_id},false)
@@ -33,12 +78,13 @@ function agritech_prod_type(id: number,loc: location):
 
                 agritech_verif_energie({_id},true)
                 set block at {_loc} to air
-                agritech_set_stat({_id},{_plante})
+                set {_t} to "%{_plante}%"
+                agritech_set_stat({_id},{_t})
 
 
 function agritech_prod_hauteur(id: number,loc: location):
     
-    set {_plante} to block at {_loc}
+    set {_plante} to type of block at {_loc}
     set {_text} to "%{_plante}%"
     if {agritech_data-hauteur::*} contain {_plante}:
 
@@ -67,7 +113,8 @@ function agritech_prod_hauteur(id: number,loc: location):
                             if {_return} is true:
                                 set block at {_var} to air
                                 agritech_verif_energie({_id},true)
-                                agritech_set_stat({_id},{_plante})
+                                set {_t} to "%{_plante}%"
+                                agritech_set_stat({_id},{_t})
                                 remove 1 from y-coordinate of {_var}
                             else:
                                 exit loop
@@ -82,5 +129,4 @@ function agritech_prod_hauteur(id: number,loc: location):
 
         
                 
-
 

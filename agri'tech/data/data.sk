@@ -7,14 +7,18 @@ function agritech_place(p: player,loc: location,id: number,niveau: number):
     set {agritech_%{_id}%::redstone} to 10
     set {agritech_%{_id}%::utilisation} to 5
 
+    set {agritech_%{_id}%::last} to now
+
     set {agritech_reverse::%{_loc}%} to {_id}
     add {_id} to {agritech_list-%{_p}%::*}
     add {_id} to {agritech_total::*}
 
     agritech_set_zone({_id}, {_loc})
     send "&7[&6Agri'&9Tech&7] &aAutomate agricole placé avec succès." to {_p}
-    send "&7[&6Agri'&9Tech&7] &eMaj + clic droit sur l'automate pour le configurer." to {_p}
+    send "&7[&6Agri'&9Tech&7] &eClic droit sur l'automate pour le configurer." to {_p}
     OK({_p})
+
+    agritech_display({_id})
 
 
 function agritech_delete(id: number):
@@ -33,6 +37,9 @@ function agritech_delete(id: number):
         delete {agritech_reverse::%{_loc}%}
 
     delete {agritech_%{_id}%::*}
+
+    set {_display} to agritech_take_display({_id})
+    kill {_display}
 
 function agritech_give(p: player,niveau: number):
 
@@ -56,12 +63,16 @@ function agritech_give(p: player,niveau: number):
         # RETIRER ARGENT PRIX A DEFINIR ET PRIX A DEFINIR
 
 
+command /giveagritech <number>:
+    trigger:
+        agritech_give(player,arg 1)
+
 on place a beacon:
     if name of tool of player is "&6Agri'&9Tech":
         set {_item} to tool of player
         set {_id} to int tag "id" of custom nbt of {_item}
         set {_niveau} to int tag "niveau" of custom nbt of {_item}
-        if world of player is not "conquete":
+        if world of player is "conquete": # a changer
             NO(player)
             send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête."
             cancel event

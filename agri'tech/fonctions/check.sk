@@ -22,6 +22,7 @@ function agritech_verif_stockage(id: number,nb: number) ::boolean:
 
     if ({_max}-{_stock}) >= {_nb}:
         return true
+
     else:
         return false
 
@@ -42,3 +43,15 @@ function agritech_pourcentage_stockage_restant(id: number) ::number:
         set {_restant} to {_max}
 
     return ({_restant} / {_max}) * 100
+
+function agritech_check_time(id: number) ::boolean:
+
+    set {_minutes} to 12-{agritech_%{_id}%::niveau}
+    set {_minutes} to "%{_minutes}% minutes" parsed as timespan
+
+    set {_difference} to difference between {agritech_%{_id}%::last} and now
+    if {_difference} > {_minutes}:
+        return true
+        set {agritech_%{_id}%::last} to now
+    else:
+        return false

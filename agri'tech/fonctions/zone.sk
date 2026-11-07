@@ -22,6 +22,12 @@ function agritech_set_zone(id: number,dev: location):
     set {agritech_%{_id}%::coin-1} to {_GAUCHE}
     set {agritech_%{_id}%::coin-2} to {_DROITE}
 
+    #broadcast "&4%{agritech_%{_id}%::coin-1}%"
+    #broadcast "&3%{agritech_%{_id}%::coin-2}%"
+
+    set block at {_Gauche} to emerald block
+    set block at {_droite} to redstone block
+
     set {agritech_%{_id}%::couverture} to agritech_calculer_couverture({_id})
 
 

@@ -5,3 +5,79 @@ function agritech_take_display(id: number) :: entity:
 			set {_uuid} to uuid of loop-value
 			if {_uuid} is {agritech_%{_id}%::display}:
 				return loop-entities
+
+
+function agritech_display(id: number):
+
+	#broadcast "%{agritech_%{_id}%::display}% - %{_id}%"
+	if {agritech_%{_id}%::display} is set:
+		set {_display} to agritech_take_display({_id})
+	else:
+		set {_location} to {agritech_%{_id}%::location}
+		add 0.8 to y-coordinate of {_location}
+		spawn text display at {_location}
+		set {_display} to last spawned text display
+		set billboard of {_display} to center
+		set the scale of {_display} to vector(0.5, 0.5, 0.5)
+		apply drop shadow to {_display}
+		set {agritech_%{_id}%::display} to uuid of {_display}
+		#broadcast "&e%{agritech_%{_id}%::display}%"
+		
+		#broadcast "ici"
+	#broadcast "&6%{_id}%"
+	set {_pourcent} to agritech_pourcentage_stockage_restant({_id})
+	set {_restant} to 100-{_pourcent}
+
+	set {_niveau} to {agritech_%{_id}%::niveau}
+	set {_utilisations-par-redstone} to 7 + (3 * {_niveau})
+	set {_utilisations-restantes} to {agritech_%{_id}%::utilisation} + ({agritech_%{_id}%::redstone} * {_utilisations-par-redstone})
+	set {_utilisations-max} to 64 * {_niveau} * {_utilisations-par-redstone}
+	if {_utilisations-max} > 0:
+		set {_pourcentage} to floor(({_utilisations-restantes} / {_utilisations-max}) * 100)
+	else:
+		set {_pourcentage} to 0
+	if {_pourcentage} > 100:
+		set {_pourcentage} to 100
+	if {_pourcentage} < 0:
+		set {_pourcentage} to 0
+
+	set {_time} to 12-{_niveau}
+	set {_time} to "%{_time}% minutes" parsed as time span
+	set {_diff} to difference between {agritech_%{_id}%::last} and now
+	remove {_diff} from {_time}
+	set {_total-secondes} to floor(seconds of {_time})
+	if {_total-secondes} < 0:
+		set {_total-secondes} to 0
+	set {_m} to floor({_total-secondes} / 60)
+	set {_s} to {_total-secondes} - ({_m} * 60)
+	if {_s} < 10:
+		set {_s} to "0%{_s}%"
+
+	if {agritech_%{_id}%::owner} is online:
+		set {_A} to "&eNiveau &e%{_niveau}%"
+	else:
+		set {_A} to "&c&lJoueur hors-ligne."
+
+	set {_return} to agritech_verif_energie({_id}, false)
+	if {_return} is false:
+		set {_energie} to "&c&lPlus d'énergie !"
+	else if {_return} is true:
+		set {_energie} to "&aEnergie: &e%{_pourcentage}%%%"
+	
+	set {_return} to agritech_verif_stockage({_id},1)
+	if {_return} is false:
+		set {_stockage} to "&cPlus de stockage !"
+	else if {_return} is true:
+		set {_stockage} to "&aStockage: &e%{_restant}%%%"
+
+	set {_couverture} to {_niveau}+4
+
+	set text of {_display} to "&6Agri'Tech" and "%{_A}%", "&7Récolte : &a%{_m}%'%{_s}%""", "%{_stockage}% &7- %{_energie}%" and "&a%{_couverture}% blocs x %{_couverture}% blocs"
+
+	
+
+
+
+
+
+

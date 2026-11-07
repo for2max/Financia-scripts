@@ -12,7 +12,7 @@ function agritech_verif_energie(id: number,use: boolean) ::boolean:
         if {agritech_%{_id}%::utilisation} <= 0:
             if {_use} is true:
                 remove 1 from {agritech_%{_id}%::redstone}
-                set {agritech_%{_id}%::utilisation} to 7+{agritech_%{_id}%::niveau}
+                set {agritech_%{_id}%::utilisation} to 7+(3*{agritech_%{_id}%::niveau})
                 remove 1 from {agritech_%{_id}%::utilisation}
             return true
         else:
