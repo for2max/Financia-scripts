@@ -1,0 +1,40 @@
+function Autobreaker_Menu(p: player, id: integer):
+	set {_niveau} to {autobreaker_%{_id}%::niveau}
+	if {_niveau} is not set:
+		send "&8[&cAuto'Breaker&8] &cCet automate est introuvable ou n'est plus actif." to {_p}
+		stop
+	set {_redstone} to {autobreaker_%{_id}%::redstone}
+	set {_utilisation} to {autobreaker_%{_id}%::utilisation}
+	if {_redstone} is not set:
+		set {_redstone} to 0
+	if {_utilisation} is not set:
+		set {_utilisation} to 0
+	set {_redstone-max} to 64 * {_niveau}
+	set {_cycles-max} to 7 + (3 * {_niveau})
+	set {_cycles-restants} to ({_redstone} * {_cycles-max}) + {_utilisation}
+	set {_target} to {autobreaker_%{_id}%::target}
+	set {_target-type} to type of block at {_target}
+	set {_target-name} to "%{_target-type}%"
+
+	create a new gui with virtual chest inventory named "Auto'BREAKER - ID %{_id}%" with 3 rows:
+		open last created gui to {_p}
+		Menu({_p})
+		loop 27 times:
+			make gui slot (loop-number - 1) with gray stained glass pane
+		make gui slot 11 with iron pickaxe named "&eBloc ciblé" with lore "&7La cible est fixe et se trouve", "&7juste devant l'Auto'Breaker.", "", "&7Bloc : &f%{_target-name}%", "&7Position : &f%{_target}%"
+		make gui slot 13 with beacon named "&a&lÉvolution" with lore "&7Augmentez la vitesse de minage", "&7et la réserve d'énergie.", "", "&fNiveau actuel : &a%{_niveau}%", "" and "&eCliquez pour consulter les améliorations.":
+			Autobreaker_upgrade({_p}, {_id})
+		make gui slot 15 with redstone named "&c&lAlimentation" with lore "&7Redstone en réserve : &c%{_redstone}%&8/&c%{_redstone-max}%", "&7Cycles disponibles : &a%{_utilisation}%&8/&a%{_cycles-max}%", "", "&7Minages possibles : &e%{_cycles-restants}%"
+
+on right click on beacon:
+	if player is sneaking:
+		stop
+	set {_id} to {autobreaker_reverse::%location of event-block%}
+	if {_id} is set:
+		cancel event
+		if {autobreaker_%{_id}%::owner} is not player:
+			if player does not have permission "autobreaker.admin":
+				NO(player)
+				send "&7[&c&nErreur&7] &eSeul le propriétaire ou un administrateur peut accéder à cet Auto'Breaker." to player
+				stop
+		Autobreaker_Menu(player, {_id})

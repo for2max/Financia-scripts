@@ -1,0 +1,28 @@
+every 1 second:
+	loop {autobreaker_total::*}:
+		set {_id} to loop-value
+		autobreaker_main({_id})
+		autobreaker_display({_id})
+
+function autobreaker_main(id: integer):
+	set {_owner} to {autobreaker_%{_id}%::owner}
+	if {_owner} is not online:
+		stop
+	if {autobreaker_%{_id}%::location} is not set:
+		stop
+	if {autobreaker_%{_id}%::target} is not set:
+		stop
+	set {_return} to autobreaker_bloc_protege({_id})
+	if {_return} is true:
+		stop
+	set {_return} to autobreaker_verif_energie({_id}, false)
+	if {_return} is false:
+		stop
+	set {_return} to autobreaker_check_time({_id})
+	if {_return} is false:
+		stop
+
+	set {_target} to {autobreaker_%{_id}%::target}
+	break block at {_target} naturally
+	autobreaker_verif_energie({_id}, true)
+	set {autobreaker_%{_id}%::last} to now

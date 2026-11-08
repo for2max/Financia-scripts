@@ -1,0 +1,273 @@
+function Agritech_log(action: text):
+	set {_date} to now formatted as "yyyy-MM-dd HH:mm:ss"
+	log "[%{_date}%] %{_action}%" to "../scripts/agri'tech/log.log"
+
+function Agritech_teleport(p: player,id: integer):
+	if {_p} does not have permission "agritech.admin":
+		send "&7[&6Agri'&9Tech&7] &cLa téléportation vers les automates agricoles est réservée à l'administration." to {_p}
+		stop
+
+	if {agritech_%{_id}%::owner} is not set:
+		send "&7[&6Agri'&9Tech&7] &cCet automate agricole n'existe plus." to {_p}
+		stop
+
+	set {_destination} to {agritech_%{_id}%::location}
+	if {_destination} is not set:
+		send "&7[&6Agri'&9Tech&7] &cL'emplacement de cet automate agricole est introuvable." to {_p}
+		stop
+
+	add 0.5 to x-coordinate of {_destination}
+	add 1 to y-coordinate of {_destination}
+	add 0.5 to z-coordinate of {_destination}
+	teleport {_p} to {_destination}
+	send "&7[&6Agri'&9Tech&7] &aVous avez été téléporté à l'automate agricole &e%{_id}%&a." to {_p}
+
+function Agritech_liste(p: player,page: integer):
+	set {_size} to 0
+	loop {agritech_list-%{_p}%::*}:
+		set {_id} to loop-value
+		if {agritech_%{_id}%::owner} is {_p}:
+			add 1 to {_size}
+	if {_size} <= 0:
+		send "&7[&6Agri'&9Tech&7] &eVous n'avez aucun automate agricole posé." to {_p}
+		stop
+
+	set {_nbpage} to floor(({_size} - 1) / 36) + 1
+	if {_page} < 1:
+		set {_page} to 1
+	if {_page} > {_nbpage}:
+		set {_page} to {_nbpage}
+
+	create a new gui with virtual chest inventory named "Vos Agri'Tech - %{_page}%/%{_nbpage}%" with 6 rows:
+		open last created gui to {_p}
+		Menu({_p})
+
+		loop 9 times:
+			make gui slot ((loop-number) - 1) with gray stained glass pane
+		loop 36 times:
+			make gui slot ((loop-number) + 8) with light blue stained glass pane
+		loop 9 times:
+			make gui slot ((loop-number) + 44) with gray stained glass pane
+
+		set {_start} to (({_page} - 1) * 36) + 1
+		set {_end} to {_start} + 35
+		set {_index} to 0
+		set {_slot} to 9
+		loop {agritech_list-%{_p}%::*}:
+			set {_id} to loop-value
+			if {agritech_%{_id}%::owner} is {_p}:
+				add 1 to {_index}
+				if {_index} >= {_start}:
+					if {_index} <= {_end}:
+						set {_niveau} to {agritech_%{_id}%::niveau}
+						set {_stock} to 0
+						loop {agritech_%{_id}%::stockage::*}:
+							add loop-value-2 to {_stock}
+						set {_stock-max} to 256 * {_niveau}
+						set {_redstone} to {agritech_%{_id}%::redstone}
+						if {_redstone} is not set:
+							set {_redstone} to 0
+						set {_utilisation} to {agritech_%{_id}%::utilisation}
+						if {_utilisation} is not set:
+							set {_utilisation} to 0
+						set {_cycles-par-redstone} to 7 + (3 * {_niveau})
+						set {_cycles-restants} to ({_redstone} * {_cycles-par-redstone}) + {_utilisation}
+						set {_cycles-max} to 64 * {_niveau} * {_cycles-par-redstone}
+						if {_cycles-max} > 0:
+							set {_batterie} to floor(({_cycles-restants} / {_cycles-max}) * 100)
+						else:
+							set {_batterie} to 0
+						if {_batterie} > 100:
+							set {_batterie} to 100
+						if {_batterie} < 0:
+							set {_batterie} to 0
+
+						set {_location} to {agritech_%{_id}%::location}
+						if {_location} is set:
+							set {_x} to x-coordinate of {_location}
+							set {_y} to y-coordinate of {_location}
+							set {_z} to z-coordinate of {_location}
+							set {_location-text} to "x: %{_x}%, y: %{_y}%, z: %{_z}%"
+						else:
+							set {_location-text} to "Inconnue"
+						set {_item-lore::*} to "&7Emplacement : &f%{_location-text}%", "&7Niveau : &e%{_niveau}%", "&7Stockage : &a%{_stock}%&7/&a%{_stock-max}%", "&7Énergie : &c%{_redstone}% redstone &7| &f%{_utilisation}% cycles", "&7Énergie restante : &e%{_batterie}%%%"
+						if {_p} has permission "agritech.admin":
+							add "&aCliquez pour vous téléporter à l'automate." to {_item-lore::*}
+						else:
+							add "&cTéléportation réservée à l'administration." to {_item-lore::*}
+						set {_item} to beacon named "&6Agri'&9Tech &7(ID: &e%{_id}%&7)" with lore {_item-lore::*}
+						make gui slot {_slot} with {_item}:
+							if {_p} has permission "agritech.premium":
+								OK({_p})
+								Agritech_teleport({_p}, {_id})
+							else:
+								close {_p}'s inventory
+								NO({_p})
+								# METTRE MESSAGE ERREUR TP REVERSER AUX PREMIUM
+						add 1 to {_slot}
+
+		set {_info} to book named "&eVos Agri'Tech" with lore "&7Automates enregistrés : &f%{_index}%" and "&7Page &e%{_page}%&7/&e%{_nbpage}%"
+		make gui slot 49 with {_info}
+		make gui slot 48 with arrow named "&ePage précédente":
+			if {_page} > 1:
+				set {_previous-page} to {_page} - 1
+				Agritech_liste({_p}, {_previous-page})
+		make gui slot 50 with arrow named "&ePage suivante":
+			if {_page} < {_nbpage}:
+				set {_next-page} to {_page} + 1
+				Agritech_liste({_p}, {_next-page})
+
+function Agritech_admin_delete(id: integer) :: boolean:
+	set {_loc} to {agritech_%{_id}%::location}
+	set {_beacon-removed} to false
+
+	if {_loc} is set:
+		if block at {_loc} is beacon:
+			set {_beacon-removed} to true
+
+	agritech_delete({_id})
+	return {_beacon-removed}
+
+command /mesagritech:
+	aliases: agritechs
+	trigger:
+		Agritech_liste(player, 1)
+
+command /adminagritech [<text>] [<text>] [<integer>]:
+	permission: agritech.admin
+	trigger:
+		if arg 1 is "help":
+			send "&7&m--------------------------------" to player
+			send "&6Aide - /adminagritech" to player
+			send "&e/adminagritech help &7- Affiche cette aide." to player
+			send "&e/adminagritech info [ID] &7- Affiche les informations d'un automate agricole." to player
+			send "&e/adminagritech give <joueur> <niveau> &7- Donne un automate agricole du niveau choisi." to player
+			send "&e/adminagritech supprimer <ID> &7- Supprime les données de l'automate et son beacon, s'il est présent." to player
+			send "&e/adminagritech supprimer tout &7- Supprime tous les automates agricoles enregistrés." to player
+			send "&7&m--------------------------------" to player
+			stop
+
+		if arg 1 is "info":
+			if arg 2 is set:
+				set {_id} to arg 2 parsed as integer
+				if {_id} is not set:
+					send "&7[&6Agri'&9Tech&7] &cL'ID doit être un nombre entier." to player
+					stop
+			else:
+				set {_loc} to location of target block
+				if {_loc} is not set:
+					send "&7[&6Agri'&9Tech&7] &cVous devez viser l'automate agricole ou préciser son ID." to player
+					stop
+				set {_id} to {agritech_reverse::%{_loc}%}
+
+			if {_id} is not set:
+				send "&7[&6Agri'&9Tech&7] &cAucun automate agricole n'a été trouvé à cet emplacement." to player
+				stop
+			if {agritech_%{_id}%::owner} is not set:
+				send "&7[&6Agri'&9Tech&7] &cAucun automate agricole enregistré avec l'ID &e%{_id}%&c." to player
+				stop
+
+			set {_owner} to {agritech_%{_id}%::owner}
+			set {_stock} to 0
+			loop {agritech_%{_id}%::stockage::*}:
+				add loop-value to {_stock}
+			set {_stock-max} to 256 * {agritech_%{_id}%::niveau}
+			send "&7&m--------------------------------" to player
+			send "&6Informations de l'Agri'Tech &7(ID: &e%{_id}%&7)" to player
+			send "&7Propriétaire : &f%{_owner}%" to player
+			send "&7Niveau : &f%{agritech_%{_id}%::niveau}%" to player
+			send "&7Emplacement : &f%{agritech_%{_id}%::location}%" to player
+			send "&7Redstone en réserve : &f%{agritech_%{_id}%::redstone}%" to player
+			send "&7Cycles restants : &f%{agritech_%{_id}%::utilisation}%" to player
+			send "&7Stockage : &f%{_stock}%&7/&f%{_stock-max}% objets" to player
+			send "&7Dernière récolte : &f%{agritech_%{_id}%::last}%" to player
+
+			if {agritech_list-%{_owner}%::*} contains {_id}:
+				send "&7Index du propriétaire : &aOK" to player
+			else:
+				send "&7Index du propriétaire : &cAbsent" to player
+
+			if {agritech_total::*} contains {_id}:
+				send "&7Index global : &aOK" to player
+			else:
+				send "&7Index global : &cAbsent" to player
+			send "&7&m--------------------------------" to player
+			stop
+
+		if arg 1 is "give":
+			if arg 2 or arg 3 is not set:
+				send "&7[&6Agri'&9Tech&7] &eUtilisation : /adminagritech give <joueur> <niveau>" to player
+				stop
+
+			set {_target} to arg 2 parsed as player
+			if {_target} is not set:
+				send "&7[&6Agri'&9Tech&7] &cJoueur introuvable ou non connecté." to player
+				stop
+
+			set {_niveau} to arg 3
+			if {_niveau} < 1:
+				send "&7[&6Agri'&9Tech&7] &cLe niveau doit être compris entre 1 et 7." to player
+				stop
+			if {_niveau} > 7:
+				send "&7[&6Agri'&9Tech&7] &cLe niveau doit être compris entre 1 et 7." to player
+				stop
+
+			if {agritech_last-id} is not set:
+				set {agritech_last-id} to 0
+			add 1 to {agritech_last-id}
+			set {_id} to {agritech_last-id}
+			set {_item} to beacon named "&6Agri'&9Tech" with lore "&7Niveau : &d%{_niveau}%"
+			force {_item} to glint
+			set int tag "niveau" of custom nbt of {_item} to {_niveau}
+			set int tag "id" of custom nbt of {_item} to {_id}
+			give {_item} to {_target}
+			OK({_target})
+			send "&7[&6Agri'&9Tech&7] &aVous avez reçu un automate agricole de niveau &e%{_niveau}%&a." to {_target}
+			Agritech_log("COMMANDE ADMIN GIVE | admin=%name of player% | joueur=%name of {_target}% | id=%{_id}% | niveau=%{_niveau}%")
+			send "&7[&6Agri'&9Tech&7] &aUn automate agricole de niveau &e%{_niveau}% &aa été donné à &e%{_target}%&a." to player
+			stop
+
+		if arg 1 is "supprimer":
+			if arg 2 is not set:
+				send "&7[&6Agri'&9Tech&7] &eUtilisation : /adminagritech supprimer <ID|tout>" to player
+				stop
+
+			if arg 2 is "tout":
+				set {_ids::*} to {agritech_total::*}
+				set {_automates-supprimes} to 0
+				set {_beacons-supprimes} to 0
+
+				loop {_ids::*}:
+					set {_id} to loop-value
+					if {agritech_%{_id}%::owner} is set:
+						set {_owner} to {agritech_%{_id}%::owner}
+						set {_beacon-removed} to Agritech_admin_delete({_id})
+						if {_beacon-removed} is true:
+							add 1 to {_beacons-supprimes}
+						Agritech_log("COMMANDE ADMIN SUPPRESSION TOTALE | admin=%name of player% | id=%{_id}% | proprietaire=%{_owner}%")
+						add 1 to {_automates-supprimes}
+
+				delete {agritech_reverse::*}
+				delete {agritech_total::*}
+				Agritech_log("COMMANDE ADMIN SUPPRESSION TOTALE TERMINEE | admin=%name of player% | automates=%{_automates-supprimes}% | beacons=%{_beacons-supprimes}%")
+				send "&7[&6Agri'&9Tech&7] &a%{_automates-supprimes}% automate(s) agricole(s) supprimé(s), dont &e%{_beacons-supprimes}% beacon(s)&a. Toutes les données associées ont été effacées." to player
+				stop
+
+			set {_id} to arg 2 parsed as integer
+			if {_id} is not set:
+				send "&7[&6Agri'&9Tech&7] &cL'ID doit être un nombre entier." to player
+				stop
+			if {agritech_%{_id}%::owner} is not set:
+				send "&7[&6Agri'&9Tech&7] &cAucun automate agricole enregistré avec l'ID &e%{_id}%&c." to player
+				stop
+
+			set {_owner} to {agritech_%{_id}%::owner}
+			set {_beacon-removed} to Agritech_admin_delete({_id})
+			Agritech_log("COMMANDE ADMIN SUPPRESSION | admin=%name of player% | id=%{_id}% | proprietaire=%{_owner}% | beacon_supprime=%{_beacon-removed}%")
+			if {_beacon-removed} is true:
+				send "&7[&6Agri'&9Tech&7] &aL'automate agricole &e%{_id}%&a, ses données et son beacon ont été supprimés." to player
+			else:
+				send "&7[&6Agri'&9Tech&7] &aLes données de l'automate agricole &e%{_id}%&a ont été supprimées. Aucun beacon n'a été trouvé à son emplacement enregistré." to player
+			stop
+
+		send "&7[&6Agri'&9Tech&7] &eUtilisation : /adminagritech help" to player

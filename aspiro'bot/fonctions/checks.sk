@@ -27,3 +27,10 @@ function Aspirobot_checkID(id: number) :: boolean:
 	if {Aspirobot_%{_id}%::location} is set:
 		return false
 	return true
+
+
+on load:
+	loop {Aspirobot_list::*}:
+		if block at {aspirobot_%loop-value%::location} is not a hopper:
+			Aspirobot_delete(loop-value)
+		wait 1 tick

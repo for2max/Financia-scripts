@@ -35,6 +35,8 @@ function Aspirobot_give(p: player, niveau: integer) :: boolean:
 		set int tag "id" of custom nbt of {_item} to {_id}
 		give {_item} to {_p}
 		OK({_p})
+		# RETIRER ARGENT PRIX A DEFINIR
+		# MESSAGE RECU ASPIROBOT
 		return true
 
 function Aspirobot_place(p: player,loc: location,item: object):

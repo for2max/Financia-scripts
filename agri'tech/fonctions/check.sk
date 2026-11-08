@@ -46,12 +46,16 @@ function agritech_pourcentage_stockage_restant(id: number) ::number:
 
 function agritech_check_time(id: number) ::boolean:
 
+    if {agritech_%{_id}%::last} is not set:
+        set {agritech_%{_id}%::last} to now
+        return false
+
     set {_minutes} to 12-{agritech_%{_id}%::niveau}
     set {_minutes} to "%{_minutes}% minutes" parsed as timespan
 
     set {_difference} to difference between {agritech_%{_id}%::last} and now
     if {_difference} > {_minutes}:
-        return true
         set {agritech_%{_id}%::last} to now
+        return true
     else:
         return false

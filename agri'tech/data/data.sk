@@ -29,19 +29,31 @@ function agritech_delete(id: number):
 
     set {_owner} to {agritech_%{_id}%::owner}
     set {_loc} to {agritech_%{_id}%::location}
+    set {_coin-1} to {agritech_%{_id}%::coin-1}
+    set {_coin-2} to {agritech_%{_id}%::coin-2}
 
     remove {_id} from {agritech_list-%{_owner}%::*} and {agritech_total::*}
     if {_loc} is set:
         if block at {_loc} is beacon:
             set block at {_loc} to air
         delete {agritech_reverse::%{_loc}%}
+    if {_coin-1} is set:
+        if block at {_coin-1} is emerald block:
+            set block at {_coin-1} to air
+    if {_coin-2} is set:
+        if block at {_coin-2} is redstone block:
+            set block at {_coin-2} to air
 
     delete {agritech_%{_id}%::*}
 
-    set {_display} to agritech_take_display({_id})
-    kill {_display}
+function agritech_give(p: player,niveau: integer):
 
-function agritech_give(p: player,niveau: number):
+    if {_niveau} < 1:
+        send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to {_p}
+        stop
+    if {_niveau} > 7:
+        send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to {_p}
+        stop
 
     set {_return} to agritech_verif_nombre({_p})
     if {_return} is false:
@@ -49,6 +61,8 @@ function agritech_give(p: player,niveau: number):
         NO({_p})
         stop
     else if  {_return} is true:
+        if {agritech_last-id} is not set:
+            set {agritech_last-id} to 0
         add 1 to {agritech_last-id}
         set {_id} to {agritech_last-id}
 
@@ -63,7 +77,7 @@ function agritech_give(p: player,niveau: number):
         # RETIRER ARGENT PRIX A DEFINIR ET PRIX A DEFINIR
 
 
-command /giveagritech <number>:
+command /giveagritech <integer>:
     trigger:
         agritech_give(player,arg 1)
 
@@ -72,9 +86,9 @@ on place a beacon:
         set {_item} to tool of player
         set {_id} to int tag "id" of custom nbt of {_item}
         set {_niveau} to int tag "niveau" of custom nbt of {_item}
-        if world of player is "conquete": # a changer
+        if world of player is not "conquete":
             NO(player)
-            send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête."
+            send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête." to player
             cancel event
             stop
         if {_id} is not set:
@@ -140,8 +154,11 @@ on right click on beacon:
         if {_id} is set:
             cancel event
             if {agritech_%{_id}%::owner} is not player:
-                NO(player)
-                send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder à cet automate agricole." to player
+                if player has permission "agritech.admin":
+                    Agritech_Menu(player, {_id})
+                else:
+                    NO(player)
+                    send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder à cet automate agricole." to player
                 stop
 
             if player's tool is redstone:
@@ -150,8 +167,9 @@ on right click on beacon:
                 if {_recharge} > 0:
                     send "&7[&6Agri'&9Tech&7] &aVotre automate a absorbé &e%{_recharge}% redstone&a." to player
                     play sound "entity.experience_orb.pickup" with volume 1 to player
+                    agritech_display({_id})
                 else:
                     send "&7[&6Agri'&9Tech&7] &eLe stock de redstone de cet automate est déjà plein." to player
                     play sound "entity.villager.no" with volume 1 to player
             else:
-                # TODO: appeler ici le menu Agri'Tech quand sa fonction sera créée.
+                Agritech_Menu(player, {_id})

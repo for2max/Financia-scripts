@@ -1,0 +1,34 @@
+function autobreaker_verif_energie(id: integer, utiliser: boolean) :: boolean:
+	if {autobreaker_%{_id}%::redstone} <= 0:
+		if {autobreaker_%{_id}%::utilisation} <= 0:
+			return false
+		if {_utiliser} is true:
+			remove 1 from {autobreaker_%{_id}%::utilisation}
+		return true
+	if {autobreaker_%{_id}%::utilisation} <= 0:
+		if {_utiliser} is true:
+			remove 1 from {autobreaker_%{_id}%::redstone}
+			set {autobreaker_%{_id}%::utilisation} to 7 + (3 * {autobreaker_%{_id}%::niveau})
+			remove 1 from {autobreaker_%{_id}%::utilisation}
+		return true
+	if {_utiliser} is true:
+		remove 1 from {autobreaker_%{_id}%::utilisation}
+	return true
+
+function autobreaker_recharge(id: integer, envoi: integer) :: integer:
+	if {_envoi} <= 0:
+		return 0
+	set {_max} to 64 * {autobreaker_%{_id}%::niveau}
+	set {_energie} to {autobreaker_%{_id}%::redstone}
+	if {_energie} is not set:
+		set {_energie} to 0
+	if {_energie} >= {_max}:
+		return 0
+	set {_place} to {_max} - {_energie}
+	if {_envoi} < {_place}:
+		set {_final} to {_envoi}
+	else:
+		set {_final} to {_place}
+	remove {_final} of redstone from {autobreaker_%{_id}%::owner}'s inventory
+	add {_final} to {autobreaker_%{_id}%::redstone}
+	return {_final}

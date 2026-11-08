@@ -6,47 +6,41 @@ every 1 second:
         agritech_main_prod({_id})
         agritech_display({_id})
 
-
-
-    loop all players:
-        loop {agritech_list-%loop-player%::*}:
-            agritech_main_prod(loop-value-2)
-
-
 function agritech_main_prod(id: number):
 
     set {_return} to agritech_verif_energie({_id},false)
-    #broadcast "%{_return}%"
-    if {_return} is true :
-        #set block at {agritech_%{_id}%::coin-1} to redstone block
-        #set block at {agritech_%{_id}%::coin-2} to emerald block
+    if {_return} is false:
+        stop
+    if {agritech_%{_id}%::owner} is not online:
+        stop
 
-        set {_return} to agritech_check_time({_id})
-        if {_return} is false:
+    set {_return} to agritech_check_time({_id})
+    if {_return} is false:
+        stop
 
-            if {agritech_%{_id}%::owner} is online:
+    loop all blocks within {agritech_%{_id}%::coin-1} and {agritech_%{_id}%::coin-2}:
+        set {_type} to type of block at loop-block
+        if "%{_type}%" contain "sweet berry bush":
+            set {_type} to sweet berry bush
+        if "%{_type}%" contain "cactus":
+            set {_type} to cactus
 
-                loop all blocks within {agritech_%{_id}%::coin-1} and {agritech_%{_id}%::coin-2}:
-                    set {agritech_%{_id}%::last} to now
-                    set {_type} to type of loop-block
-                    #broadcast "%{_type}%"
-                    if {agritech_data-age::*} contain {_type}:
-                        #broadcast "&aoui"
-                        agritech_prod_age({_id},location of loop-value)
-                        
-                    else if {agritech_data-type::*} contain {_type}:
-                        agritech_prod_type({_id},location of loop-value)
-                    else if {agritech_data-hauteur::*} contain {_type}:
-                        agritech_prod_hauteur({_id},location of loop-value)
+        if {agritech_data-age::*} contain {_type}:
+            agritech_prod_age({_id},location of loop-block)
+        else if {agritech_data-type::*} contain {_type}:
+            agritech_prod_type({_id},location of loop-block)
+        else if {agritech_data-hauteur::*} contain {_type}:
+            agritech_prod_hauteur({_id},location of loop-block)
 
 
 
 function agritech_prod_age(id: number,loc: location):
 
     set {_plante} to type of block at {_loc}
+    if "%{_plante}%" is "sweet berry bush":
+        set {_plante} to sweet berry bush
 
     if {agritech_data-age::*} contain {_plante}:
-
         set {_return} to agritech_verif_energie({_id},false)
         if {_return} is true:
 
@@ -66,7 +60,9 @@ function agritech_prod_age(id: number,loc: location):
 
 function agritech_prod_type(id: number,loc: location):
 
+
     set {_plante} to type of block at {_loc}
+
     if {agritech_data-type::*} contain {_plante}:
 
         set {_return} to agritech_verif_energie({_id},false)
@@ -83,19 +79,22 @@ function agritech_prod_type(id: number,loc: location):
 
 
 function agritech_prod_hauteur(id: number,loc: location):
-    
+
     set {_plante} to type of block at {_loc}
+    if "%{_plante}%" contain "cactus":
+        set {_plante} to cactus
     set {_text} to "%{_plante}%"
+
     if {agritech_data-hauteur::*} contain {_plante}:
 
         set {_return} to agritech_verif_energie({_id},false)
         if {_return} is true:
-
+        
             set {_var} to {_loc}
             set {_nb} to 0
             loop 26 times:
                 add 1 to y-coordinate of {_var}
-                if block at {_var} is not {_plante}:
+                if "%type of block at {_var}%" does not contain "%{_plante}%":
                     remove 1 from y-coordinate of {_var}
                     exit loop
                 else:
@@ -103,12 +102,11 @@ function agritech_prod_hauteur(id: number,loc: location):
         
         if {_nb} > 0:
             loop {_nb} times:
-                if block at {_var} is {_plante}:
+                if "%type of block at {_var}%" contain "%{_plante}%":
                     if {_var} is not {_loc}:
                         set {_return} to agritech_verif_energie({_id},false)
                         if {_return} is true:
 
-                                    
                             set {_return} to agritech_verif_stockage({_id},{agritech_data-nb-%{_text}%})
                             if {_return} is true:
                                 set block at {_var} to air
@@ -129,4 +127,3 @@ function agritech_prod_hauteur(id: number,loc: location):
 
         
                 
-

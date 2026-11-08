@@ -13,16 +13,16 @@ on load:
     set {agritech_data-name-carrots} to "Carottes"
     set {agritech_data-name-potatoes} to "Pommes de terre"
     set {agritech_data-name-beetroots} to "Betteraves"
-    set {agritech_data-name-nether-wart} to "Verrues du Nether"
+    set {agritech_data-name-nether wart} to "Verrues du Nether"
     set {agritech_data-name-cocoa} to "Cacao"
-    set {agritech_data-name-torchflower-crop} to "Fleur-torche"
-    set {agritech_data-name-sweet-berry-bush} to "Buisson de baies sucrées"
-    set {agritech_data-name-pitcher-crop} to "Plante-pichet"
+    set {agritech_data-name-torchflower crop} to "Fleur-torche"
+    set {agritech_data-name-sweet berry bush} to "Buisson de baies sucrées"
+    set {agritech_data-name-pitcher crop} to "Plante-pichet"
 
     set {agritech_data-name-pumpkin} to "Citrouille"
     set {agritech_data-name-melon} to "Melon"
 
-    set {agritech_data-name-sugar-cane} to "Canne à sucre"
+    set {agritech_data-name-sugar cane} to "Canne à sucre"
     set {agritech_data-name-cactus} to "Cactus"
     set {agritech_data-name-bamboo} to "Bambou"
     set {agritech_data-name-kelp} to "Varech"
@@ -38,25 +38,8 @@ on load:
     set {agritech_data-nb-torchflower crop} to 1
     set {agritech_data-nb-pitcher crop} to 1
     set {agritech_data-nb-pumpkin} to 1
-    set {agritech_data-nb-melon} to 3
-    set {agritech_data-nb-sugar-cane} to 1
+    set {agritech_data-nb-melon} to 4
+    set {agritech_data-nb-sugar cane} to 1
     set {agritech_data-nb-cactus} to 1
     set {agritech_data-nb-bamboo} to 1
     set {agritech_data-nb-kelp} to 1
-
-    # Items affiches dans le menu de stockage pour chaque culture recoltee.
-    set {agritech_data-item-wheat} to wheat
-    set {agritech_data-item-carrots} to carrot
-    set {agritech_data-item-potatoes} to potato
-    set {agritech_data-item-beetroots} to beetroot
-    set {agritech_data-item-nether wart} to nether wart
-    set {agritech_data-item-cocoa} to cocoa beans
-    set {agritech_data-item-sweet berry bush} to sweet berries
-    set {agritech_data-item-torchflower crop} to torchflower
-    set {agritech_data-item-pitcher crop} to pitcher plant
-    set {agritech_data-item-pumpkin} to pumpkin
-    set {agritech_data-item-melon} to melon slice
-    set {agritech_data-item-sugar cane} to sugar cane
-    set {agritech_data-item-cactus} to cactus
-    set {agritech_data-item-bamboo} to bamboo
-    set {agritech_data-item-kelp} to kelp

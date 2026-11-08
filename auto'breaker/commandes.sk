@@ -1,0 +1,183 @@
+function autobreaker_place(p: player, loc: location, target: location, id: integer, niveau: integer):
+	set {autobreaker_%{_id}%::owner} to {_p}
+	set {autobreaker_%{_id}%::location} to {_loc}
+	set {autobreaker_%{_id}%::target} to {_target}
+	set {autobreaker_%{_id}%::niveau} to {_niveau}
+	set {autobreaker_%{_id}%::redstone} to 10
+	set {autobreaker_%{_id}%::utilisation} to 5
+	set {autobreaker_%{_id}%::last} to now
+	set {autobreaker_reverse::%{_loc}%} to {_id}
+	add {_id} to {autobreaker_list-%{_p}%::*}
+	add {_id} to {autobreaker_total::*}
+	autobreaker_display({_id})
+	send "&7[&6Auto'&9Breaker&7] &aAuto'Breaker placé. Il minera le bloc juste devant lui." to {_p}
+	send "&7[&6Auto'&9Breaker&7] &eClic droit pour le configurer, Maj + clic droit avec de la redstone pour le recharger." to {_p}
+	OK({_p})
+
+function autobreaker_delete(id: integer):
+	set {_owner} to {autobreaker_%{_id}%::owner}
+	set {_loc} to {autobreaker_%{_id}%::location}
+	set {_display} to autobreaker_take_display({_id})
+	if {_display} is set:
+		kill {_display}
+	if {_loc} is set:
+		if block at {_loc} is beacon:
+			set block at {_loc} to air
+		delete {autobreaker_reverse::%{_loc}%}
+	remove {_id} from {autobreaker_list-%{_owner}%::*}
+	remove {_id} from {autobreaker_total::*}
+	delete {autobreaker_%{_id}%::*}
+
+function autobreaker_give(p: player, niveau: integer) :: boolean:
+	if {_niveau} < 1:
+		send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to {_p}
+		return false
+	if {_niveau} > 7:
+		send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to {_p}
+		return false
+	set {_max} to {Grade_%{_p}%} * 2
+	if size of {autobreaker_list-%{_p}%::*} >= {_max}:
+		NO({_p})
+		send "&7[&c&nErreur&7] &eVous avez atteint votre nombre maximal d'Auto'Breaker." to {_p}
+		return false
+	if {autobreaker_last-id} is not set:
+		set {autobreaker_last-id} to 0
+	add 1 to {autobreaker_last-id}
+	set {_id} to {autobreaker_last-id}
+	set {_item} to beacon named "&6Auto'&9Breaker" with lore "&7→ &eMine automatiquement le bloc devant lui.", "&7→ &eClic droit pour ouvrir son menu." and "&7→ &9Niveau : &d%{_niveau}%"
+	force {_item} to glint
+	set int tag "niveau" of custom nbt of {_item} to {_niveau}
+	set int tag "id" of custom nbt of {_item} to {_id}
+	give {_item} to {_p}
+	OK({_p})
+	return true
+
+command /giveautobreaker <integer>:
+	trigger:
+		autobreaker_give(player, arg 1)
+
+on place a beacon:
+	if name of tool of player is not "&6Auto'&9Breaker":
+		stop
+	set {_item} to tool of player
+	set {_id} to int tag "id" of custom nbt of {_item}
+	set {_niveau} to int tag "niveau" of custom nbt of {_item}
+	if world of player is not "conquete":
+		cancel event
+		NO(player)
+		send "&7[&c&nErreur&7] &eUtilisable uniquement dans le monde conquête." to player
+		stop
+	if {_id} is not set:
+		cancel event
+		send "&7[&c&nErreur&7] &eCet Auto'Breaker n'a pas d'ID valide." to player
+		stop
+	if {_id} <= 0:
+		cancel event
+		send "&7[&c&nErreur&7] &eCet Auto'Breaker a un ID invalide." to player
+		stop
+	if {_niveau} is not set:
+		cancel event
+		send "&7[&c&nErreur&7] &eLe niveau de cet Auto'Breaker est manquant." to player
+		stop
+	if {_niveau} < 1:
+		cancel event
+		send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to player
+		stop
+	if {_niveau} > 7:
+		cancel event
+		send "&7[&c&nErreur&7] &eLe niveau doit être compris entre 1 et 7." to player
+		stop
+	set {_loc} to location of event-block
+	loop all blocks in radius 2 around {_loc}:
+		if {autobreaker_reverse::%location of loop-block%} is set:
+			cancel event
+			NO(player)
+			send "&7[&c&nErreur&7] &eUn autre Auto'Breaker se trouve à proximité." to player
+			stop
+	if {autobreaker_%{_id}%::owner} is set:
+		cancel event
+		NO(player)
+		send "&7[&c&nErreur&7] &eUn Auto'Breaker avec cet ID existe déjà." to player
+		stop
+
+	set {_yaw} to yaw of player
+	set {_target} to {_loc}
+	if {_yaw} > -45:
+		if {_yaw} <= 45:
+			add 1 to z-coordinate of {_target}
+		else if {_yaw} <= 135:
+			remove 1 from x-coordinate of {_target}
+		else:
+			remove 1 from z-coordinate of {_target}
+	else if {_yaw} > -135:
+		add 1 to x-coordinate of {_target}
+	else:
+		remove 1 from z-coordinate of {_target}
+	if block at {_target} is beacon:
+		cancel event
+		NO(player)
+		send "&7[&c&nErreur&7] &eLe bloc juste devant l'Auto'Breaker doit être libre." to player
+		stop
+	autobreaker_place(player, {_loc}, {_target}, {_id}, {_niveau})
+
+on break of beacon:
+	set {_id} to {autobreaker_reverse::%location of event-block%}
+	if {_id} is not set:
+		stop
+	cancel event
+	if {autobreaker_%{_id}%::owner} is not player:
+		if player does not have permission "autobreaker.admin":
+			NO(player)
+			send "&7[&c&nErreur&7] &eSeul le propriétaire peut récupérer cet Auto'Breaker." to player
+			stop
+	set {_niveau} to {autobreaker_%{_id}%::niveau}
+	set {_item} to beacon named "&6Auto'&9Breaker" with lore "&7→ &eMine automatiquement le bloc devant lui.", "&7→ &eClic droit pour ouvrir son menu." and "&7→ &9Niveau : &d%{_niveau}%"
+	force {_item} to glint
+	set int tag "niveau" of custom nbt of {_item} to {_niveau}
+	set int tag "id" of custom nbt of {_item} to {_id}
+	set {_drop-loc} to location of event-block
+	set event-block to air
+	drop {_item} at {_drop-loc}
+	autobreaker_delete({_id})
+	send "&7[&6Auto'&9Breaker&7] &aVotre Auto'Breaker niveau &e%{_niveau}% &aa été récupéré." to player
+
+on right click on beacon:
+	set {_id} to {autobreaker_reverse::%location of event-block%}
+	if {_id} is not set:
+		stop
+	if player is not sneaking:
+		stop
+	cancel event
+	if {autobreaker_%{_id}%::owner} is not player:
+		if player does not have permission "autobreaker.admin":
+			NO(player)
+			send "&7[&c&nErreur&7] &eSeul le propriétaire peut accéder à cet Auto'Breaker." to player
+			stop
+	if player is sneaking:
+		if player's tool is redstone:
+			set {_quantite} to amount of player's tool
+			set {_recharge} to autobreaker_recharge({_id}, {_quantite})
+			if {_recharge} > 0:
+				send "&7[&6Auto'&9Breaker&7] &aVotre automate a absorbé &e%{_recharge}% redstone&a." to player
+				play sound "entity.experience_orb.pickup" with volume 1 to player
+				autobreaker_display({_id})
+			else:
+				send "&7[&6Auto'&9Breaker&7] &eLe stock de redstone de cet automate est déjà plein." to player
+		else:
+			Autobreaker_Menu(player, {_id})
+	else:
+		Autobreaker_Menu(player, {_id})
+
+on load:
+	set {_ids::*} to {autobreaker_total::*}
+	loop {_ids::*}:
+		set {_id} to loop-value
+		set {_loc} to {autobreaker_%{_id}%::location}
+		if block at {_loc} is not beacon:
+			autobreaker_delete({_id})
+		else:
+			set {_legacy-drops::*} to {autobreaker_%{_id}%::stockage::*}
+			loop {_legacy-drops::*}:
+				drop loop-value-2 at {_loc}
+			delete {autobreaker_%{_id}%::stockage::*}
+			delete {autobreaker_%{_id}%::stockage-next}

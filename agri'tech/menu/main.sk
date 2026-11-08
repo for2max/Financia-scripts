@@ -1,0 +1,45 @@
+function Agritech_Menu(p: player,id: integer):
+    set {_niveau-actuel} to {agritech_%{_id}%::niveau}
+    if {_niveau-actuel} is not set:
+        send "&8[&cAgri'Tech&8] &cCet automate est introuvable ou n'est plus actif." to {_p}
+        stop
+
+    set {_stock} to 0
+    loop {agritech_%{_id}%::stockage::*}:
+        add loop-value to {_stock}
+
+    set {_max6} to 256*{agritech_%{_id}%::niveau}
+
+
+    create a new gui with virtual chest inventory named "Agri'TECH - ID %{_id}%" with 3 rows:
+        open last created gui to {_p}
+        Menu({_p})
+
+        loop 27 times:
+            make gui slot ((loop-number) - 1) with gray stained glass pane
+
+        set {_pourcent} to agritech_pourcentage_stockage_restant({_id})
+        set {_restant} to 100 - {_pourcent}
+        make gui slot 11 with chest named "&e&lStockage" with lore "&7Capacité occupée : &e%{_restant}%%%", "&9%{_stock}%&7 items &c%{_max6}% max", "" and "&eClic droit pour consulter votre récolte.":
+            Agritech_Stockage({_p},{_id})
+        make gui slot 13 with beacon named "&a&lÉvolution" with lore "&7Augmentez le niveau de votre automate", "&7pour développer ses capacités.", "", "&fNiveau actuel : &a%{agritech_%{_id}%::niveau}%", "", "&eCliquez pour consulter les améliorations.":
+            Agritech_upgrade({_p}, {_id})
+
+        set {_max} to 64 * {agritech_%{_id}%::niveau}
+        set {_max2} to 7+(3*{agritech_%{_id}%::niveau})
+        set {_recoltes} to ({agritech_%{_id}%::redstone}*(7+3*{agritech_%{_id}%::niveau}))+{agritech_%{_id}%::utilisation}
+
+        make gui slot 15 with redstone named "&c&lAlimentation" with lore "&7Redstone en réserve : &c%{agritech_%{_id}%::redstone}%&8/&c%{_max}%", "&7Cycles disponibles : &a%{agritech_%{_id}%::utilisation}%&8/&a%{_max2}%", "", "&7Récoltes possibles : &e%{_recoltes}%"
+
+on rightclick on beacon:
+    if player is sneaking:
+        stop
+    set {_id} to {agritech_reverse::%location of event-block%}
+    if {_id} is set:
+        cancel event
+        if {agritech_%{_id}%::owner} is not player:
+            if player does not have permission "agritech.admin":
+                NO(player)
+                send "&7[&c&nErreur&7] &eSeul le propriétaire ou un administrateur peut accéder à cet automate agricole." to player
+                stop
+        Agritech_Menu(player, {_id})

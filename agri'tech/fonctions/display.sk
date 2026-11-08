@@ -12,7 +12,8 @@ function agritech_display(id: number):
 	#broadcast "%{agritech_%{_id}%::display}% - %{_id}%"
 	if {agritech_%{_id}%::display} is set:
 		set {_display} to agritech_take_display({_id})
-	else:
+
+	if {_display} is not set:
 		set {_location} to {agritech_%{_id}%::location}
 		add 0.8 to y-coordinate of {_location}
 		spawn text display at {_location}

@@ -1,0 +1,76 @@
+function Autobreaker_upgrade_price(niveau: integer) :: number:
+	if {_niveau} = 1:
+		return 0
+	else if {_niveau} = 2:
+		return 100
+	else if {_niveau} = 3:
+		return 250
+	else if {_niveau} = 4:
+		return 500
+	else if {_niveau} = 5:
+		return 1000
+	else if {_niveau} = 6:
+		return 2000
+	else if {_niveau} = 7:
+		return 4000
+	return -1
+
+function Autobreaker_upgrade_buy(p: player, id: integer):
+	if {autobreaker_%{_id}%::owner} is not {_p}:
+		if {_p} does not have permission "autobreaker.admin":
+			send "&7[&c&nErreur&7] &eVous n'avez pas accès à cet Auto'Breaker." to {_p}
+			stop
+	set {_niveau} to {autobreaker_%{_id}%::niveau}
+	if {_niveau} is not set:
+		send "&8[&cAuto'Breaker&8] &cCet automate est introuvable ou n'est plus actif." to {_p}
+		stop
+	if {_niveau} >= 7:
+		send "&7[&6Auto'&9Breaker&7] &eCet automate est déjà au niveau maximum." to {_p}
+		stop
+	set {_suivant} to {_niveau} + 1
+	set {_prix} to Autobreaker_upgrade_price({_suivant})
+	if {_p}'s balance < {_prix}:
+		send "&7[&c&nErreur&7] &eIl vous faut &6$%{_prix}%&e pour acheter le niveau %{_suivant}%." to {_p}
+		play sound "entity.villager.no" with volume 1 to {_p}
+		stop
+	remove {_prix} from {_p}'s balance
+	set {autobreaker_%{_id}%::niveau} to {_suivant}
+	autobreaker_display({_id})
+	send "&7[&6Auto'&9Breaker&7] &aAmélioration achetée ! Votre automate est maintenant niveau &e%{_suivant}%&a pour &6$%{_prix}%&a." to {_p}
+	play sound "entity.experience_orb.pickup" with volume 1 to {_p}
+	Autobreaker_upgrade({_p}, {_id})
+
+function Autobreaker_upgrade(p: player, id: integer):
+	if {autobreaker_%{_id}%::owner} is not {_p}:
+		if {_p} does not have permission "autobreaker.admin":
+			send "&7[&c&nErreur&7] &eVous n'avez pas accès à cet Auto'Breaker." to {_p}
+			stop
+	set {_niveau-actuel} to {autobreaker_%{_id}%::niveau}
+	if {_niveau-actuel} is not set:
+		send "&8[&cAuto'Breaker&8] &cCet automate est introuvable ou n'est plus actif." to {_p}
+		stop
+	create a new gui with virtual chest inventory named "Auto'BREAKER - ID %{_id}%" with 3 rows:
+		open last created gui to {_p}
+		Menu({_p})
+		loop 27 times:
+			make gui slot (loop-number - 1) with gray stained glass pane
+		loop 7 times:
+			set {_selected} to loop-number
+			set {_slot} to 9 + loop-number
+			set {_redstone} to 64 * {_selected}
+			set {_cycles} to 7 + (3 * {_selected})
+			set {_delay} to autobreaker_delai({_selected})
+			if {_selected} <= {_niveau-actuel}:
+				set {_item} to beacon named "&aNiveau %{_selected}% &8(Débloqué)" with lore "&7Stock maximal : &c%{_redstone}% redstone", "&7Cycles par redstone : &a%{_cycles}%", "&7Délai de minage : &e%{_delay}% seconde(s)" and "&7Ce niveau est déjà débloqué."
+				force {_item} to glint
+				make gui slot {_slot} with {_item}
+			else if {_selected} = {_niveau-actuel} + 1:
+				set {_prix} to Autobreaker_upgrade_price({_selected})
+				set {_item} to beacon named "&eAméliorer au niveau %{_selected}%" with lore "&7Stock maximal : &c%{_redstone}% redstone", "&7Cycles par redstone : &a%{_cycles}%", "&7Délai de minage : &e%{_delay}% seconde(s)", "&7Prix : &6$%{_prix}%" and "&aCliquez pour acheter cette amélioration."
+				make gui slot {_slot} with {_item}:
+					Autobreaker_upgrade_buy({_p}, {_id})
+			else:
+				set {_item} to barrier named "&cNiveau %{_selected}% &8(Verrouillé)" with lore "&7Stock maximal : &c%{_redstone}% redstone", "&7Cycles par redstone : &a%{_cycles}%", "&7Délai de minage : &e%{_delay}% seconde(s)" and "&7Débloquez d'abord le niveau précédent."
+				make gui slot {_slot} with {_item}
+		make gui slot 22 with oak door named "&cRetour":
+			Autobreaker_Menu({_p}, {_id})

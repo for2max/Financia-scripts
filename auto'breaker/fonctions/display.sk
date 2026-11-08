@@ -1,0 +1,63 @@
+function autobreaker_take_display(id: integer) :: entity:
+	set {_loc} to {autobreaker_%{_id}%::location}
+	loop all entities in radius 4 around {_loc}:
+		if "%loop-value%" is "display":
+			if uuid of loop-value is {autobreaker_%{_id}%::display}:
+				return loop-entities
+
+function autobreaker_display(id: integer):
+	set {_display} to autobreaker_take_display({_id})
+	if {_display} is not set:
+		set {_loc} to {autobreaker_%{_id}%::location}
+		if {_loc} is not set:
+			stop
+		add 0.8 to y-coordinate of {_loc}
+		spawn text display at {_loc}
+		set {_display} to last spawned text display
+		set billboard of {_display} to center
+		set the scale of {_display} to vector(0.5, 0.5, 0.5)
+		apply drop shadow to {_display}
+		set {autobreaker_%{_id}%::display} to uuid of {_display}
+
+	set {_niveau} to {autobreaker_%{_id}%::niveau}
+	set {_redstone} to {autobreaker_%{_id}%::redstone}
+	set {_utilisation} to {autobreaker_%{_id}%::utilisation}
+	if {_redstone} is not set:
+		set {_redstone} to 0
+	if {_utilisation} is not set:
+		set {_utilisation} to 0
+	set {_max-redstone} to 64 * {_niveau}
+	set {_cycles-par-redstone} to 7 + (3 * {_niveau})
+	set {_cycles-restants} to {_utilisation} + ({_redstone} * {_cycles-par-redstone})
+	set {_cycles-max} to {_max-redstone} * {_cycles-par-redstone}
+	if {_cycles-max} > 0:
+		set {_energie} to floor(({_cycles-restants} / {_cycles-max}) * 100)
+	else:
+		set {_energie} to 0
+	if {_energie} > 100:
+		set {_energie} to 100
+	if {_energie} < 0:
+		set {_energie} to 0
+
+	set {_delay} to autobreaker_delai({_niveau})
+	set {_remaining} to "%{_delay}% seconds" parsed as timespan
+	set {_elapsed} to difference between {autobreaker_%{_id}%::last} and now
+	remove {_elapsed} from {_remaining}
+	set {_seconds} to floor(seconds of {_remaining})
+	if {_seconds} < 0:
+		set {_seconds} to 0
+
+	set {_target} to {autobreaker_%{_id}%::target}
+	set {_block} to type of block at {_target}
+	set {_target-name} to "%{_block}%"
+	set {_return} to autobreaker_bloc_protege({_id})
+	if {_return} is true:
+		set {_status} to "&eEn attente d'un bloc minable"
+	else:
+		set {_status} to "&aCible : %{_target-name}%"
+	set {_energy-return} to autobreaker_verif_energie({_id}, false)
+	if {_energy-return} is false:
+		set {_energy-text} to "&c&lPlus d'énergie !"
+	else:
+		set {_energy-text} to "&aÉnergie : &e%{_energie}%%%"
+	set text of {_display} to "&6Auto'Breaker" and "&eNiveau %{_niveau}%" and "&7Prochain minage : &a%{_seconds}% seconde(s)" and "%{_status}%" and "%{_energy-text}%"

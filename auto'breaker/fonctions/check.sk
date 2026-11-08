@@ -1,0 +1,36 @@
+function autobreaker_delai(niveau: integer) :: integer:
+	return 10 - {_niveau}
+
+function autobreaker_check_time(id: integer) :: boolean:
+	if {autobreaker_%{_id}%::last} is not set:
+		set {autobreaker_%{_id}%::last} to now
+		return false
+	set {_seconds} to autobreaker_delai({autobreaker_%{_id}%::niveau})
+	set {_delay} to "%{_seconds}% seconds" parsed as timespan
+	set {_difference} to difference between {autobreaker_%{_id}%::last} and now
+	if {_difference} >= {_delay}:
+		set {autobreaker_%{_id}%::last} to now
+		return true
+	return false
+
+function autobreaker_bloc_protege(id: integer) :: boolean:
+	set {_loc} to {autobreaker_%{_id}%::target}
+	set {_block} to block at {_loc}
+	if {_block} is air:
+		return true
+	if {_block} is bedrock or barrier or beacon or end portal frame or structure void or command block or chain command block or repeating command block or jigsaw or moving piston:
+		return true
+	if {_block} is end portal or nether portal or end gateway or water or lava:
+		return true
+	set {_inventory} to inventory of {_block}
+	if {_inventory} is set:
+		return true
+	if {autobreaker_reverse::%{_loc}%} is set:
+		return true
+	if {agritech_reverse::%{_loc}%} is set:
+		return true
+	set {_owner} to {autobreaker_%{_id}%::owner}
+	set {_claim-result} to Claim_protect({_owner}, chunk at {_loc})
+	if {_claim-result} is false:
+		return true
+	return false

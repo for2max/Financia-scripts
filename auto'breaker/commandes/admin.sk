@@ -1,0 +1,83 @@
+function Autobreaker_admin_delete(id: integer) :: boolean:
+	set {_loc} to {autobreaker_%{_id}%::location}
+	set {_beacon} to false
+	if {_loc} is set:
+		if block at {_loc} is beacon:
+			set {_beacon} to true
+	autobreaker_delete({_id})
+	return {_beacon}
+
+command /mesautobreakers:
+	aliases: autobreakers
+	trigger:
+		set {_count} to 0
+		loop {autobreaker_list-%player%::*}:
+			set {_id} to loop-value
+			add 1 to {_count}
+			send "&7[&6Auto'&9Breaker&7] &eID %{_id}% &7- Niveau %{autobreaker_%{_id}%::niveau}% &7- %{autobreaker_%{_id}%::target}%" to player
+		if {_count} <= 0:
+			send "&7[&6Auto'&9Breaker&7] &eVous n'avez aucun Auto'Breaker posé." to player
+
+command /adminautobreaker [<text>] [<text>] [<integer>]:
+	permission: autobreaker.admin
+	trigger:
+		if arg 1 is "help":
+			send "&7&m--------------------------------" to player
+			send "&6Aide - /adminautobreaker" to player
+			send "&e/adminautobreaker info [ID] &7- Affiche les informations d'un Auto'Breaker." to player
+			send "&e/adminautobreaker give <joueur> <niveau> &7- Donne un Auto'Breaker." to player
+			send "&e/adminautobreaker supprimer <ID|tout> &7- Supprime un ou tous les automates." to player
+			send "&7&m--------------------------------" to player
+			stop
+		if arg 1 is "give":
+			if arg 2 or arg 3 is not set:
+				send "&7[&6Auto'&9Breaker&7] &eUtilisation : /adminautobreaker give <joueur> <niveau>" to player
+				stop
+			set {_target} to arg 2 parsed as player
+			if {_target} is not set:
+				send "&7[&6Auto'&9Breaker&7] &cJoueur introuvable ou non connecté." to player
+				stop
+			set {_success} to autobreaker_give({_target}, arg 3)
+			if {_success} is false:
+				stop
+			send "&7[&6Auto'&9Breaker&7] &aUn Auto'Breaker de niveau &e%arg 3% &aa été donné à &e%{_target}%&a." to player
+			stop
+		if arg 1 is "info":
+			if arg 2 is set:
+				set {_id} to arg 2 parsed as integer
+			else:
+				set {_loc} to location of target block
+				set {_id} to {autobreaker_reverse::%{_loc}%}
+			if {_id} is not set:
+				send "&7[&6Auto'&9Breaker&7] &cAucun Auto'Breaker n'a été trouvé." to player
+				stop
+			if {autobreaker_%{_id}%::owner} is not set:
+				send "&7[&6Auto'&9Breaker&7] &cCet ID n'est pas enregistré." to player
+				stop
+			send "&7&m--------------------------------" to player
+			send "&6Auto'Breaker &7(ID: &e%{_id}%&7)" to player
+			send "&7Propriétaire : &f%{autobreaker_%{_id}%::owner}%" to player
+			send "&7Niveau : &f%{autobreaker_%{_id}%::niveau}%" to player
+			send "&7Position : &f%{autobreaker_%{_id}%::location}%" to player
+			send "&7Cible fixe : &f%{autobreaker_%{_id}%::target}%" to player
+			send "&7Redstone : &f%{autobreaker_%{_id}%::redstone}%" to player
+			send "&7&m--------------------------------" to player
+			stop
+		if arg 1 is "supprimer":
+			if arg 2 is "tout":
+				set {_ids::*} to {autobreaker_total::*}
+				loop {_ids::*}:
+					autobreaker_delete(loop-value)
+				send "&7[&6Auto'&9Breaker&7] &aTous les Auto'Breaker enregistrés ont été supprimés." to player
+				stop
+			set {_id} to arg 2 parsed as integer
+			if {_id} is not set:
+				send "&7[&6Auto'&9Breaker&7] &eUtilisation : /adminautobreaker supprimer <ID|tout>" to player
+				stop
+			if {autobreaker_%{_id}%::owner} is not set:
+				send "&7[&6Auto'&9Breaker&7] &cCet ID n'est pas enregistré." to player
+				stop
+			Autobreaker_admin_delete({_id})
+			send "&7[&6Auto'&9Breaker&7] &aL'Auto'Breaker &e%{_id}% &aa été supprimé." to player
+			stop
+		send "&7[&6Auto'&9Breaker&7] &eUtilisation : /adminautobreaker help" to player
